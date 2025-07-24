@@ -1,13 +1,6 @@
 #include "init.h"
 #include "map.h"
 
-#define STAGE_CNT 5 // 스테이지 갯수
-#define BG_CNT 5 // 맵 배경 요소 갯수
-#define BG_LINE 20 // 맵 배경 줄 수
-#define MAP_HEIGHT 25 // 맵 높이
-#define GOAL_POS_X 4 // 도착지점 초기위치 X
-#define GOAL_POS_Y 7 // 도착지점 초기위치 Y
-
 // CMD 색깔
 typedef enum CMDColor
 {
@@ -112,10 +105,22 @@ char g_Map[49][80] =
 // 용궁 배경
 StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 {
-	{0, },
-{
+{ // 맵 - 감옥
 	{
-		{GOAL_POS_X, GOAL_POS_Y},
+		{4, 7},
+		E_BrightBlue,
+		{
+			"  @@@",
+			" @@ @@",
+			"@@ @ @@",
+			" @@ @@",
+			"  @@@",
+		} // Goal
+	},
+},
+{ // 맵 - 용궁
+	{
+		{4, 7},
 		E_BrightBlue,
 		{
 			"  @@@",
@@ -189,14 +194,16 @@ MapStatus g_MapStatus = E_DragonPalace;
 // 맵 그리기
 void DrawMap()
 {
+	// 맵 틀 그리기
 	for (int y = 0; y < MAP_HEIGHT; y++)
 	{
 		_DrawText(0, y, g_Map[y + g_Plus]);
 	}
 
+	// 배경 그리기
 	for (int i = 0; i < STAGE_CNT; i++)
 	{
-		StageBG* tmpBG = g_StageBG[g_MapStatus];
+		StageBG* tmpBG = g_StageBG[g_MapStatus]; // 현재 맵의 배경 정보 가져오기
 		int printCnt = MAP_HEIGHT;
 		for (int j = MAP_HEIGHT; j >= 0; j--)
 		{

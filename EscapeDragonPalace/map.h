@@ -6,8 +6,7 @@
 #define BG_CNT 5 // 맵 배경 요소 갯수
 #define BG_LINE 20 // 맵 배경 줄 수
 #define MAP_HEIGHT 25 // 맵 높이
-#define GOAL_POS_X 4 // 도착지점 초기위치 X
-#define GOAL_POS_Y 7 // 도착지점 초기위치 Y
+#define GOAL_HEIGHT 5 // 도착지점 높이
 
 void Draw();
 void DrawMap();
