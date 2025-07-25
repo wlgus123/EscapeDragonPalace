@@ -25,13 +25,13 @@ void Input()
 
 void main()
 {
-    // init
-    _BeginWindow();
-
     // 맵 크기 변경
     //col = 가로, lines = 세로
     system("mode con:cols=78 lines=25");
     SetConsoleTitle("용궁탈출");
+
+    // init
+    _BeginWindow();
 
     //로직
     while (true)
