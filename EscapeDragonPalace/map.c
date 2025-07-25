@@ -63,7 +63,7 @@ char g_Map[49][80] =
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
-	"∥============================================                              ∥",
+	"∥=                                                                         ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
@@ -75,7 +75,7 @@ char g_Map[49][80] =
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
-	"∥                              ============================================∥",
+	"∥                                                                         =∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
@@ -87,7 +87,7 @@ char g_Map[49][80] =
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
-	"∥============================================                              ∥",
+	"∥=                                                                         ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
 	"∥                                                                          ∥",
@@ -217,14 +217,50 @@ StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 },
 };
 
-StageBG g_StagePlatform[STAGE_CNT][BG_CNT] =
+StageBG g_StagePlatform[STAGE_CNT][PLATFORM_CNT] =
 {
+	{0, },
 {
 	{
-		{4, 4},
+		{2, 12},
 		E_BrightWhite,
 		{
-			"======",
+		"=====================",
+		}
+	},
+	{
+		{26, 18},
+		E_BrightWhite,
+		{
+			"=======",
+		}
+	},
+	{
+		{35, 24},
+		E_BrightWhite,
+		{
+		"=========================================",
+		}
+	},
+	{
+		{17, 30},
+		E_BrightWhite,
+		{
+			"========",
+		}
+	},
+	{
+		{2, 36},
+		E_BrightWhite,
+		{
+		"=====================================================",
+		}
+	},
+	{
+		{60, 42},
+		E_BrightWhite,
+		{
+			"================",
 		}
 	},
 
@@ -237,22 +273,37 @@ MapStatus g_MapStatus = E_DragonPalace;
 void DrawMap()
 {
 	// 맵 틀 그리기
-	for (int y = 0; y < MAP_HEIGHT; y++)
+	for (int y = 0; y < SCREEN_HEIGHT; y++)
 	{
-		_DrawText(0, y, g_Map[y + g_Plus]);
+		for (int x = 0; x < sizeof(g_Map[y]); x++)
+			if(g_Map[y][x])
+			_DrawText(0, y, g_Map[y + g_Plus]);
 	}
 
 	// 배경 그리기
-	for (int i = 0; i < STAGE_CNT; i++)
+	for (int i = 0; i < BG_CNT; i++)
 	{
 		StageBG* tmpBG = g_StageBG[g_MapStatus]; // 현재 맵의 배경 정보 가져오기
-		int printCnt = MAP_HEIGHT;
-		for (int j = MAP_HEIGHT; j >= 0; j--)
+		// 배경 그리기
+		for (int j = 0; j < SCREEN_HEIGHT; j++)
 		{
 			int tmpY = tmpBG[i].pos.y + j - g_Plus;
-			if (tmpY < 0 || tmpY > MAP_HEIGHT) // 배경이 맵을 벗어났을 때 출력 X
+			if (tmpY < 0 || tmpY > SCREEN_HEIGHT) // 배경이 맵을 벗어났을 때 출력 X
 				continue;
 			_DrawTextColor(tmpBG[i].pos.x, tmpY, tmpBG[i].bg[j], tmpBG[i].color);
+		}
+	}
+	// 발판 그리기
+	for (int i = 0; i < PLATFORM_CNT; i++)
+	{
+		StageBG* tmpPlatform = g_StagePlatform[g_MapStatus]; // 현재 맵의 발판 정보 가져오기
+		// 발판 그리기
+		for (int j = 0; j < MAP_HEIGHT; j++)
+		{
+			int tmpY = tmpPlatform[i].pos.y + j - g_Plus;
+			if (tmpY < 0 || tmpY > SCREEN_HEIGHT)
+				continue;
+			_DrawTextColor(tmpPlatform[i].pos.x, tmpY, tmpPlatform[i].bg[j], tmpPlatform[i].color);
 		}
 	}
 }
