@@ -1,14 +1,19 @@
 #include "init.h"
 #include "map.h"
 
-int g_Key;
-
 // 함수
 
 // 화면 그리기
 void Draw()
 {
-    DrawMap(); // 맵 그리기
+    // 맵
+    if (GetMapStatus() != E_Boss)
+    {
+        DrawNormalBG();
+        DrawNormalMap(); // 맵 그리기
+    }
+    else
+        DrawBossMap();
 }
 
 // 업데이트 내용

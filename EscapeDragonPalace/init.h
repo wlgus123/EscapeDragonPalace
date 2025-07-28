@@ -21,3 +21,6 @@ typedef struct MyPoint
     float x;
     float y;
 } MyPoint;
+
+// 전역 변수
+int g_Key;
