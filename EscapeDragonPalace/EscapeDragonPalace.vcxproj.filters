@@ -24,6 +24,18 @@
     <ClCompile Include="mtg.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="item.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbit.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="screens.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mtg.h">
@@ -33,6 +45,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="init.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="weapon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="screens.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
