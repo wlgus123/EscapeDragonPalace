@@ -5,7 +5,7 @@
 #define BG_CNT 10 // 맵 배경 요소 갯수
 #define BG_LINE 20 // 맵 배경 줄 수
 #define PLATFORM_LINE_CNT 10 // 발판 줄 수
-#define PLATFORM_STR_MAX 3000 // 발판 문자 최댓값
+#define MAP_STR 3000 // 맵 문자 최댓값
 #define MAP_HEIGHT 49 // 맵 높이
 #define MAP_WIDTH SCREEN_WIDTH
 #define GOAL_HEIGHT 5 // 도착지점 높이
@@ -342,7 +342,7 @@ static StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 };
 
 // 맵 발판 변수
-static char g_StagePlatform[STAGE_CNT][SCREEN_HEIGHT][PLATFORM_STR_MAX] =
+static char g_StagePlatform[STAGE_CNT][SCREEN_HEIGHT][MAP_STR] =
 {
 	{
 		"                                                                                                ",

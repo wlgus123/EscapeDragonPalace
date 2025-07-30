@@ -32,7 +32,7 @@ void DrawMap()
 		// 발판 그리기
 		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
-			char tmpPlatform[MAP_STR] = g_StagePlatform; // 현재 맵의 발판 정보 가져오기
+			StageBG tmpPlatform = g_StagePlatform2[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
 			{
 				int tmpY = tmpPlatform.pos.y + y - g_Plus_Y;
@@ -63,7 +63,7 @@ void DrawMap()
 		// 발판 그리기
 		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
-			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
+			StageBG tmpPlatform = g_StagePlatform2[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
 			{
 				int tmpX = tmpPlatform.pos.x + y - g_Plus_X;
@@ -86,7 +86,7 @@ void DrawMap()
 		// 발판 그리기
 		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
-			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
+			StageBG tmpPlatform = g_StagePlatform2[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
 			{
 				_DrawTextColor(tmpPlatform.pos.x, tmpPlatform.pos.y, tmpPlatform.bg[y], tmpPlatform.color);
