@@ -29,7 +29,7 @@ void DrawMap()
 			}
 		}
 		// 발판 그리기
-		for (int i = 0; i < PLATFORM_CNT; i++)
+		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
 			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
@@ -60,7 +60,7 @@ void DrawMap()
 			}
 		}
 		// 발판 그리기
-		for (int i = 0; i < PLATFORM_CNT; i++)
+		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
 			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
@@ -83,7 +83,7 @@ void DrawMap()
 			}
 		}
 		// 발판 그리기
-		for (int i = 0; i < PLATFORM_CNT; i++)
+		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
 			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
@@ -131,11 +131,11 @@ void UpdateMapPos()
 	case E_Sea1: case E_Sea2:
 		if (g_Key == 'a' || g_Key == 'A')
 		{
-			--g_Plus_X;
+			g_Plus_X -= 2;
 		}
 		else if (g_Key == 'd' || g_Key == 'D')
 		{
-			++g_Plus_X;
+			g_Plus_X += 2;
 		}
 		if (g_Plus_X < 0)
 			g_Plus_X = 0;

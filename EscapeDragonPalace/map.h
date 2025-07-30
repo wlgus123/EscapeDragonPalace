@@ -4,7 +4,8 @@
 #define STAGE_CNT 5 // ½ºÅ×ÀÌÁö °¹¼ö
 #define BG_CNT 10 // ¸Ê ¹è°æ ¿ä¼Ò °¹¼ö
 #define BG_LINE 20 // ¸Ê ¹è°æ ÁÙ ¼ö
-#define PLATFORM_CNT 10 // ¹ßÆÇ °¹¼ö
+#define PLATFORM_LINE_CNT 10 // ¹ßÆÇ ÁÙ ¼ö
+#define PLATFORM_STR_MAX 3000 // ¹ßÆÇ ¹®ÀÚ ÃÖ´ñ°ª
 #define MAP_HEIGHT 49 // ¸Ê ³ôÀÌ
 #define MAP_WIDTH SCREEN_WIDTH
 #define GOAL_HEIGHT 5 // µµÂøÁöÁ¡ ³ôÀÌ
@@ -335,8 +336,34 @@ static StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 },
 };
 
+static char g_StagePlatform2[STAGE_CNT][MAP_HEIGHT][PLATFORM_STR_MAX] =
+{
+	{
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"============================                                                      ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                ===========                                       ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                             =====================================",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+
+	},
+};
+
 // ¸Ê ¹ßÆÇ
-static StageBG g_StagePlatform[STAGE_CNT][PLATFORM_CNT] =
+static StageBG g_StagePlatform[STAGE_CNT][PLATFORM_LINE_CNT] =
 {
 { // °¨¿Á ¸Ê ¹ßÆÇ
 	{
