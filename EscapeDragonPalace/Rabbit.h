@@ -15,7 +15,6 @@ void RabbitCAnim();
 void GetInput();
 void ApplyGravity();
 bool CheckGround();
-void PlayerYPosition();
 void JumpFN();
 void AttackFN();
 void moveFN();
