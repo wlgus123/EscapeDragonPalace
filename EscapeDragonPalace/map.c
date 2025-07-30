@@ -1,440 +1,147 @@
 #include "init.h"
 #include "map.h"
 
+int g_Plus_Y = 24; // 감옥, 용궁 맵 시작 위치
+int g_Plus_X = 0; // 바다 1, 2 맵 시작 위치
 
-int g_Plus = 24;
-char g_Map[49][80] =
+// TODO: 맵 시작 시 E_Jail에서 시작
+// TODO: 맵 클리어 시 자동으로 넘어가기
+// 현재 맵 정보
+MapStatus g_MapStatus = E_Sea1;
+
+// 맵 그리기
+// TODO: 코드 수정
+void DrawMap()
 {
-	"∥==========================================================================∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥==========================================================================∥",
-};
-char g_BossMap[SCREEN_HEIGHT][SCREEN_WIDTH] =
-{
-	"∥==========================================================================∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥     =========================================                            ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥     =========================================                            ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥     =========================================                            ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥                                                                          ∥",
-	"∥==========================================================================∥",
-};
-
-// 용궁 배경
-StageBG g_StageBG[STAGE_CNT][BG_CNT] =
-{
-{ // 맵 - 감옥
+	switch (g_MapStatus)
 	{
-		{2, 1},
-		E_Gray,
-		{
-			"______________________________________________",
-			"_   __   __   __   __   __   __   __   __   __|",
-			" | |  | |  | |  | |  | |  | |  | |  | |  | |",
-			" | |  | |  | |  | |  | |  | |  | |  | |  | |",
-			" | |__| |__| |  | |  | |  | |__| |__| |  | |",
-			" |  _______  |  | |  | |  |  _______  |  | |",
-			"_| |       | |__| |__| |__| | | | | | |__| |",
-			"_  |       |  __   __   __  | | | | |  __  |",
-			" | |       | |  | |  | |  | | | | |.| |  | |",
-			" | |       | |  | |  | |  | | | | | | |  | |",
-			" | |       | |  | |  | |  | | | | | | |  | |",
-		},
-	},
-	{
-		{6, 13},
-		E_Gray,
-		{
-			"                             ________/\\\\/",
-			"                            /\\\\_____\\\\/ |",
-			"                         _/\\\\/ |  |  |  |",
-			"                    ____/\\\\/|  |  |  |  |",
-			"                 _/\\\\__\\\\/  |  |  |  |  |",
-			"           _____/\\\\/  |  |  |  |  |  |  |",
-			"         _/\\\\__\\\\/ |  |  |  |  |  |  |  |",
-			"   _____/\\\\/ |  |  |  |  |  |  |  |  |  |",
-			" _/\\\\__\\\\/|  |  |  |  |  |  |  |  |  |  |",
-			"/\\\\/|  |  |  |  |  |  |  |  |  |  |  |  |",
-		},
-	},
-	{
-		{23, 23},
-		E_Gray,
-		{
-			"_____________________________________________________",
-			"|                                                    ",
-			"|                 _________          _________       ",
-			"|        ____    |  _____  |        |  _____  |    __",
-			"|       |____|   | | | | | |        | | | | | |   |__",
-			"|                | | | | | |        | | | | | |      ",
-			"|                | |_|_|_| |        | |_|_|_| |      ",
-			"|                |         |        |         |      ",
-			"|                |       . |        | .       |      ",
-			"|                |  _____  |        |  _____  |      ",
-			"|                | | | | | |        | | | | | |      ",
-		},
-	},
-	{
-		{2, 37},
-		E_Gray,
-		{
-			"____________________________________________________________________________",
-			"_   __   __   __   __   __   __   __   __   __   __   __   __   __   __   __",
-			" | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  ",
-			" | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  | |  ",
-			" | |  | |  | |__| |__| |  | |  | |  | |  | |  | |__| |__| |  | |  | |  | |  ",
-			" | |  | |  |  _______  |  | |  | |  | |  | |  |  _______  |  | |  | |  | |  ",
-			"_| |__| |__| | | | | | |__| |__| |__| |__| |__| | | | | | |__| |__| |__| |__",
-			"_   __   __  | | | | |  __   __   __   __   __  | | | | |  __   __   __   __",
-			" | |  | |  | | | | |.| |  | |  | |  | |  | |  | | | | |.| |  | |  | |  | |  ",
-			" | |  | |  | | | | | | |  | |  | |  | |  | |  | | | | | | |  | |  | |  | |  ",
-			" | |  | |  | | | | | | |  | |  | |  | |  | |  | | | | | | |  | |  | |  | |  ",
-		},
-	},
-	{
-		// Goal
-		{6, 7},
-		E_BrightBlue,
-		{
-			"  @@@",
-			" @@ @@",
-			"@@ @ @@",
-			" @@ @@",
-			"  @@@",
-		}
-	},
-},
-{ // 맵 - 용궁
-	{
-		{36, 4},
-		E_Gray,
-		{
-			"                 /\\        /\\",
-			"                ( (________) )",
-			"               /             \\",
-			"       _______/               \\_______",
-			"       \\                             /",
-			"        \\___________________________/",
-			"             |       ___       |",
-			"   __________|______|_|_|______|________",
-			"   \\                                   /",
-			"    \\_________________________________/",
-			"         |        _________        |",
-			"         |       |    |    |       |",
-			"   ______|_______|____|____|_______|____",
-			"  /",
-			" /",
-			"/_______________________________________",
-			"     |           ___________          |",
-			"     |          |     |     |         |",
-			"     |          |    .|.    |         |",
-			"     |          |     |     |         |",
-		},
-	},
-	{
-		{3, 29},
-		E_Gray,
-		{
-			"         __ ",
-			"       / / /",
-			"       \\ \\ \\    __ ",
-			"       / / /  / / /",
-			"  __   \\ \\ \\  \\ \\ \\",
-			"/ / /  / / /  / / /",
-			"\\ \\ \\  \\ \\ \\  \\ \\ \\",
-		}
-	},
-	{
-		{45, 42},
-		E_Gray,
-		{
-			"        __",
-			"       \\ \\ \\",
-			" __    / / /",
-			"\\ \\ \\  \\ \\ \\",
-			"/ / /  / / /",
-			"\\ \\ \\  \\ \\ \\",
-		}
-	},
-	{
-		{3, 38},
-		E_Gray,
-		{
-			"_____________________ ",
-			"                     \\ ",
-			"                      \\ ",
-			"                       \\ ",
-			"________________________\\ ",
-			"                  |",
-			"_________         |",
-			"   |     \\        |",
-			"  .|.    |        |",
-			"   |     |        |",
-		}
-	},
-	{
-		// Goal
-		{5, 7},
-		E_BrightBlue,
-		{
-			"  @@@",
-			" @@ @@",
-			"@@ @ @@",
-			" @@ @@",
-			"  @@@",
-		}
-	},
-},
-};
-
-// 맵 발판
-StageBG g_StagePlatform[STAGE_CNT][PLATFORM_CNT] =
-{
-{ // 감옥 맵 발판
-	{
-		{42, 43},
-		E_BrightWhite,
-		{
-			"=======",
-		}
-	},
-	{
-		{10, 38},
-		E_BrightWhite,
-		{
-			"============================",
-		}
-	},
-	{
-		{20, 34},
-		E_BrightWhite,
-		{
-			"========================================================",
-		}
-	},
-	{
-		{52, 29},
-		E_BrightWhite,
-		{
-			"======",
-		}
-	},
-	{
-		{2, 23},
-		E_BrightWhite,
-		{
-			"==============================================",
-		}
-	},
-	{
-		{60, 17},
-		E_BrightWhite,
-		{
-			"==================",
-		}
-	},
-	{
-		{2, 12},
-		E_BrightWhite,
-		{
-			"==================================================",
-		}
-	},
-},
-{ // 용궁 맵 발판
-	{
-		{2, 12},
-		E_BrightWhite,
-		{
-			"=====================",
-		}
-	},
-	{
-		{26, 18},
-		E_BrightWhite,
-		{
-			"=======",
-		}
-	},
-	{
-		{35, 24},
-		E_BrightWhite,
-		{
-			"=========================================",
-		}
-	},
-	{
-		{17, 30},
-		E_BrightWhite,
-		{
-			"========",
-		}
-	},
-	{
-		{2, 36},
-		E_BrightWhite,
-		{
-			"=====================================================",
-		}
-	},
-	{
-		{60, 42},
-		E_BrightWhite,
-		{
-			"================",
-		}
-	},
-
-},
-};
-
-MapStatus g_MapStatus = E_DragonPalace;
-
-// 일반 맵 그리기
-void DrawNormalMap()
-{
-	for (int y = 0; y < SCREEN_HEIGHT; y++)
-	{
-		const char* mapStr = g_Map[y + g_Plus];
-		for (int x = 0; x < SCREEN_WIDTH; x++)
-		{
-			if (mapStr[x] != ' ')
-			{
-				_DrawText(x, y, (char[2]) { mapStr[x], });
-			}
-		}
-	}
-}
-
-// 일반 맵 배경 그리기
-void DrawNormalBG()
-{
-	// 배경 그리기
-	for (int y = 0; y < BG_CNT; y++)
-	{
-		StageBG* tmpBG = g_StageBG[g_MapStatus]; // 현재 맵의 배경 정보 가져오기
+	case E_Jail: case E_DragonPalace:	// 맵이 감옥, 용궁일 경우
 		// 배경 그리기
-		for (int x = 0; x < SCREEN_HEIGHT; x++)
+		for (int i = 0; i < BG_CNT; i++)
 		{
-			int tmpY = tmpBG[y].pos.y + x - g_Plus;
-			if (tmpY < 0 || tmpY > SCREEN_HEIGHT) // 배경이 맵을 벗어났을 때 출력 X
-				continue;
-			_DrawTextColor(tmpBG[y].pos.x, tmpY, tmpBG[y].bg[x], tmpBG[y].color);
-		}
-	}
-	// 발판 그리기
-	for (int i = 0; i < PLATFORM_CNT; i++)
-	{
-		StageBG* tmpPlatform = g_StagePlatform[g_MapStatus]; // 현재 맵의 발판 정보 가져오기
-		// 발판 그리기
-		for (int j = 0; j < MAP_HEIGHT; j++)
-		{
-			int tmpY = tmpPlatform[i].pos.y + j - g_Plus;
-			if (tmpY < 0 || tmpY > SCREEN_HEIGHT)
-				continue;
-			_DrawTextColor(tmpPlatform[i].pos.x, tmpY, tmpPlatform[i].bg[j], tmpPlatform[i].color);
-		}
-	}
-}
-
-// 보스 맵 그리기
-void DrawBossMap()
-{
-	for (int y = 0; y < SCREEN_HEIGHT; y++)
-	{
-		const char* mapStr = g_BossMap[y];
-		for (int x = 0; x < SCREEN_WIDTH; x++)
-		{
-			if (mapStr[x] != ' ')
+			StageBG tmpBG = g_StageBG[g_MapStatus][i]; // 현재 맵의 배경 정보 가져오기
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
 			{
-				_DrawText(x, y, (char[2]) { mapStr[x], });
+				int tmpY = tmpBG.pos.y + y - g_Plus_Y;
+				// 배경 범위 내에 있을 때 출력
+				if (tmpY >= 0 && tmpY <= SCREEN_HEIGHT)
+					_DrawTextColor(tmpBG.pos.x, tmpY, tmpBG.bg[y], tmpBG.color);
 			}
 		}
-	}
-}
+		// 발판 그리기
+		for (int i = 0; i < PLATFORM_CNT; i++)
+		{
+			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
+			{
+				int tmpY = tmpPlatform.pos.y + y - g_Plus_Y;
 
-// 맵 위치 업데이트
-void UpdateMapPos()
-{
-	if (g_Key == 'w' || g_Key == 'W')
-	{
-		--g_Plus;
+				// 배경 범위 내에 있을 때 출력
+				if (tmpY >= 0 && tmpY <= SCREEN_HEIGHT)
+					_DrawTextColor(tmpPlatform.pos.x, tmpY, tmpPlatform.bg[y], tmpPlatform.color);
+			}
+		}
+		break;
+
+	case E_Sea1: case E_Sea2:	// 맵이 바다1, 바다2일 경우
+		// 배경 그리기
+		for (int i = 0; i < BG_CNT; i++)
+		{
+			StageBG tmpBG = g_StageBG[g_MapStatus][i]; // 현재 맵의 배경 정보 가져오기
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
+			{
+				for (int x = 0; x < SCREEN_WIDTH; x++)
+				{
+					int tmpX = tmpBG.pos.x + x - g_Plus_X;
+					if (tmpX >= 0 && tmpX <= SCREEN_WIDTH) // 배경이 범위 내에 있을 때만 출력
+						_DrawTextColor(tmpX, tmpBG.pos.y + y, (char[]) { tmpBG.bg[y][x], 0 }, tmpBG.color);
+
+				}
+			}
+		}
+		// 발판 그리기
+		for (int i = 0; i < PLATFORM_CNT; i++)
+		{
+			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
+			{
+				int tmpX = tmpPlatform.pos.x + y - g_Plus_X;
+				if (tmpX >= 0 && tmpX <= SCREEN_WIDTH) // 배경이 범위 내에 있을 때만 출력
+					_DrawTextColor(tmpX, tmpPlatform.pos.y, (char[]) { tmpPlatform.bg[y], 0 }, tmpPlatform.color);
+			}
+		}
+		break;
+
+	case E_Ground:	// 맵이 육지(보스맵)일 경우
+		// 배경 그리기
+		for (int i = 0; i < BG_CNT; i++)
+		{
+			StageBG tmpBG = g_StageBG[g_MapStatus][i]; // 현재 맵의 배경 정보 가져오기
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
+			{
+				_DrawTextColor(tmpBG.pos.x, tmpBG.pos.y, tmpBG.bg[y], tmpBG.color);
+			}
+		}
+		// 발판 그리기
+		for (int i = 0; i < PLATFORM_CNT; i++)
+		{
+			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
+			{
+				_DrawTextColor(tmpPlatform.pos.x, tmpPlatform.pos.y, tmpPlatform.bg[y], tmpPlatform.color);
+			}
+		}
+		break;
 	}
-	else if (g_Key == 's' || g_Key == 'S')
+
+	// 맵 틀 그리기
+	_DrawText(0, 0, "==============================================================================");
+	_DrawText(0, SCREEN_HEIGHT - 1, "==============================================================================");
+	for (int y = 0; y < SCREEN_HEIGHT; y++)
 	{
-		++g_Plus;
+		_DrawText(0, y, "∥");
+		_DrawText(76, y, "∥");
 	}
-	if (g_Plus < 0)
-		g_Plus = 0;
-	else if (g_Plus > 24)
-		g_Plus = 24;
 }
 
 int GetMapStatus()
 {
 	return g_MapStatus;
+}
+
+// 맵 위치 업데이트
+void UpdateMapPos()
+{
+	switch (g_MapStatus)
+	{
+	case E_Jail: case E_DragonPalace:
+		if (g_Key == 'w' || g_Key == 'W')
+		{
+			--g_Plus_Y;
+		}
+		else if (g_Key == 's' || g_Key == 'S')
+		{
+			++g_Plus_Y;
+		}
+		if (g_Plus_Y < 0)
+			g_Plus_Y = 0;
+		else if (g_Plus_Y > 24)
+			g_Plus_Y = 24;
+		break;
+	case E_Sea1: case E_Sea2:
+		if (g_Key == 'a' || g_Key == 'A')
+		{
+			--g_Plus_X;
+		}
+		else if (g_Key == 'd' || g_Key == 'D')
+		{
+			++g_Plus_X;
+		}
+		if (g_Plus_X < 0)
+			g_Plus_X = 0;
+		else if (g_Plus_X > 222)
+			g_Plus_X = 222;
+		break;
+	}
+
 }
