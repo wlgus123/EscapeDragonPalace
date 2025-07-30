@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClInclude Include="init.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mtg.h" />
     <ClInclude Include="Rabbit.h" />

@@ -2,7 +2,7 @@
 
 #include "weapon.h"
 #include "item.h"
-
+#include "screens.h"
 
 // --------------------------------------------------
 
@@ -82,107 +82,3 @@ void UpdateSpeedBuffs();
 bool isNearItem = false;
 
 SpeedBuff speedBuffs[MAX_BUFFS];
-
-float amount;
-
-
-char g_Key;
-
-char Rabbit[14][RabbitY][RabbitX] =
-{
-	{
-		"        (\\(\\",
-		"        ('-')",
-		"       o(　--|====>"
-	}, // 장검 오른쪽 기본
-	{
-		"         /)/)",
-		"        ('-')",
-		"  <====|--　)o"
-	}, // 장검 왼쪽 기본
-	{
-		"        (\\(\\ ",
-		"        ('-')",
-		"       o(　　--|====>"
-	}, // 장검 오른쪽 공격
-	{
-		"         /)/) ",
-		"        ('-') ",
-		"<====|--　　)o"
-	}, // 장검 왼쪽 공격
-	{
-		"        (\\(\\ ",
-		"        ('-')",
-		"       o(　-|=>"
-	}, // 단검 오른쪽 기본
-	{
-		"         /)/) ",
-		"        ('-') ",
-		"      <=|-　)o"
-	}, // 단검 왼쪽 기본
-	{
-		"        (\\(\\ ",
-		"        ('-')",
-		"       o(　　-|=>"
-	}, // 단검 오른쪽 공격
-	{
-		"         /)/) ",
-		"        ('-') ",
-		"    <=|-　　)o"
-	}, // 단검 왼쪽 공격
-	{
-		"        (\\(\\ ",
-		"        ('-')",
-		"       o(　------>"
-	}, // 창 오른쪽 기본
-	{
-		"         /)/) ",
-		"        ('-') ",
-		"   <------　)o"
-	}, // 창 왼쪽 기본
-	{
-		"        (\\(\\ ",
-		"        ('-')",
-		"       o(　　------>"
-	}, // 창 오른쪽 공격
-	{
-		"         /)/) ",
-		"        ('-') ",
-		" <------　　)o"
-	}, // 창 왼쪽 공격
-	{
-		"        (\\(\\",
-		"        ('-')",
-		"       o(   )"
-	}, // 플레이어 오른쪽
-	{
-		"         /)/) ",
-		"        ('-') ",
-		"        (   )o"
-	}, // 플레이어 왼쪽
-};
-
-
-bool g_KeyW = false;
-bool g_KeyA = false;
-bool g_KeyD = false;
-
-bool halfHealth = false; // 체력 반칸
-
-bool g_MouseClick = false;
-
-bool stageClear = false; // 스테이지 클리어 여부
-
-
-//애니메이션 상태 관리
-int animFrame;         // 0 ~ jumpFrames*2-1 (up + down)
-int animRepeatCount;   // 애니메이션 반복 횟수
-int jumpFrames;  // 올라가는 프레임 개수
-int maxRepeats;  // 최대 반복 횟수
-int centerX;
-int baseY;
-int jumpHeight;
-int animFramesTotal; // 전체 애니메이션 길이 (up+down)
-
-bool animGoingUp = true;  // 점프 중 올라가는지 여부
-
