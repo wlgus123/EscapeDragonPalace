@@ -314,7 +314,7 @@ static StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 		{
 			"  __ ",
 			"/ / /",
-			"\\ \\ \\   __",
+			"\\ \\ \\    __",
 			"/ / /  / / /",
 			"\\ \\ \\  \\ \\ \\",
 			"/ / /  / / /",
@@ -341,10 +341,36 @@ static StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 },
 };
 
-// ¹ßÆÇ º¯¼ö
-static char g_StagePlatform2[STAGE_CNT][MAP_HEIGHT][PLATFORM_STR_MAX] =
+// ¸Ê ¹ßÆÇ º¯¼ö
+static char g_StagePlatform[STAGE_CNT][SCREEN_HEIGHT][PLATFORM_STR_MAX] =
 {
-	{0,},
+	{
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+		"                                                                                                ",
+	},
 	{ // ¸Ê - ¿ë±Ã ¹ßÆÇ
 		"                                                                                                ",
 		"                                                                                                ",
@@ -356,36 +382,15 @@ static char g_StagePlatform2[STAGE_CNT][MAP_HEIGHT][PLATFORM_STR_MAX] =
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
-		"============================                                                                    ",
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
-		"                                    ===========                                                 ",
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
-		"                                                                                                ",
-		"                                                   =============================================",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                            =============                                                       ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"===========================================================================                     ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                                                ",
-		"                                                                      ==========================",
 		"                                                                                                ",
 		"                                                                                                ",
 		"                                                                                                ",
@@ -396,7 +401,7 @@ static char g_StagePlatform2[STAGE_CNT][MAP_HEIGHT][PLATFORM_STR_MAX] =
 };
 
 // ¸Ê ¹ßÆÇ
-static StageBG g_StagePlatform[STAGE_CNT][PLATFORM_LINE_CNT] =
+static StageBG g_StagePlatform2[STAGE_CNT][PLATFORM_LINE_CNT] =
 {
 { // °¨¿Á ¸Ê ¹ßÆÇ
 	{
