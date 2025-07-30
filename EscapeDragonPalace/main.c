@@ -58,10 +58,25 @@ void Draw() // 화면 그리기
                 _DrawText(3, 3, player.HeldWeapon->sprite);
                 DrawHealth();
 
-                for (int i = 0; i < numItem; i++)
-                {
-                    if (!itemList[i].isHeld) {
-                        DrawItem(&itemList[i], GetFrame());
+
+                if (GetSettingItem()) {
+                    for (int i = 0; i < numItem; i++)
+                    {
+                        if (itemList[i].mapStatus == GetMapStatus()) {
+                            itemList[i].isHeld = false;
+                        }
+                        else {
+                            itemList[i].isHeld = true;
+                        }
+                    }
+                    SetSettingItem(true);
+                }
+                else {
+                    for (int i = 0; i < numItem; i++)
+                    {
+                        if (!itemList[i].isHeld) {
+                            DrawItem(&itemList[i], GetFrame());
+                        }
                     }
                 }
 

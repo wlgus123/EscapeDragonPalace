@@ -28,7 +28,6 @@ extern SpriteType bubblesSprite;
 
 extern Item itemList[MAX_ITEM_COUNT];
 extern int numItem;
-static int frame;
 
 
 void InitItem();

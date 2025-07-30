@@ -27,7 +27,27 @@ char bubblesSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_CLOS] = {
 
 Item itemList[MAX_ITEM_COUNT];
 int numItem = 0;
-frame = 0;
+int frame = 0;
+
+bool SettingItem = false;
+
+// 무기 선택 여부 가져오기
+bool GetSettingItem()
+{
+    return SettingItem;
+}
+
+void SetSettingItem(bool src)
+{
+    SettingItem = src;
+}
+
+// frame 값 가져오기
+int GetFrame()
+{
+    return frame;
+}
+
 
 clock_t lastFrameTime = 0;
 const int frameDelay = 400;  // 200ms마다 프레임 전환
