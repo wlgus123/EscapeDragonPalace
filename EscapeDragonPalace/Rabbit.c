@@ -342,7 +342,7 @@ bool CheckGround() // 바닥 체크 함수
     
     for (int x = playerxL; x <= playerxR; x++)
     {
-        if (g_Map[playery + 1][x] == '=' || g_StagePlatform2[GetMapStatus()][playery + 1][x] == '=')
+        if (g_Map[playery + 1][x] == '=' || g_StagePlatform[GetMapStatus()][playery + 1][x] == '=')
         {
             return true;
         }
