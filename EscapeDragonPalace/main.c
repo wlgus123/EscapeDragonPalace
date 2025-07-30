@@ -31,7 +31,7 @@ void Draw() // 화면 그리기
         {
             _Delay(45);
             RabbitCAnim();
-            SetMapStatus();
+            SetMapStatus(GetMapStatus() + 1);
             for (int i = 0; i < numItem; i++)
             {
                 if (itemList[i].mapStatus == GetMapStatus()) {
