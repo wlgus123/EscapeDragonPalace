@@ -91,8 +91,6 @@ bool halfHealth = false; // 체력 반칸
 
 bool g_MouseClick = false;
 
-bool stageClear = false; // 스테이지 클리어 여부
-
 
 //애니메이션 상태 관리
 int animFrame;         // 0 ~ jumpFrames*2-1 (up + down)
@@ -282,7 +280,7 @@ void ApplyGravity() // 중력 적용 함수
 
 }
 
-void CheckGround() // 바닥 체크 함수
+bool CheckGround() // 바닥 체크 함수
 {
 
 }
@@ -369,7 +367,7 @@ void moveFN()
 
 bool ISOnGoal()
 {
-    int idx;
+    /*int idx;
     int dir = player.Direction;
 
     if (!weaponChosen)
@@ -398,7 +396,7 @@ bool ISOnGoal()
             }
         }
     }
-    return false;
+    return false;*/
 }
 
 // 키보드 버퍼 비우기 함수
@@ -443,7 +441,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     // Rabbit이 @에 닿았는지 체크
     if (ISOnGoal())
     {
-        //stageClear = true;
+        stageClear = true;
     }
 
     if (_kbhit())

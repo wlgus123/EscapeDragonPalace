@@ -14,7 +14,7 @@ void DrawRabbitAt();
 void RabbitCAnim();
 void GetInput();
 void ApplyGravity();
-void CheckGround();
+bool CheckGround();
 void PlayerYPosition();
 void JumpFN();
 void AttackFN();
@@ -36,8 +36,6 @@ void InitPlayer();
 #define MAX_FALL_SPEED 4.0f  // 최대 낙하 속도
 
 #define MAX_BUFFS 10
-
-
 
 // --------------------------------------------------
 
@@ -82,3 +80,5 @@ void UpdateSpeedBuffs();
 bool isNearItem = false;
 
 SpeedBuff speedBuffs[MAX_BUFFS];
+
+static bool stageClear = false; // 스테이지 클리어 여부
