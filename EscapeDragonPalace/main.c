@@ -59,7 +59,7 @@ void Draw() // 화면 그리기
                 DrawHealth();
 
 
-                if (GetSettingItem()) {
+                if (!GetSettingItem()) {
                     for (int i = 0; i < numItem; i++)
                     {
                         if (itemList[i].mapStatus == GetMapStatus()) {
@@ -71,14 +71,15 @@ void Draw() // 화면 그리기
                     }
                     SetSettingItem(true);
                 }
-                else {
-                    for (int i = 0; i < numItem; i++)
-                    {
-                        if (!itemList[i].isHeld) {
-                            DrawItem(&itemList[i], GetFrame());
-                        }
+                
+                for (int i = 0; i < numItem; i++)
+                {
+                    if (!itemList[i].isHeld) {
+
+                        DrawItem(&itemList[i], GetFrame());
                     }
                 }
+                
 
             }
 
