@@ -12,7 +12,8 @@
 
 void DrawMap();
 void UpdateMapPos();
-int GetMapStatus(); // 현재 맵 위치 받아오기
+int GetMapStatus(); // 현재 맵 불러오기
+void SetMapStatus(int src); // 현재 맵 상태 변경하기
 
 // CMD 색깔
 typedef enum CMDColor

@@ -104,9 +104,16 @@ void DrawMap()
 	}
 }
 
+// 현재 맵 불러오기
 int GetMapStatus()
 {
 	return g_MapStatus;
+}
+
+// 현재 맵 상태 변경하기
+void SetMapStatus(int src)
+{
+	g_MapStatus = src;
 }
 
 // 맵 위치 업데이트
