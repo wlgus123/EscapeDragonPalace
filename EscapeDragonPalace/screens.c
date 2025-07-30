@@ -1,6 +1,5 @@
 #include "init.h"
 #include "screens.h"
-#include "weapon.h"
 
 bool GameStart = false; // 게임 시작 여부
 bool GameStartText = true; // 게임 시작 여부 텍스트
@@ -65,7 +64,7 @@ void ReturnStartScreen() {
         if (_kbhit()) {
             IsGameOver = false;
 			GameStart = false;
-            weaponChosen = false;
+            SetWeaponChosen();
             _getch();
         }
         GameOverText = !GameOverText;

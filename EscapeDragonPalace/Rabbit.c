@@ -1,5 +1,6 @@
 #include "init.h"
 #include "Rabbit.h"
+#include "map.h"
 
 #define GX 70 // 목표 지점 X 좌표
 #define GY 22 // 목표 지점 Y 좌표
@@ -311,14 +312,15 @@ bool CheckGround() // 바닥 체크 함수
 
 	int playery = player.Pos.y; // 플레이어 y좌표
     
-    if (true)
+    for (int x = playerxL; x <= playerxR; x++)
     {
-        return true;
+        if (g_Map[playery + 1][x] == '=')
+        {
+            return true;
+        }
     }
-    else
-    {
-        return false;
-    }
+    
+    return false;
 }
 
 void JumpFN()
@@ -472,7 +474,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     // Rabbit이 @에 닿았는지 체크
     if (ISOnGoal())
     {
-        stageClear = true;
+        //stageClear = true;
     }
 
     if (_kbhit())
@@ -496,7 +498,7 @@ void DrawPlayer()
     int idx;
     int dir = player.Direction;
 
-    if (!weaponChosen) 
+    if (!GetWeaponChosen())
     {
         // 무기 선택 전: 무기 없는 토끼 이미지 사용
         idx = dir == 0 ? 12 : 13; // 오른쪽/왼쪽
@@ -576,7 +578,7 @@ void InitPlayer() // 초기화
     player.attackStartTime = 0;
 
     // 무기
-    player.HeldWeapon = &weaponList[selectedIndex];
+    player.HeldWeapon = &weaponList[GetSelectedIndex()];
 
     // 무기 속도에 따라 공격 지속 시간 설정
     int speed = player.HeldWeapon->attackSpeed;
