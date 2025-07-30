@@ -14,6 +14,10 @@ void DrawMap();
 void UpdateMapPos();
 int GetMapStatus(); // 현재 맵 불러오기
 void SetMapStatus(int src); // 현재 맵 상태 변경하기
+int GetPlusY(); // Y 증가값 불러오기
+void SetPlusY(int src); // Y 증가값 변경하기
+int GetPlusX(); // X 증가값 불러오기
+void SetPlusX(int src); // X 증가값 변경하기
 
 // CMD 색깔
 typedef enum CMDColor
