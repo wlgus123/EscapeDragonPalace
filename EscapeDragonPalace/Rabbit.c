@@ -104,7 +104,28 @@ int animFramesTotal; // 전체 애니메이션 길이 (up+down)
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
+bool isNearItem = false;
+
+bool stageClear = false; // 스테이지 클리어 여부
+
+
 // --------------------------------------------------
+
+bool IsNearItem()
+{
+    return isNearItem;
+}
+
+void SetIsNearItem(bool src)
+{
+    isNearItem = src;
+}
+
+bool StageClear()
+{
+	return stageClear;
+}
+
 // 플레이어와 오브젝트 충돌 체크
 bool IsOverlap(Rect player, Rect Obj)
 {
