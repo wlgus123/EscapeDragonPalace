@@ -460,7 +460,6 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     
 }
 
-
 void DrawPlayer()
 {
     int idx;
