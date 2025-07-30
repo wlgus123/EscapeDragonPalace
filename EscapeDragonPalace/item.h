@@ -1,5 +1,7 @@
 #pragma once
 
+#include "map.h"
+
 #define ITEM_SPRITE_ROWS 10
 #define ITEM_SPRITE_CLOS 20
 #define ITEMNUM 2            // 아이템 종류 수
@@ -16,6 +18,7 @@ typedef struct Item {
     bool isHeld;    // 0: 바닥에 있음, 1: 플레이어가 소지
     int value;     // 효과 수치
     float width, height;
+    MapStatus mapStatus;
 } Item;
 
 typedef char SpriteType[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_CLOS];
@@ -25,6 +28,8 @@ extern SpriteType bubblesSprite;
 
 extern Item itemList[MAX_ITEM_COUNT];
 extern int numItem;
+static int frame;
+
 
 void InitItem();
 void DrawItem(Item* item, int frame);
