@@ -54,7 +54,6 @@ void DrawStartScreen() {
         _Invalidate();
         Sleep(500);
     }
-
 }
 
 void ReturnStartScreen() {

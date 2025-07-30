@@ -27,8 +27,7 @@ char bubblesSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_CLOS] = {
 
 Item itemList[MAX_ITEM_COUNT];
 int numItem = 0;
-int frame = 0;
-
+frame = 0;
 
 clock_t lastFrameTime = 0;
 const int frameDelay = 400;  // 200ms마다 프레임 전환
@@ -76,7 +75,8 @@ void InitItem() {
         .isHeld = false,
         .value = 2,
         .width = 11,
-        .height = 3
+        .height = 3,
+        .mapStatus = 0
     };
 
     // 두 번째 아이템 - 공기방울
@@ -86,6 +86,7 @@ void InitItem() {
         .isHeld = true,
         .value = 1,
         .width = 5,
-        .height = 2
+        .height = 2,
+        .mapStatus = 0
     };
 }

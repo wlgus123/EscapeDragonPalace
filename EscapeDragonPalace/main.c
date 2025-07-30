@@ -10,10 +10,6 @@
 // ===========================================================
 void Draw() // 화면 그리기
 {
-
-    DrawMap(); // 맵 그리기
-    _DrawText(79, 24, "*"); // 화면 끝 확인
-
     // 게임 시작 전
     if (!GameStart) {
         GameStartScreen();
@@ -36,7 +32,6 @@ void Draw() // 화면 그리기
         }
         else {
 
-
             if (!weaponChosen)
             {
                 for (int i = 0; i < NUMWEAPON; i++)
@@ -53,8 +48,9 @@ void Draw() // 화면 그리기
 
                 for (int i = 0; i < numItem; i++)
                 {
-                    if (!itemList[i].isHeld)
-                        DrawItem(&itemList[i], frame);
+                    if(itemList[i].mapStatus == GetMapStatus())
+                        if (!itemList[i].isHeld)
+                            DrawItem(&itemList[i], frame);
                 }
 
             }
@@ -67,7 +63,7 @@ void Draw() // 화면 그리기
             if (isNearItem)
             {
                 // 수정 ================
-                _DrawText(player.Pos.x, player.Pos.y - 3, "e를 눌러 아이템 먹기");
+                _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 // =====================
 
             }
