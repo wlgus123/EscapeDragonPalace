@@ -29,6 +29,7 @@ Item itemList[MAX_ITEM_COUNT];
 int numItem = 0;
 int frame = 0;
 
+
 bool SettingItem = false;
 
 // 무기 선택 여부 가져오기
@@ -78,9 +79,16 @@ void DrawItem(Item* item, int frame) {
         break;
     }
 
+    int temX = item->x - GetPlusX();
+    
+
     for (int row = 0; row < ITEM_SPRITE_ROWS; row++) {
         if ((*sprite)[frame][row] == '\0') break;  // 공백 줄이면 중단
-        _DrawText(item->x, item->y + row, (*sprite)[frame][row]);
+
+
+        if (temX + 7 > 0 && temX < SCREEN_WIDTH) {
+            _DrawText(temX, item->y + row, (*sprite)[frame][row]);
+        }
     }
 }
 
@@ -96,7 +104,7 @@ void InitItem() {
         .value = 2,
         .width = 11,
         .height = 3,
-        .mapStatus = 0
+        .mapStatus = 2
     };
 
     // 두 번째 아이템 - 공기방울
@@ -107,6 +115,6 @@ void InitItem() {
         .value = 1,
         .width = 5,
         .height = 2,
-        .mapStatus = 0
+        .mapStatus = 2
     };
 }
