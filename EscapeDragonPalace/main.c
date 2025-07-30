@@ -27,7 +27,7 @@ void Draw() // 화면 그리기
             else _DrawText(14, 21, "                                     ");
         }
         // 스테이지 클리어
-        else if (stageClear)
+        else if (StageClear())
         {
             _Delay(45);
             RabbitCAnim();
@@ -62,7 +62,7 @@ void Draw() // 화면 그리기
 
 
 
-            if (isNearItem)
+            if (IsNearItem())
             {
                 // 수정 ================
                 _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
@@ -82,7 +82,7 @@ void Update()
     // 하영 ====================================
     UpdatePlayer();
 
-    isNearItem = false;
+	SetIsNearItem(false); // 플레이어가 아이템 근처에 있는지 여부 초기화
 
     CheckItemPickup();
     UpdateSpeedBuffs();

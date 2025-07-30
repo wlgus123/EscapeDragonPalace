@@ -104,7 +104,28 @@ int animFramesTotal; // 전체 애니메이션 길이 (up+down)
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
+bool isNearItem = false;
+
+bool stageClear = false; // 스테이지 클리어 여부
+
+
 // --------------------------------------------------
+
+bool IsNearItem()
+{
+    return isNearItem;
+}
+
+void SetIsNearItem(bool src)
+{
+    isNearItem = src;
+}
+
+bool StageClear()
+{
+	return stageClear;
+}
+
 // 플레이어와 오브젝트 충돌 체크
 bool IsOverlap(Rect player, Rect Obj)
 {
@@ -277,17 +298,27 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 
 void ApplyGravity() // 중력 적용 함수
 {
-
+    if (!CheckGround)
+    {
+        player.Pos.y--;
+    }
 }
 
 bool CheckGround() // 바닥 체크 함수
 {
-    
-}
+    int playerxL = player.Pos.x + 8; // 플레이어 x좌표 왼쪽 끝
+	int playerxR = player.Pos.x + 11; // 플레이어 x좌표 오른쪽 끝
 
-void PlayerYPosition() // 플레이어 Y 위치 조정 함수
-{
-	
+	int playery = player.Pos.y; // 플레이어 y좌표
+    
+    if (true)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void JumpFN()

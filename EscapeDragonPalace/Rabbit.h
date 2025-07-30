@@ -6,6 +6,9 @@
 
 // --------------------------------------------------
 
+bool IsNearItem();
+void SetIsNearItem(bool src);
+bool StageClear();
 bool IsOverlap();
 void CheckItemPickup();
 void UpdateSpeedBuffs();
@@ -15,7 +18,6 @@ void RabbitCAnim();
 void GetInput();
 void ApplyGravity();
 bool CheckGround();
-void PlayerYPosition();
 void JumpFN();
 void AttackFN();
 void moveFN();
@@ -78,8 +80,5 @@ Rect GetItemRect(Item item);
 void CheckItemPickup();
 void UpdateSpeedBuffs();
 
-static bool isNearItem = false;
-
 SpeedBuff speedBuffs[MAX_BUFFS];
 
-static bool stageClear = false; // 스테이지 클리어 여부
