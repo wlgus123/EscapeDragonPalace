@@ -1,5 +1,6 @@
 #include "init.h"
 #include "Rabbit.h"
+#include "map.h"
 
 #define GX 70 // 목표 지점 X 좌표
 #define GY 22 // 목표 지점 Y 좌표
@@ -472,7 +473,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     // Rabbit이 @에 닿았는지 체크
     if (ISOnGoal())
     {
-        stageClear = true;
+        //stageClear = true;
     }
 
     if (_kbhit())
