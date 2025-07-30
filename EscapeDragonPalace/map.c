@@ -116,6 +116,30 @@ void SetMapStatus(int src)
 	g_MapStatus = src;
 }
 
+// Y 증가값 불러오기
+int GetPlusY()
+{
+	return g_Plus_Y;
+}
+
+// Y 증가값 변경하기
+void SetPlusY(int src)
+{
+	g_Plus_Y = src;
+}
+
+// X 증가값 불러오기
+int GetPlusX()
+{
+	return g_Plus_X;
+}
+
+// X 증가값 변경하기
+void SetPlusX(int src)
+{
+	g_Plus_X = src;
+}
+
 // 맵 위치 업데이트
 void UpdateMapPos()
 {

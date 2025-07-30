@@ -5,7 +5,7 @@
 #include "Rabbit.h"
 #include "weapon.h"
 
-// 함수
+// 전역 변수
 
 // ===========================================================
 void Draw() // 화면 그리기
@@ -61,7 +61,7 @@ void Draw() // 화면 그리기
                 for (int i = 0; i < numItem; i++)
                 {
                     if (!itemList[i].isHeld) {
-                        DrawItem(&itemList[i], frame);
+                        DrawItem(&itemList[i], GetFrame());
                     }
                 }
 
