@@ -11,10 +11,12 @@
 void Draw() // 화면 그리기
 {
     // 게임 시작 전
-    if (!GameStart) {
+    if (!GetGameStart()) {
         GameStartScreen();
-        if (GameStartText) _DrawText(23, 21, "아무 키나 눌러 게임 시작하기");
-        else _DrawText(21, 21, "                               ");
+        if (GetGameStartText()) 
+            _DrawText(23, 21, "아무 키나 눌러 게임 시작하기");
+        else 
+            _DrawText(21, 21, "                               ");
     }
     // 게임 시작 후
     else {

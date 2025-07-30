@@ -2,6 +2,9 @@
 #include "screens.h"
 #include "weapon.h"
 
+bool GameStart = false; // 게임 시작 여부
+bool GameStartText = true; // 게임 시작 여부 텍스트
+
 void GameOverScreen() {
     _DrawText(20, 5, "■■■■   ■■   ■   ■  ■■■■");
     _DrawText(20, 6, "■     ■  ■  ■■ ■■  ■      ");
@@ -70,4 +73,16 @@ void ReturnStartScreen() {
         Sleep(500);
     }
 
+}
+
+// 게임 시작 여부 가져오기
+bool GetGameStart()
+{
+    return GameStart;
+}
+
+// 게임 시작 여부 텍스트 가져오기
+bool GetGameStartText()
+{
+    return GameStartText;
 }
