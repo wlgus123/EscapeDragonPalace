@@ -31,7 +31,7 @@ void DrawMap()
 		// 발판 그리기
 		for (int i = 0; i < PLATFORM_LINE_CNT; i++)
 		{
-			StageBG tmpPlatform = g_StagePlatform[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
+			char tmpPlatform[MAP_STR] = g_StagePlatform; // 현재 맵의 발판 정보 가져오기
 			for (int y = 0; y < SCREEN_HEIGHT; y++)
 			{
 				int tmpY = tmpPlatform.pos.y + y - g_Plus_Y;
