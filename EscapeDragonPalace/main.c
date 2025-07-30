@@ -6,20 +6,17 @@
 // 화면 그리기
 void Draw()
 {
-    // 맵
-    if (GetMapStatus() != E_Boss)
-    {
-        DrawNormalBG();
-        DrawNormalMap(); // 맵 그리기
-    }
-    else
-        DrawBossMap();
+    DrawMap();
 }
 
 // 업데이트 내용
 void Update()
 {
     UpdateMapPos();
+    if (GetMapStatus() == E_Sea1)
+    {
+        _DrawText(2, 2, "Hello World!");
+    }
 }
 
 // 키 입력
