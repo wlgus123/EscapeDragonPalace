@@ -2,7 +2,8 @@
 #include "weapon.h"
 
 
-
+int selectedIndex = 0;   // 현재 선택 중인 무기 인덱스
+bool weaponChosen = false;  // Enter로 선택했는지 여부
 
 
 
@@ -71,4 +72,21 @@ void SelectWeapon() {
 
         _Invalidate();
     }
+}
+
+// 무기 선택 여부 가져오기
+bool GetWeaponChosen()
+{
+    return weaponChosen;
+}
+
+void SetWeaponChosen(bool src)
+{
+    weaponChosen = !src;
+}
+
+// 현재 선택중인 무기 인덱스 가져오기
+int GetSelectedIndex()
+{
+    return selectedIndex;
 }

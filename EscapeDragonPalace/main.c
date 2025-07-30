@@ -34,11 +34,11 @@ void Draw() // 화면 그리기
         }
         else {
 
-            if (!weaponChosen)
+            if (!GetWeaponChosen())
             {
                 for (int i = 0; i < NUMWEAPON; i++)
                 {
-                    int isSelected = (i == selectedIndex); // 현재 무기인지 여부
+                    int isSelected = (i == GetSelectedIndex()); // 현재 무기인지 여부
                     DrawWeapon(&weaponList[i], i, isSelected);
                 }
             }
@@ -111,7 +111,7 @@ void main()
     InitWeapon(weaponList); // 무기 초기화
     DrawStartScreen();
     SelectWeapon();
-    player.HeldWeapon = &weaponList[selectedIndex];
+    player.HeldWeapon = &weaponList[GetSelectedIndex()];
 
     //로직
     while (true)
