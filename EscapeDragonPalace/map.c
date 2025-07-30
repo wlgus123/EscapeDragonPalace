@@ -1,5 +1,6 @@
 #include "init.h"
 #include "map.h"
+#include "Rabbit.h"
 
 int g_Plus_Y = 24; // °¨¿Á, ¿ë±Ã ¸Ê ½ÃÀÛ À§Ä¡
 int g_Plus_X = 0; // ¹Ù´Ù 1, 2 ¸Ê ½ÃÀÛ À§Ä¡
@@ -160,18 +161,26 @@ void UpdateMapPos()
 			g_Plus_Y = 24;
 		break;
 	case E_Sea1: case E_Sea2:
-		if (g_Key == 'a' || g_Key == 'A')
+		if (GetKeyA() && player.Pos.x <= 24 || GetAsyncKeyState('A') & 0x8000)
 		{
-			g_Plus_X -= 2;
+			MapEnd(false);
+			g_Plus_X -= player.Speed;
 		}
-		else if (g_Key == 'd' || g_Key == 'D')
+		else if (GetKeyD() && player.Pos.x >= 26 || GetAsyncKeyState('D') & 0x8000)
 		{
-			g_Plus_X += 2;
+			MapEnd(false);
+			g_Plus_X += player.Speed;
 		}
 		if (g_Plus_X < 0)
+		{
 			g_Plus_X = 0;
+			MapEnd(true);
+		}
 		else if (g_Plus_X > 222)
+		{
 			g_Plus_X = 222;
+			MapEnd(true);
+		}
 		break;
 	}
 

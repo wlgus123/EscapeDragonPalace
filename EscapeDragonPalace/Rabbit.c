@@ -84,9 +84,6 @@ char Rabbit[14][RabbitY][RabbitX] =
 };
 
 
-bool g_KeyW = false;
-bool g_KeyA = false;
-bool g_KeyD = false;
 
 bool halfHealth = false; // 체력 반칸
 
@@ -109,8 +106,38 @@ bool isNearItem = false;
 
 bool stageClear = false; // 스테이지 클리어 여부
 
+bool g_KeyW = false;
+bool g_KeyA = false;
+bool g_KeyD = false;
+bool g_KeyS = false;
+
+bool IsMapEnd = false;
 
 // --------------------------------------------------
+
+bool MapEnd(bool src)
+{
+    IsMapEnd = src;
+}
+bool GetKeyW()
+{
+    return g_KeyW;
+}
+
+bool GetKeyA()
+{
+    return g_KeyA;
+}
+
+bool GetKeyD()
+{
+    return g_KeyD;
+}
+
+bool GetKeyS()
+{
+    return g_KeyS;
+}
 
 bool IsNearItem()
 {
@@ -143,7 +170,7 @@ Rect GetPlayerRect()
 // 아이템의 충돌 범위 반환
 Rect GetItemRect(Item item)
 {
-    return (Rect) { item.x - 7, item.y, item.width + 2, item.height };
+    return (Rect) { item.x - 7 - GetPlusX() , item.y, item.width + 2, item.height };
 }
 
 // 아이템 먹었는지 체크
@@ -292,6 +319,7 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
     g_KeyW = (GetAsyncKeyState('W') & 0x8000);
     g_KeyA = (GetAsyncKeyState('A') & 0x8000);
     g_KeyD = (GetAsyncKeyState('D') & 0x8000);
+    g_KeyS = (GetAsyncKeyState('S') & 0x8000);
 
     // 마우스 왼쪽 버튼 클릭 여부
     g_MouseClick = (GetAsyncKeyState(VK_LBUTTON) & 0x8000);
@@ -314,7 +342,7 @@ bool CheckGround() // 바닥 체크 함수
     
     for (int x = playerxL; x <= playerxR; x++)
     {
-        if (g_Map[playery + 1][x] == '=')
+        if (g_Map[playery + 1][x] == '=' || g_StagePlatform2[GetMapStatus()][playery + 1][x] == '=')
         {
             return true;
         }
@@ -388,11 +416,27 @@ void moveFN()
 
     if (g_KeyA)
     {
+        if (IsMapEnd)
+        {
+            move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
+        }
+        else if (player.Pos.x < 25)
+        {
+            move = 0;
+        }
         player.Pos.x -= move;
         player.Direction = 1;
     }
     if (g_KeyD)
     {
+        if (IsMapEnd)
+        {
+            move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
+        }
+        else if (player.Pos.x > 25)
+        {
+            move = 0;
+        }
         player.Pos.x += move;
         player.Direction = 0;
     }

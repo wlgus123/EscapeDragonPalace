@@ -6,6 +6,11 @@
 
 // --------------------------------------------------
 
+bool MapEnd();
+bool GetKeyW();
+bool GetKeyA();
+bool GetKeyD();
+bool GetKeyS();
 bool IsNearItem();
 void SetIsNearItem(bool src);
 bool StageClear();
@@ -81,4 +86,7 @@ void CheckItemPickup();
 void UpdateSpeedBuffs();
 
 SpeedBuff speedBuffs[MAX_BUFFS];
+
+
+
 
