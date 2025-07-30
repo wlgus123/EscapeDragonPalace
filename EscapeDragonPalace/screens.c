@@ -1,5 +1,6 @@
 #include "init.h"
 #include "screens.h"
+#include "weapon.h"
 
 void GameOverScreen() {
     _DrawText(20, 5, "бсбсбсбс   бсбс   бс   бс  бсбсбсбс");
