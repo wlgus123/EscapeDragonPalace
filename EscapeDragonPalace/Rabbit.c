@@ -170,7 +170,7 @@ Rect GetPlayerRect()
 // 아이템의 충돌 범위 반환
 Rect GetItemRect(Item item)
 {
-    return (Rect) { item.x - 7, item.y, item.width + 2, item.height };
+    return (Rect) { item.x - 7 - GetPlusX() , item.y, item.width + 2, item.height };
 }
 
 // 아이템 먹었는지 체크
@@ -342,7 +342,7 @@ bool CheckGround() // 바닥 체크 함수
     
     for (int x = playerxL; x <= playerxR; x++)
     {
-        if (g_Map[playery + 1][x] == '=')
+        if (g_Map[playery + 1][x] == '=' || g_StagePlatform2[GetMapStatus()][playery + 1][x])
         {
             return true;
         }
