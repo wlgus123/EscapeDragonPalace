@@ -82,7 +82,7 @@ bool GetWeaponChosen()
 
 void SetWeaponChosen(bool src)
 {
-    weaponChosen = !src;
+    weaponChosen = src;
 }
 
 // 현재 선택중인 무기 인덱스 가져오기

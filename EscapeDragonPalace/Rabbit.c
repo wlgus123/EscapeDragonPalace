@@ -160,7 +160,7 @@ void CheckItemPickup()
 
         if (IsOverlap(playerRect, itemRect))
         {
-            isNearItem = true;  // 문구출력
+            SetIsNearItem(true);  // 문구출력
             if (GetAsyncKeyState('E') & 0x8000)
             {
                 itemList[i].isHeld = true;

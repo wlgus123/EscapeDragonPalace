@@ -64,7 +64,7 @@ void ReturnStartScreen() {
         if (_kbhit()) {
             IsGameOver = false;
 			GameStart = false;
-            SetWeaponChosen();
+            SetWeaponChosen(false);
             _getch();
         }
         GameOverText = !GameOverText;
