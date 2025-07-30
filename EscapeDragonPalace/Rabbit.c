@@ -84,9 +84,6 @@ char Rabbit[14][RabbitY][RabbitX] =
 };
 
 
-bool g_KeyW = false;
-bool g_KeyA = false;
-bool g_KeyD = false;
 
 bool halfHealth = false; // 체력 반칸
 
@@ -109,8 +106,38 @@ bool isNearItem = false;
 
 bool stageClear = false; // 스테이지 클리어 여부
 
+bool g_KeyW = false;
+bool g_KeyA = false;
+bool g_KeyD = false;
+bool g_KeyS = false;
+
+bool IsMapEnd = false;
 
 // --------------------------------------------------
+
+bool MapEnd(bool src)
+{
+    IsMapEnd = src;
+}
+bool GetKeyW()
+{
+    return g_KeyW;
+}
+
+bool GetKeyA()
+{
+    return g_KeyA;
+}
+
+bool GetKeyD()
+{
+    return g_KeyD;
+}
+
+bool GetKeyS()
+{
+    return g_KeyS;
+}
 
 bool IsNearItem()
 {
@@ -292,6 +319,7 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
     g_KeyW = (GetAsyncKeyState('W') & 0x8000);
     g_KeyA = (GetAsyncKeyState('A') & 0x8000);
     g_KeyD = (GetAsyncKeyState('D') & 0x8000);
+    g_KeyS = (GetAsyncKeyState('S') & 0x8000);
 
     // 마우스 왼쪽 버튼 클릭 여부
     g_MouseClick = (GetAsyncKeyState(VK_LBUTTON) & 0x8000);
@@ -388,11 +416,27 @@ void moveFN()
 
     if (g_KeyA)
     {
+        if (IsMapEnd)
+        {
+            move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
+        }
+        else if (player.Pos.x < 25)
+        {
+            move = 0;
+        }
         player.Pos.x -= move;
         player.Direction = 1;
     }
     if (g_KeyD)
     {
+        if (IsMapEnd)
+        {
+            move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
+        }
+        else if (player.Pos.x > 25)
+        {
+            move = 0;
+        }
         player.Pos.x += move;
         player.Direction = 0;
     }
