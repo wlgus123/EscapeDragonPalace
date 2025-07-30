@@ -127,14 +127,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="item.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="mtg.c" />
+    <ClCompile Include="Rabbit.c" />
+    <ClCompile Include="screens.c" />
+    <ClCompile Include="weapon.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="init.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mtg.h" />
+    <ClInclude Include="Rabbit.h" />
+    <ClInclude Include="screens.h" />
+    <ClInclude Include="weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
