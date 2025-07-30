@@ -10,10 +10,6 @@
 // ===========================================================
 void Draw() // 화면 그리기
 {
-
-    DrawMap(); // 맵 그리기
-    _DrawText(79, 24, "*"); // 화면 끝 확인
-
     // 게임 시작 전
     if (!GameStart) {
         GameStartScreen();
@@ -35,7 +31,6 @@ void Draw() // 화면 그리기
             RabbitCAnim();
         }
         else {
-
 
             if (!weaponChosen)
             {
@@ -68,7 +63,7 @@ void Draw() // 화면 그리기
             if (isNearItem)
             {
                 // 수정 ================
-                _DrawText(player.Pos.x, player.Pos.y - 3, "e를 눌러 아이템 먹기");
+                _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 // =====================
 
             }
