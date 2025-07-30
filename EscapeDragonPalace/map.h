@@ -4,14 +4,16 @@
 #define STAGE_CNT 5 // 스테이지 갯수
 #define BG_CNT 10 // 맵 배경 요소 갯수
 #define BG_LINE 20 // 맵 배경 줄 수
-#define PLATFORM_CNT 10 // 발판 갯수
+#define PLATFORM_LINE_CNT 10 // 발판 줄 수
+#define PLATFORM_STR_MAX 3000 // 발판 문자 최댓값
 #define MAP_HEIGHT 49 // 맵 높이
 #define MAP_WIDTH SCREEN_WIDTH
 #define GOAL_HEIGHT 5 // 도착지점 높이
 
 void DrawMap();
 void UpdateMapPos();
-int GetMapStatus(); // 현재 맵 위치 받아오기
+int GetMapStatus(); // 현재 맵 불러오기
+void SetMapStatus(int src); // 현재 맵 상태 변경하기
 
 // CMD 색깔
 typedef enum CMDColor
@@ -335,8 +337,34 @@ static StageBG g_StageBG[STAGE_CNT][BG_CNT] =
 },
 };
 
+static char g_StagePlatform2[STAGE_CNT][MAP_HEIGHT][PLATFORM_STR_MAX] =
+{
+	{
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"============================                                                      ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                ===========                                       ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                             =====================================",
+		"                                                                                  ",
+		"                                                                                  ",
+		"                                                                                  ",
+
+	},
+};
+
 // 맵 발판
-static StageBG g_StagePlatform[STAGE_CNT][PLATFORM_CNT] =
+static StageBG g_StagePlatform[STAGE_CNT][PLATFORM_LINE_CNT] =
 {
 { // 감옥 맵 발판
 	{
