@@ -53,8 +53,9 @@ void Draw() // 화면 그리기
 
                 for (int i = 0; i < numItem; i++)
                 {
-                    if (!itemList[i].isHeld)
-                        DrawItem(&itemList[i], frame);
+                    if(itemList[i].mapStatus == GetMapStatus())
+                        if (!itemList[i].isHeld)
+                            DrawItem(&itemList[i], frame);
                 }
 
             }
