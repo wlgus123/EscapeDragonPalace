@@ -77,7 +77,8 @@ Rect GetPlayerRect();
 Rect GetItemRect(Item item);
 void CheckItemPickup();
 void UpdateSpeedBuffs();
-bool isNearItem = false;
+
+static bool isNearItem = false;
 
 SpeedBuff speedBuffs[MAX_BUFFS];
 
