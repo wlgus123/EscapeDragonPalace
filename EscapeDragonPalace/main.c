@@ -31,6 +31,16 @@ void Draw() // 화면 그리기
         {
             _Delay(45);
             RabbitCAnim();
+            SetMapStatus();
+            for (int i = 0; i < numItem; i++)
+            {
+                if (itemList[i].mapStatus == GetMapStatus()) {
+                    itemList[i].isHeld = false;
+                }
+                else {
+                    itemList[i].isHeld = true;
+                }
+            }
         }
         else {
 
@@ -50,9 +60,9 @@ void Draw() // 화면 그리기
 
                 for (int i = 0; i < numItem; i++)
                 {
-                    if(itemList[i].mapStatus == GetMapStatus())
-                        if (!itemList[i].isHeld)
-                            DrawItem(&itemList[i], frame);
+                    if (!itemList[i].isHeld) {
+                        DrawItem(&itemList[i], frame);
+                    }
                 }
 
             }
@@ -103,7 +113,6 @@ void main()
 
     // 맵 크기 변경
     //col = 가로, lines = 세로
-    system("mode con:cols=78 lines=25");
     SetConsoleTitle("용궁탈출");
 
     InitPlayer();
