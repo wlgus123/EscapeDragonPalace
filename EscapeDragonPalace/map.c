@@ -40,7 +40,8 @@ void DrawMapBG()
 		char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
 		for (int x = 0; x < SCREEN_WIDTH; x++)
 		{
-			_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
+			if(tmpPlatform[x] != ' ')
+				_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
 		}
 	}
 

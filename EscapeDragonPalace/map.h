@@ -14,7 +14,6 @@ void DrawMapBG(); // 맵 배경 그리기
 void UpdateMapPos();
 int GetMapStatus(); // 현재 맵 불러오기
 void SetMapStatus(int src); // 현재 맵 상태 변경하기
-int GetPlusY(); // Y 증가값 불러오기
 int GetPlusX(); // X 증가값 불러오기
 
 // CMD 색깔
