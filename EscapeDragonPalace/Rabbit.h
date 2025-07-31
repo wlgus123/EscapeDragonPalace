@@ -6,7 +6,7 @@
 
 // --------------------------------------------------
 
-bool MapEnd();
+bool SetMapEnd(bool src);
 bool GetKeyW();
 bool GetKeyA();
 bool GetKeyD();
@@ -17,8 +17,8 @@ bool StageClear();
 bool IsOverlap();
 void CheckItemPickup();
 void UpdateSpeedBuffs();
-void ClearRabbitAt();
-void DrawRabbitAt();
+void ClearRabbitAt(int x, int y);
+void DrawRabbitAt(int x, int y, int idx);
 void RabbitCAnim();
 void GetInput();
 void ApplyGravity();
@@ -43,6 +43,9 @@ void InitPlayer();
 #define MAX_FALL_SPEED 4.0f  // 최대 낙하 속도
 
 #define MAX_BUFFS 10
+
+#define RabbitXPos 7.0f
+#define RabbitYPos 21.0f
 
 // --------------------------------------------------
 
