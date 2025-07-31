@@ -1,9 +1,5 @@
 #include "monster.h"
 
-
-#define SCREEN_WIDTH 80
-#define SCREEN_HEIGHT 25
-
 const char* turtle[] = {
     "        ______ ",
     "  ___ _/ \\__/ \\_   /|",
@@ -12,13 +8,6 @@ const char* turtle[] = {
     "      \\_|_|_|_|_/ ",
     "     /_|_|  /_|_|"
 };
-
-#define TURTLE_HEIGHT 6
-#define TURTLE_WIDTH 22
-#define TURTLE_Y (SCREEN_HEIGHT - TURTLE_HEIGHT)
-#define TURTLE_X 55
-
-#define WATER_CHAR '@'
 
 enum Direction { UP, MIDDLE, DOWN };
 enum Direction currentDir = MIDDLE;
@@ -74,26 +63,26 @@ void Draw() {
 }
 
 void hit() {
-    time_t start = time(NULL); // 타임함수를 이용
+    //시간 쟤는 애들
+    time_t start = time(NULL);
     time_t end = start + 1;
+
     Hp--;
+
     tcolor = 12;
 
-    if (Hp == 0) {
+    if (Hp == 0) { // 만약 hp가 0이라면 색을 없앰
         tcolor = 0;
     }
 
     _Invalidate();
     while (time(NULL) < end) {
-        //대기
+        //1초간 대기
     }
 
     if (tcolor == 12) {
         tcolor = 15;
     }
-
-    return start;
-
 }
 
 int main() {
@@ -106,6 +95,8 @@ int main() {
         // ESC 키 누르면 종료
         char key = _GetKey();
         if (key == 27) break;
+
+        //w 누르면 벽이라는 인식을 받음
         if (key == 'w')
             hit();
 

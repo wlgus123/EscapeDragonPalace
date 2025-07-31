@@ -1,10 +1,10 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <Windows.h>
-#include <conio.h>
-#include <stdbool.h>
+#include "init.h"
 
-#include "mtg.h"
+
+#define TURTLE_HEIGHT 6
+#define TURTLE_WIDTH 22
+#define TURTLE_Y (SCREEN_HEIGHT - TURTLE_HEIGHT)
+#define TURTLE_X 55
+
+#define WATER_CHAR '@'
