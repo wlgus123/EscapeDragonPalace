@@ -151,6 +151,7 @@ void main()
         _Invalidate(); // 화면 그리기 (Draw() 함수 자동 적용)
         _Delay(30);
 
+
         if (IsGameOver)
         {
             ReturnStartScreen();

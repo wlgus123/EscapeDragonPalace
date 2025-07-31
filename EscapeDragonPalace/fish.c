@@ -1,5 +1,4 @@
 #include "monster.h"
-#include"mtg.h"
 
 
 float Fspeed = 0.4;
@@ -19,7 +18,7 @@ char fish[2][3][16] = {
 	}
 };
 
-void DrawFish() { //물고기 그리기
+void DrawFish() { //물고기 그리는 함수
 
 	for (int i = 0; i < 3; i++) {
 		_DrawTextColor(Fpx, Fpy + i, fish[Fpoint][i], Fcolor);
@@ -40,41 +39,28 @@ void Draw() {
 
 }
 
-void RunIni() {
-	_Invalidate();
-}
 
-
-int RunKey() {
-	char k;
-
-	k = _GetKey();
-
-}
-
-void hit() { //맞음 > 색깔 붉은색 > 다시 흰색 > 죽으면 없어짐
+void hit() { //맞음 > 색깔 붉은색(12) > 다시 흰색(15) > 죽으면 없어짐
 	time_t start = time(NULL); // 타임함수를 이용
 	time_t end = start + 1;
 	Fhp--;
 	Fcolor = 12;
 	
 	if (Fhp == 0) {
-		Fcolor = 0;
+		Fcolor = 0; //죽은 판정으로 색을 완전히 없애는 코드
 	}
 
 	_Invalidate();
 	while(time(NULL) < end) {
-		//대기
+		//1초간 대기 후
 	}
 	
 	if (Fcolor == 12) {
 		Fcolor = 15;
 	}
-
-	return start;
-	
 }
-void wall(){ //벽이 존재 > 반대로
+
+void wall() { //벽이 존재 > 반대로
 	switch (Fpoint) {
 	case 0:
 		Fpoint++;
@@ -88,6 +74,24 @@ void wall(){ //벽이 존재 > 반대로
 		break;
 	}
 }
+
+int RunKey() {
+	char k;
+
+	k = _GetKey();
+
+
+	if ('h' == k) {
+		hit();
+	}
+
+	if ('w' == k) {
+		wall();
+	}
+
+
+}
+
 //차후에 move랑 wall이랑 묶을듯(키보드 안받는다는 전제)
 void move() {
 	//wall();
@@ -107,7 +111,7 @@ void move() {
 
 }
 
-void RunTimer() {
+void RunTimer() { //움직임 반복되는 코드
 	static long oldT = 0;
 	long newT;
 
@@ -120,31 +124,15 @@ void RunTimer() {
 	
 	//반복한 것을 여기에
 
-
 	move();
-
 	_Invalidate();
 }
 
-void Fish() {
-	RunIni();
-	while (1) {
+int Fish() {
 
-		if (Fhp == -1) { //임의
-			break;
-		}
-		if ('d' == RunKey()) {
-			hit();
-		}
+	RunKey();
+	RunTimer();
 
-		if ('w' == RunKey()) {
-			wall();
-		}
-		RunTimer();
-		_Invalidate();
-
-	}
-	
 	return 0;
 }
 
@@ -153,6 +141,11 @@ void Fish() {
 
 int main() {
 	_BeginWindow();
-	Fish();
+	while (1)
+	{
+		Fish();
+
+		_Invalidate();
+	}
 	_EndWindow();
 }
