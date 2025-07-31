@@ -2,8 +2,6 @@
 #include "Rabbit.h"
 #include "map.h"
 
-#define GX 70 // 목표 지점 X 좌표
-#define GY 22 // 목표 지점 Y 좌표
 
 //--------------------------------------------------
 
@@ -115,7 +113,7 @@ bool IsMapEnd = false;
 
 // --------------------------------------------------
 
-bool MapEnd(bool src)
+bool SetMapEnd(bool src)
 {
     IsMapEnd = src;
 }
@@ -259,8 +257,8 @@ void RabbitCAnim() // Rabbit clear 애니메이션
 {
 	_DrawText(36, 10, "아무 키나 눌러 다음 스테이지로 넘어가기");
 
-    player.Pos.x = 10.0f;
-    player.Pos.y = 21.0f;
+    player.Pos.x = RabbitXPos;
+    player.Pos.y = RabbitYPos;
 
     static int prevX = -1, prevY = -1;
 
@@ -329,7 +327,7 @@ void ApplyGravity() // 중력 적용 함수
 {
     if (!CheckGround)
     {
-        player.Pos.y--;
+        player.Pos.y += 1.0f;
     }
 }
 
@@ -484,6 +482,7 @@ void ClearInputBuffer()
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
+    CheckGround();
     int iR = 0;
     int iL = 0;
 
@@ -609,8 +608,8 @@ void DrawHealth() // 플레이어 체력 그리기
 
 void InitPlayer() // 초기화
 {
-    player.Pos.x = 10.0f;
-    player.Pos.y = 21.0f;
+    player.Pos.x = RabbitXPos;
+    player.Pos.y = RabbitYPos;
     player.Speed = 1.0f;
     player.Health = 10;
     player.VelY = 0.0f;
