@@ -54,7 +54,7 @@ void Draw() // 화면 그리기
             }
             else
             {
-                DrawMap(); // 맵 그리기
+                DrawMapBG(); // 맵 틀 그리기
                 _DrawText(3, 3, player.HeldWeapon->sprite);
                 DrawHealth();
 
@@ -95,6 +95,9 @@ void Draw() // 화면 그리기
                 // =====================
 
             }
+
+            // 맵 틀 그리기
+            DrawMap();
         }
 
     }
@@ -127,8 +130,6 @@ void main()
     // init
     _BeginWindow();
 
-    // 맵 크기 변경
-    //col = 가로, lines = 세로
     SetConsoleTitle("용궁탈출");
 
     InitPlayer();
