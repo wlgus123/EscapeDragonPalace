@@ -18,7 +18,7 @@ void DrawMap()
 	for (int y = 0; y < SCREEN_HEIGHT; y++)
 	{
 		_DrawText(0, y, "бл");
-		_DrawText(76, y, "бл");
+		_DrawText(78, y, "бл");
 	}
 }
 
