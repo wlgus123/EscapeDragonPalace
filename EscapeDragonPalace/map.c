@@ -7,7 +7,7 @@ int g_Plus_X = 0; // X좌표 이동 증가값
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
 // 현재 맵 정보
-MapStatus g_MapStatus = E_Jail;
+MapStatus g_MapStatus = E_DragonPalace;
 
 // TODO: 코드 수정
 // 맵 틀 그리기
@@ -40,7 +40,8 @@ void DrawMapBG()
 		char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
 		for (int x = 0; x < SCREEN_WIDTH; x++)
 		{
-			_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
+			if(tmpPlatform[x] != ' ')
+				_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
 		}
 	}
 

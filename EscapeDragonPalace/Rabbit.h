@@ -1,37 +1,9 @@
 #pragma once
 
+#include "init.h"
 #include "weapon.h"
 #include "item.h"
 #include "screens.h"
-
-// --------------------------------------------------
-
-bool SetMapEnd(bool src);
-bool GetKeyW();
-bool GetKeyA();
-bool GetKeyD();
-bool GetKeyS();
-bool IsNearItem();
-void SetIsNearItem(bool src);
-bool StageClear();
-bool IsOverlap();
-void CheckItemPickup();
-void UpdateSpeedBuffs();
-void ClearRabbitAt(int x, int y);
-void DrawRabbitAt(int x, int y, int idx);
-void RabbitCAnim();
-void GetInput();
-void ApplyGravity();
-bool CheckGround();
-void JumpFN();
-void AttackFN();
-void moveFN();
-bool ISOnGoal();
-void ClearInputBuffer();
-void UpdatePlayer();
-void DrawPlayer();
-void DrawHealth();
-void InitPlayer();
 
 // --------------------------------------------------
 
@@ -81,6 +53,36 @@ typedef struct SpeedBuff {
 typedef struct Rect {
 	float x, y, w, h;
 } Rect;
+
+
+// --------------------------------------------------
+
+bool SetMapEnd(bool src);
+bool GetKeyW();
+bool GetKeyA();
+bool GetKeyD();
+bool GetKeyS();
+bool IsNearItem();
+void SetIsNearItem(bool src);
+bool StageClear();
+bool IsOverlap(Rect player, Rect Obj);
+void CheckItemPickup();
+void UpdateSpeedBuffs();
+void ClearRabbitAt(int x, int y);
+void DrawRabbitAt(int x, int y, int idx);
+void RabbitCAnim();
+void GetInput();
+void ApplyGravity();
+bool CheckGround();
+void JumpFN();
+void AttackFN();
+void moveFN();
+bool ISOnGoal();
+void ClearInputBuffer();
+void UpdatePlayer();
+void DrawPlayer();
+void DrawHealth();
+void InitPlayer();
 
 bool IsOverlap(Rect player, Rect Obj);
 Rect GetPlayerRect();
