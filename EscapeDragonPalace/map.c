@@ -2,8 +2,7 @@
 #include "map.h"
 #include "Rabbit.h"
 
-int g_Plus_Y = 24; // 감옥, 용궁 맵 시작 위치
-int g_Plus_X = 0; // 바다 1, 2 맵 시작 위치
+int g_Plus_X = 0; // X좌표 이동 증가값
 
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
@@ -36,10 +35,10 @@ void DrawMapBG()
 		}
 	}
 	// 발판 그리기
-	for (int y = 0; y < PLATFORM_LINE_CNT; y++)
+	for (int y = 0; y < SCREEN_HEIGHT; y++)
 	{
 		char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
-		for (int x = 0; x < SCREEN_HEIGHT; x++)
+		for (int x = 0; x < SCREEN_WIDTH; x++)
 		{
 			_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
 		}
@@ -81,12 +80,6 @@ void SetMapStatus(int src)
 	g_MapStatus = src;
 }
 
-// Y 증가값 불러오기
-int GetPlusY()
-{
-	return g_Plus_Y;
-}
-
 // X 증가값 불러오기
 int GetPlusX()
 {
@@ -98,12 +91,12 @@ void UpdateMapPos()
 {
 	if (GetKeyA() && player.Pos.x <= 24 || GetAsyncKeyState('A') & 0x8000)
 	{
-		MapEnd(false);
+		SetMapEnd(false);
 		g_Plus_X -= player.Speed;
 	}
 	else if (GetKeyD() && player.Pos.x >= 26 || GetAsyncKeyState('D') & 0x8000)
 	{
-		MapEnd(false);
+		SetMapEnd(false);
 		g_Plus_X += player.Speed;
 	}
 
@@ -111,12 +104,12 @@ void UpdateMapPos()
 	if (g_Plus_X < 0)
 	{
 		g_Plus_X = 0;
-		MapEnd(true);
+		SetMapEnd(true);
 	}
 	else if (g_Plus_X > MAP_WIDTH - SCREEN_WIDTH)
 	{
 		g_Plus_X = MAP_WIDTH - SCREEN_WIDTH;
-		MapEnd(true);
+		SetMapEnd(true);
 	}
 
 }
