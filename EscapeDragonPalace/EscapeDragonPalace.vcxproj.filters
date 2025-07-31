@@ -36,6 +36,12 @@
     <ClCompile Include="weapon.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="terrapin.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="fish.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mtg.h">
@@ -59,7 +65,7 @@
     <ClInclude Include="Rabbit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
+    <ClInclude Include="monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
