@@ -4,7 +4,7 @@
 #include "screens.h"
 #include "Rabbit.h"
 #include "weapon.h"
-
+#include "monster.h"
 // 전역 변수
 
 // ===========================================================

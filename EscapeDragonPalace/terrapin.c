@@ -1,5 +1,5 @@
 #include "monster.h"
-
+/*
 const char* turtle[] = {
     "        ______ ",
     "  ___ _/ \\__/ \\_   /|",
@@ -122,3 +122,4 @@ int main() {
     _EndWindow();
     return 0;
 }
+*/
