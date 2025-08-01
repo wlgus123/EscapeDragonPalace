@@ -1,151 +1,74 @@
 #include "monster.h"
+#include "init.h"
 
-
-float Fspeed = 0.4;
-int Fhp = 4;
-int Fpoint = 1;
-int Fpx,Fpy;
-int Fcolor = 15;
-
-char fish[2][3][16] = {
-	{"  ______", //0
-	 " / o )) \\/)",
-	 " \\______/\\)"
-	},
-	{"   ______", //1
-	 "(\\/ (( o \\",
-	 "(/\\______/"
-	}
+// 오른쪽 그림
+char fishRight[FISH_HEIGHT][FISH_WIDTH] = {
+    "  ______   ",
+    " / o )) \\/)",
+    " \\______/\\)"
 };
 
-void DrawFish() { //물고기 그리는 함수
+// 왼쪽 그림
+char fishLeft[FISH_HEIGHT][FISH_WIDTH] = {
+    "   ______  ",
+    "(\\/ (( o \\ ",
+    "(/\\______/ "
+};
 
-	for (int i = 0; i < 3; i++) {
-		_DrawTextColor(Fpx, Fpy + i, fish[Fpoint][i], Fcolor);
-	}
+void InitFish(Monster* m, int x, int y) {
+    m->x = x;
+    m->y = y;
+    m->dir = 1;
+    m->hp = FISH_HP;
+    m->alive = 1;
+    m->type = MONSTER_FISH;
+    m->isDamaged = 0;
+    m->lastHitTime = 0;  // 마지막 피격 시간 초기화
 }
 
-void Draw() {
-	char temp[80];
-	DrawFish();
+void UpdateFish(Monster* m, unsigned int now) {
+    if (!m->alive) return;
 
-	
-	//test용
-	sprintf(temp,"Hp : %d",Fhp);
-	_DrawText(10, 10, temp);
-	sprintf(temp, "point : %d", Fpoint);
-	_DrawText(10, 11, temp);
-	
+    // 무적시간 지나면 피격 상태 해제
+    if (m->isDamaged && now - m->lastHitTime >= INVINCIBLE_TIME) {
+        m->isDamaged = 0;
+    }
 
+    // 이동
+    m->x += m->dir;
+
+    // 벽 충돌 시 방향 전환
+    if (m->x <= 0) {
+        m->x = 0;
+        m->dir = 1;
+    }
+    if (m->x + FISH_WIDTH >= 80) {
+        m->x = 80 - FISH_WIDTH;
+        m->dir = -1;
+    }
 }
 
-
-void hit() { //맞음 > 색깔 붉은색(12) > 다시 흰색(15) > 죽으면 없어짐
-	time_t start = time(NULL); // 타임함수를 이용
-	time_t end = start + 1;
-	Fhp--;
-	Fcolor = 12;
-	
-	if (Fhp == 0) {
-		Fcolor = 0; //죽은 판정으로 색을 완전히 없애는 코드
-	}
-
-	_Invalidate();
-	while(time(NULL) < end) {
-		//1초간 대기 후
-	}
-	
-	if (Fcolor == 12) {
-		Fcolor = 15;
-	}
-}
-
-void wall() { //벽이 존재 > 반대로
-	switch (Fpoint) {
-	case 0:
-		Fpoint++;
-
-
-		break;
-	case 1:
-		Fpoint--;
-
-
-		break;
-	}
-}
-
-int RunKey() {
-	char k;
-
-	k = _GetKey();
-
-
-	if ('h' == k) {
-		hit();
-	}
-
-	if ('w' == k) {
-		wall();
-	}
-
-
-}
-
-//차후에 move랑 wall이랑 묶을듯(키보드 안받는다는 전제)
-void move() {
-	//wall();
-	switch (Fpoint) {
-	case 0:
-		Fpx--;
-		
-		
-
-		break;
-	case 1:
-		Fpx++;
-		
-
-		break;
-	}
-
-}
-
-void RunTimer() { //움직임 반복되는 코드
-	static long oldT = 0;
-	long newT;
-
-	newT = _GetTickCount();
-	if (abs(newT - oldT) < 1000 * Fspeed) {
-		return;
-	}
-	else
-		oldT = newT;
-	
-	//반복한 것을 여기에
-
-	move();
-	_Invalidate();
-}
-
-int Fish() {
-
-	RunKey();
-	RunTimer();
-
-	return 0;
+void DrawFish(Monster* m) {
+    for (int i = 0; i < FISH_HEIGHT; i++) {
+        _SetColor(m->isDamaged ? 12 : 9);
+        if (m->dir == 1)
+            _DrawText(m->x, m->y + i, fishRight[i]);
+        else
+            _DrawText(m->x, m->y + i, fishLeft[i]);
+    }
+    _SetColor(15);
 }
 
 
+// 몬스터 피격 함수 (체력 감소, 피격 상태 시작)
+void HitFish(Monster* m, unsigned int now, int damage) {
+    if (m->isDamaged) return; // 무적중이면 데미지 무시
 
+    m->hp--;
+    m->isDamaged = 1;
+    m->lastHitTime = now;
 
-int main() {
-	_BeginWindow();
-	while (1)
-	{
-		Fish();
-
-		_Invalidate();
-	}
-	_EndWindow();
+    if (m->hp <= 0) {
+        m->alive = 0; // 죽음 처리
+    }
 }
