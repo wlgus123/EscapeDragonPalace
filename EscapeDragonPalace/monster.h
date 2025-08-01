@@ -1,4 +1,6 @@
 #include "init.h"
+#include "Rabbit.h"
+#include "weapon.h"
 
 #ifndef MONSTER_H
 #define MONSTER_H
@@ -12,6 +14,10 @@
 #define CRAB_HP 5
 
 #define INVINCIBLE_TIME 1000  // 1초 무적시간
+
+#define Right 1
+#define Left 0
+
 
 typedef enum {
     MONSTER_FISH,
@@ -30,12 +36,13 @@ typedef struct {
     int isDamaged;      // 피격 상태(무적 여부)
     unsigned int lastHitTime;  // 마지막 피격 시간
 } Monster;
+Monster* m;
 
 // 물고기 함수
 void InitFish(Monster* m, int x, int y);
-void UpdateFish(Monster* m, unsigned int now);
-void DrawFish(const Monster* m);
-void HitFish(Monster* m, unsigned int now, int damage);
+void UpdateFish(unsigned int now);
+void DrawFish();
+void HitFish(unsigned int now, int damage);
 /* 꽃게하고 수정할거임 - 진환
 // 꽃게 함수
 void InitCrab(Monster* m, int x, int y);
