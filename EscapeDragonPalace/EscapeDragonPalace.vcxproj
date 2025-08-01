@@ -165,6 +165,7 @@
     <Text Include="..\..\Map\Map_DragonPalace.txt" />
     <Text Include="..\..\Map\Map_Jail.txt" />
     <Text Include="..\..\Map\Map_Sea1.txt" />
+    <Text Include="..\..\Map\Map_Sea2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
