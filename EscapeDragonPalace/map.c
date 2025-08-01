@@ -7,7 +7,7 @@ int g_Plus_X = 0; // X좌표 이동 증가값
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
 // 현재 맵 정보
-MapStatus g_MapStatus = E_Sea2;
+MapStatus g_MapStatus = E_Ground;
 
 // TODO: 코드 수정
 // 맵 틀 그리기
@@ -25,48 +25,47 @@ void DrawMap()
 // 맵 배경 그리기
 void DrawMapBG()
 {
-	// 배경 그리기
-	for (int y = 0; y < SCREEN_HEIGHT; y++)
+	// 보스 맵일 경우
+	if (g_MapStatus == E_Ground)
 	{
-		char* tmpBG = g_StageBG[g_MapStatus][y]; // 현재 맵의 배경 정보 가져오기
-		for (int x = 0; x < SCREEN_WIDTH; x++)
-		{
-			_DrawTextColor(x, y, (char[]) { tmpBG[x + g_Plus_X], 0 }, E_Gray);
-		}
-	}
-	// 발판 그리기
-	for (int y = 0; y < SCREEN_HEIGHT; y++)
-	{
-		char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
-		for (int x = 0; x < SCREEN_WIDTH; x++)
-		{
-			if(tmpPlatform[x] != ' ')
-				_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
-		}
-	}
+		// 배경 그리기
+		for (int y = 0; y < SCREEN_HEIGHT; y++)
+			_DrawTextColor(0, y, g_StageBG[g_MapStatus][y], E_Gray);
 
-	//// 보스 맵일 경우
-	//if (g_MapStatus == E_Ground)
-	//{
-	//	// 배경 그리기
-	//	for (int i = 0; i < BG_CNT; i++)
-	//	{
-	//		StageBG tmpBG = g_StageBG[g_MapStatus][i]; // 현재 맵의 배경 정보 가져오기
-	//		for (int y = 0; y < SCREEN_HEIGHT; y++)
-	//		{
-	//			_DrawTextColor(tmpBG.pos.x, tmpBG.pos.y, tmpBG.bg[y], tmpBG.color);
-	//		}
-	//	}
-	//	// 발판 그리기
-	//	for (int i = 0; i < PLATFORM_LINE_CNT; i++)
-	//	{
-	//		StageBG tmpPlatform = g_StagePlatform2[g_MapStatus][i]; // 현재 맵의 발판 정보 가져오기
-	//		for (int y = 0; y < SCREEN_HEIGHT; y++)
-	//		{
-	//			_DrawTextColor(tmpPlatform.pos.x, tmpPlatform.pos.y, tmpPlatform.bg[y], tmpPlatform.color);
-	//		}
-	//	}
-	//}
+		// 발판 그리기
+		for (int y = 0; y < SCREEN_HEIGHT; y++)
+		{
+			char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
+			for (int x = 0; x < SCREEN_WIDTH; x++)
+			{
+				if (tmpPlatform[x] != ' ')
+					_DrawTextColor(x, y, (char[]) { tmpPlatform[x], 0 }, E_White);
+			}
+		}
+	}
+	// 일반 맵일 경우
+	else
+	{
+		// 배경 그리기
+		for (int y = 0; y < SCREEN_HEIGHT; y++)
+		{
+			char* tmpBG = g_StageBG[g_MapStatus][y]; // 현재 맵의 배경 정보 가져오기
+			for (int x = 0; x < SCREEN_WIDTH; x++)
+			{
+				_DrawTextColor(x, y, (char[]) { tmpBG[x + g_Plus_X], 0 }, E_Gray);
+			}
+		}
+		// 발판 그리기
+		for (int y = 0; y < SCREEN_HEIGHT; y++)
+		{
+			char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
+			for (int x = 0; x < SCREEN_WIDTH; x++)
+			{
+				if (tmpPlatform[x] != ' ')
+					_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
+			}
+		}
+	}
 }
 
 // 현재 맵 불러오기
