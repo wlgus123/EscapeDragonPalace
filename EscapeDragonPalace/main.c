@@ -5,7 +5,10 @@
 #include "Rabbit.h"
 #include "weapon.h"
 #include "monster.h"
+
 // 전역 변수
+Monster fish;
+Monster crab;
 
 // ===========================================================
 void Draw() // 화면 그리기
@@ -85,6 +88,10 @@ void Draw() // 화면 그리기
 
             DrawPlayer();
 
+            // 몬스터가 살아있다면 그리는거 추 가 해 야 한 다.
+            DrawFish(fish);
+            DrawCrab(crab);
+            
 
 
 
@@ -117,6 +124,10 @@ void Update()
     UpdateSpeedBuffs();
     // 하영 ====================================
 
+    // 진환 ====================================
+
+    UpdateMonster(fish);
+    UpdateMonster(crab);
 }
 
 // 키 입력
@@ -135,6 +146,8 @@ void main()
     InitPlayer();
     InitItem();  // 아이템 초기화
     InitWeapon(weaponList); // 무기 초기화
+    InitFish(fish, 10, 5);
+    InitCrab(crab, 30, 10);
     DrawStartScreen();
     SelectWeapon();
     player.HeldWeapon = &weaponList[GetSelectedIndex()];
@@ -159,6 +172,7 @@ void main()
 
         }
     }
+
 
     _EndWindow();
 }
