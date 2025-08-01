@@ -7,6 +7,8 @@
 #include "monster.h"
 
 // 전역 변수
+Monster fish;
+Monster crab;
 
 // ===========================================================
 void Draw() // 화면 그리기
@@ -86,10 +88,10 @@ void Draw() // 화면 그리기
 
             DrawPlayer();
 
-            // 몬스터가 살아있다면 그리기
-            if (m->alive) {
-                DrawFish(&m);
-            }
+            // 몬스터가 살아있다면 그리는거 추 가 해 야 한 다.
+            DrawFish(fish);
+            DrawCrab(crab);
+            
 
 
 
@@ -122,8 +124,10 @@ void Update()
     UpdateSpeedBuffs();
     // 하영 ====================================
 
-    UpdateMonster(); // 몬스터 업데이트
+    // 진환 ====================================
 
+    UpdateMonster(fish);
+    UpdateMonster(crab);
 }
 
 // 키 입력
@@ -139,13 +143,11 @@ void main()
 
     SetConsoleTitle("용궁탈출");
 
-    // Monster 구조체 동적 할당
-    m = (Monster*)malloc(sizeof(Monster));
-
     InitPlayer();
     InitItem();  // 아이템 초기화
     InitWeapon(weaponList); // 무기 초기화
-    InitFish(m, 10, 5);
+    InitFish(fish, 10, 5);
+    InitCrab(crab, 30, 10);
     DrawStartScreen();
     SelectWeapon();
     player.HeldWeapon = &weaponList[GetSelectedIndex()];
@@ -171,8 +173,6 @@ void main()
         }
     }
 
-    // 메모리 해제
-    free(m);
 
     _EndWindow();
 }

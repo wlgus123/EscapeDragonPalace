@@ -1,145 +1,69 @@
 #include "monster.h"
 
-float Pspeed = 0.2;
-int Php = 5;
-int Ppoint = 0;
-int Ppx,Ppy;
-int Pcolor = 15;
-int crush = 0;
-
-
-char portun[2][3][16] = {
-	{
-		"(\\/) (\\/) ",
-		"  \\o_o/ ",
-		" =(___)= "
-	},
-	{
-		"(\\/) (\\/) ",
-		" \\o_o/ ",
-		" =(___)= "
-	}
+const char* crabGraphic[CRAB_HEIGHT] = {
+    "(\\/) (\\/)",    
+    "   \\o_o/ ",      
+    "  =(___)= "       
 };
 
-void DrawPorturn() { //꽃게 그리는 함수
-    for (int i = 0; i < 3; i++) {
-        _DrawTextColor(Ppx, Ppy+ i, portun[crush][i], Pcolor);
-    }
-
+// 꽃게 초기화 함수
+void InitCrab(Monster crab, int x, int y) {
+    crab.x = x;                 
+    crab.y = y;                 
+    crab.dir = 1;               
+    crab.hp = CRAB_HP;          
+    crab.alive = 1;             
+    crab.type = MONSTER_CRAB;   
+    crab.isDamaged = 0;         
+    crab.lastHitTime = 0;       
 }
 
-void Draw() {
-    DrawPorturn();
-}
+void UpdateCrab(Monster crab, unsigned int now) {
+    if (!crab.alive) return; // 죽었으면 처리하지 않음
 
-void hit() {
-    time_t start = time(NULL); // 맞으면 피 내려가는 코드 및 색깔이 바뀌었다가 다시 돌아오는 코드
-    time_t end = start + 1;
-
-    Php--;
-
-    Pcolor = 12;//붉은색으로 변경
-
-    if (Php == 0) { //죽을경우
-        Pcolor = 0;
+    // 무적 시간 경과했는지 확인
+    if (crab.isDamaged && now - crab.lastHitTime >= INVINCIBLE_TIME) {
+        crab.isDamaged = 0;
     }
 
-    _Invalidate();
-    while (time(NULL) < end) {
-        //1초간 대기
-    }
+    crab.x += crab.dir;
 
-    if (Pcolor == 12) { // 흰색으로 다시 돌아오게
-        Pcolor = 15;
-    }
-}
-
-void wall() { //벽이 존재 > 반대로 움직이게
-    switch (Ppoint) {
-    case 0:
-        Ppoint++;
-
-
-        break;
-    case 1:
-        Ppoint--;
-
-
-        break;
+    if (crab.x <= 0) {
+        crab.x = 0;
+        crab.dir = 1;
+    }       
+    if (crab.x + CRAB_WIDTH >= 80) {
+        crab.x = 80 - CRAB_WIDTH;
+        crab.dir = -1;
     }
 }
 
-void move() {
-    
+// 꽃게 그리기 함수
+void DrawCrab(Monster crab) {
+    for (int y = 0; y < CRAB_HEIGHT; y++) {
+        _SetColor(crab.isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
 
-    switch (Ppoint) {
-    case 0:
-        
-        Ppx++;
-
-        break;
-    case 1:
-        
-        Ppx--;
-
-        break;
+        const char* line = crabGraphic[y]; 
+        for (int x = 0; line[x] != '\0'; x++) {
+            if (line[x] != ' ') {
+                char ch[2] = { line[x], '\0' };
+                _DrawText(crab.x + x, crab.y + y, ch);
+            }
+        }
     }
+
+    _SetColor(15);
 }
 
+// 꽃게 피격 처리 함수
+void HitCrab(Monster crab, unsigned int now, int damage) {
+    if (crab.isDamaged) return; 
 
-void P_RunTimer() { //반복적으로 키를 안받고 움직이도록
+    crab.hp -= damage;          
+    crab.isDamaged = 1;         // 무적 상태 진입
+    crab.lastHitTime = now;     // 피격 시간 기록
 
-    static long oldT = 0;
-    long newT;
-    
-
-    newT = _GetTickCount();
-    if (abs(newT - oldT) < 1000*Pspeed)
-    {
-        return;
+    if (crab.hp <= 0) {
+        crab.alive = 0;         // 체력이 0 이하가 되면 사망 처리
     }
-    else
-    {
-        oldT = newT;
-    }
-    //=======
-
-    move();
-    _Invalidate();
-}
-
-int RunKey() {
-    char k;
-    k = _GetKey();
-
-
-    //키는 시험용
-    if ('h' == k) {
-        hit();
-    }
-    if ('w' == k) {
-        wall();
-    }
-}
-
-int Portun() {
-    srand(time(NULL));
-    crush = rand() % 2; //꽃게가 랜덤으로 잡았다 피게
-
-    RunKey();
-
-    P_RunTimer();
-}
-
-
-int main() {
-    _BeginWindow();
-
-    while (1) 
-    {
-        Portun();
-		_Invalidate();
-    }
-
-    _EndWindow();
 }
