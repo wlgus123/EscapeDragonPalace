@@ -157,6 +157,11 @@
     <ClInclude Include="screens.h" />
     <ClInclude Include="weapon.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Map\Map_DragonPalace.txt" />
+    <Text Include="..\..\Map\Map_Jail.txt" />
+    <Text Include="..\..\Map\Map_Sea1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
