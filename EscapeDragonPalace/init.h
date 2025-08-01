@@ -22,5 +22,12 @@ typedef struct MyPoint
     float y;
 } MyPoint;
 
+// 열거형
+// 방향
+typedef enum {
+    E_RIGHT,
+    E_LEFT,
+} Direction;
+
 // 전역 변수
 int g_Key;

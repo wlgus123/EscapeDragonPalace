@@ -2,7 +2,6 @@
 #include "Rabbit.h"
 #include "weapon.h"
 
-#ifndef MONSTER_H
 #define MONSTER_H
 
 #define FISH_WIDTH 15
@@ -18,8 +17,10 @@
 #define Right 1
 #define Left 0
 
+#define MONSTER_Y 21 // 몬스터 Y좌표 초기 위치
 
-typedef enum {
+
+typedef enum MonsterType {
     MONSTER_FISH,
     MONSTER_CRAB,
     MONSTER_CLAM,
@@ -27,7 +28,7 @@ typedef enum {
     MONSTER_TYPE_COUNT
 } MonsterType;
 
-typedef struct {
+typedef struct Monster {
     int x, y;           // 위치
     int dir;            // 방향 (1: 오른쪽, -1: 왼쪽)
     int hp;             // 체력
@@ -36,21 +37,17 @@ typedef struct {
     int isDamaged;      // 피격 상태(무적 여부)
     unsigned int lastHitTime;  // 마지막 피격 시간
 } Monster;
-extern Monster fish;
-extern Monster crab;
 
-void UpdateMonster(Monster fish);
+void UpdateMonster();
 // 물고기 함수
-void InitFish(Monster fish, int x, int y);
-void UpdateFish(Monster fish, unsigned int now);
-void DrawFish(Monster fish);
-void HitFish(Monster fish, unsigned int now, int damage);
+void InitFish(int x, int y);
+void UpdateFish(unsigned int now);
+void DrawFish();
+void HitFish(unsigned int now, int damage);
 
 // 꽃게 함수
-void InitCrab(Monster crab, int x, int y);
-void UpdateCrab(Monster crab, unsigned int now);
-void DrawCrab(Monster crab);
-void HitCrab(Monster crab, unsigned int now, int damage);
+void InitCrab(int x, int y);
+void UpdateCrab(unsigned int now);
+void DrawCrab();
+void HitCrab(unsigned int now, int damage);
 // (조개, 자라 함수도 같은 형식으로 추가)
-
-#endif
