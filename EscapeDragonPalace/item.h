@@ -3,7 +3,7 @@
 #include "map.h"
 
 #define ITEM_SPRITE_ROWS 10
-#define ITEM_SPRITE_CLOS 20
+#define ITEM_SPRITE_COLS 20
 #define ITEMNUM 2            // 아이템 종류 수
 #define MAX_ITEM_COUNT 100   // 맵에 등장할 수 있는 아이템 인스턴스 수
 
@@ -21,7 +21,7 @@ typedef struct Item {
     MapStatus mapStatus;
 } Item;
 
-typedef char SpriteType[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_CLOS];
+typedef char SpriteType[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS];
 
 extern SpriteType seaweedSprite;
 extern SpriteType bubblesSprite;

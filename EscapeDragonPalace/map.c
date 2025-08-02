@@ -2,12 +2,12 @@
 #include "map.h"
 #include "Rabbit.h"
 
-int g_Plus_X = 600; // X좌표 이동 증가값
+int g_Plus_X = 0; // X좌표 이동 증가값
 
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
 // 현재 맵 정보
-MapStatus g_MapStatus = E_Sea2;
+MapStatus g_MapStatus = E_Ground;
 
 // TODO: 코드 수정
 // 맵 틀 그리기
