@@ -88,7 +88,7 @@ void Draw() // 화면 그리기
             // TODO: 몬스터가 살아있다면 몬스터 그리기 추가
             DrawFish();
             DrawCrab();
-            
+            DrawClam();
 
 
 
@@ -123,7 +123,6 @@ void Update()
 
     // 진환 ====================================
 
-    UpdateMonster();
     UpdateMonster();
 }
 

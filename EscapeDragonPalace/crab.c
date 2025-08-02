@@ -7,7 +7,7 @@ const char* crabGraphic[CRAB_HEIGHT] = {
     " =(___)= "       
 };
 
-Monster g_Crab = { 10, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
+Monster g_Crab = { 30, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
 
 void UpdateCrab(unsigned int now) {
     if (!g_Crab.alive) return; // 죽었으면 처리하지 않음
@@ -23,8 +23,8 @@ void UpdateCrab(unsigned int now) {
         g_Crab.x = 0;
         g_Crab.dir = 1;
     }       
-    if (g_Crab.x + CRAB_WIDTH >= 80) {
-        g_Crab.x = 80 - CRAB_WIDTH;
+    if (g_Crab.x + CRAB_WIDTH >= 82) {
+        g_Crab.x = 80 - CRAB_WIDTH + 2;
         g_Crab.dir = -1;
     }
 }
@@ -58,3 +58,4 @@ void HitCrab(unsigned int now, int damage) {
         g_Crab.alive = 0;         // 체력이 0 이하가 되면 사망 처리
     }
 }
+

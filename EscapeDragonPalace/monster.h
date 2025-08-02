@@ -12,6 +12,10 @@
 #define CRAB_HEIGHT 3
 #define CRAB_HP 5
 
+#define ClAM_WIDTH 1
+#define CLAM_HEIGHT 1
+#define CLAM_HP 1
+
 #define INVINCIBLE_TIME 1000  // 1초 무적시간
 
 #define Right 1
@@ -30,7 +34,7 @@ typedef enum MonsterType {
 
 typedef struct Monster {
     int x, y;           // 위치
-    int dir;            // 방향 (1: 오른쪽, -1: 왼쪽)
+    int dir;            // 방향 
     int hp;             // 체력
     int alive;          // 생존여부
     MonsterType type;   // 몬스터 종류
@@ -40,14 +44,18 @@ typedef struct Monster {
 
 void UpdateMonster();
 // 물고기 함수
-void InitFish(int x, int y);
 void UpdateFish(unsigned int now);
 void DrawFish();
 void HitFish(unsigned int now, int damage);
 
 // 꽃게 함수
-void InitCrab(int x, int y);
 void UpdateCrab(unsigned int now);
 void DrawCrab();
 void HitCrab(unsigned int now, int damage);
-// (조개, 자라 함수도 같은 형식으로 추가)
+
+//조개 함수
+void TriggerClam();
+void UpdateClam();
+void DrawClam();
+
+// (자라 함수도 같은 형식으로 추가)
