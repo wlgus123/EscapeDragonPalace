@@ -32,7 +32,6 @@ int frame = 0;
 
 bool SettingItem = false;
 
-// 무기 선택 여부 가져오기
 bool GetSettingItem()
 {
 	return SettingItem;

@@ -31,15 +31,7 @@ void Draw() // 화면 그리기
             _Delay(45);
             RabbitCAnim();
             SetMapStatus(GetMapStatus() + 1);
-            for (int i = 0; i < numItem; i++)
-            {
-                if (itemList[i].mapStatus == GetMapStatus()) {
-                    itemList[i].isHeld = false;
-                }
-                else {
-                    itemList[i].isHeld = true;
-                }
-            }
+            SetSettingItem(false);
         }
         // 플레이 중일 때
         else {
