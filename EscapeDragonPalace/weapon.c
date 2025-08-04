@@ -6,21 +6,22 @@ int selectedIndex = 0;   // 현재 선택 중인 무기 인덱스
 bool weaponChosen = false;  // Enter로 선택했는지 여부
 
 
-
+// 무기배열 초기화
 void InitWeapon(Weapon* weapons) {
+
+    // 인덱스 0번
     strcpy(weapons[0].name, "장검");
     strcpy(weapons[0].sprite, "--|====>");
     weapons[0].attack = 2;
     weapons[0].attackSpeed = 2;
 
-
+    // 인덱스 1번
     strcpy(weapons[1].name, "단검");
     strcpy(weapons[1].sprite, "-|=>");
     weapons[1].attack = 1;
     weapons[1].attackSpeed = 3;
 
-
-
+    // 인덱스 2번
     strcpy(weapons[2].name, "창");
     strcpy(weapons[2].sprite, "------>");
     weapons[2].attack = 3;
@@ -28,6 +29,7 @@ void InitWeapon(Weapon* weapons) {
 
 }
 
+// 무기출력
 void DrawWeapon(const Weapon* w, int i, int isSelected) {
     int baseX = 5 + (i * 28);
 
@@ -52,10 +54,13 @@ void DrawWeapon(const Weapon* w, int i, int isSelected) {
     _SetColor(7); // 색상 초기화
 }
 
+// 무기 선택 함수
 void SelectWeapon() {
 
+    // 무기 선택 안했을 때
     while (!weaponChosen)
     {
+        // 키 입력 받기
         if (_kbhit()) {
             char key = _getch();
 
@@ -65,8 +70,8 @@ void SelectWeapon() {
             else if (key == 'd' || key == 'D') {
                 selectedIndex = (selectedIndex + 1) % NUMWEAPON;
             }
-            else if (key == '\r') { // Enter 키
-                weaponChosen = true;
+            else if (key == '\r') { // Enter 키 (선택)
+                weaponChosen = true; // 무기 선택 됨 true로 변경
             }
         }
 
@@ -80,6 +85,7 @@ bool GetWeaponChosen()
     return weaponChosen;
 }
 
+// 무기 선택 여부 세팅
 void SetWeaponChosen(bool src)
 {
     weaponChosen = src;

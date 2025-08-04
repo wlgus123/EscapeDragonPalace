@@ -1,6 +1,7 @@
 #include "init.h"
 #include "item.h"
 
+// 해초 sprite
 char seaweedSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS] = {
 	{
 		" )) (( ((",
@@ -13,6 +14,8 @@ char seaweedSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS] = {
 		"((  )) ))"
 	}
 };
+
+// 공기방울 sprite
 char bubblesSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS] = {
 	{
 		"ㅇ.o",
@@ -25,18 +28,20 @@ char bubblesSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS] = {
 };
 
 
-Item itemList[MAX_ITEM_COUNT];
-int numItem = 0;
-int frame = 0;
+Item itemList[MAX_ITEM_COUNT];	// 아이템 배열 선언
+int numItem = 0;	// 아이템 개수 초기화
+int frame = 0;		// 아이템 모션효과용 frame 초기화
 
 
-bool SettingItem = false;
+bool SettingItem = false;	// 아이템 세팅여부 변수
 
+// 아이템 세팅 여부 가져오기
 bool GetSettingItem()
 {
 	return SettingItem;
 }
 
+// 아이템 세팅 여부 세팅하기
 void SetSettingItem(bool src)
 {
 	SettingItem = src;
@@ -50,8 +55,9 @@ int GetFrame()
 
 
 clock_t lastFrameTime = 0;
-const int frameDelay = 400;  // 200ms마다 프레임 전환
+const int frameDelay = 400;  // 400ms마다 프레임 전환
 
+// 아이템 모션효과 frame 계산 함수
 void ItemFrameDelay() {
 	clock_t now = clock();
 	int elapsed = (now - lastFrameTime) * 1000 / CLOCKS_PER_SEC;
@@ -64,11 +70,12 @@ void ItemFrameDelay() {
 	_Invalidate();  // 매 프레임 그리기는 계속!
 }
 
-
+// 아이템 그리는 함수
 void DrawItem(Item* item, int frame) {
 
 	SpriteType* sprite = &seaweedSprite;
 
+	// 아이템 타입에 따라 해초 or 공기방울 sprite 선택
 	switch (item->type) {
 	case ITEM_LIFE:
 		sprite = &seaweedSprite;
@@ -77,6 +84,7 @@ void DrawItem(Item* item, int frame) {
 		sprite = &bubblesSprite;
 		break;
 	}
+
 
 	int tempX = item->x - GetPlusX();
 
@@ -101,7 +109,7 @@ void DrawItem(Item* item, int frame) {
 
 void InitItem() {
 
-	// 감옥맥
+	// 감옥맵 ===============================================
 
 	// 해초
 	itemList[numItem++] = (Item){
@@ -145,8 +153,9 @@ void InitItem() {
 		.mapStatus = 0
 	};
 
+	// ======================================================
 
-	// 용궁맵
+	// 용궁맵 ================================================
 
 	// 해초
 	itemList[numItem++] = (Item){
@@ -210,7 +219,10 @@ void InitItem() {
 		.mapStatus = 1
 	};
 
-	// 바다맵 1
+	// ======================================================
+
+
+	// 바다맵 1 ==============================================
 
 	// 해초
 	itemList[numItem++] = (Item){
@@ -274,7 +286,10 @@ void InitItem() {
 		.mapStatus = 2
 	};
 
-	// 바다맵 2
+	// ======================================================
+
+
+	// 바다맵 2 ==============================================
 
 	// 해초
 	itemList[numItem++] = (Item){
@@ -338,4 +353,5 @@ void InitItem() {
 		.mapStatus = 3
 	};
 
+	// ======================================================
 }
