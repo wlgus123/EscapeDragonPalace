@@ -171,6 +171,13 @@ Rect GetItemRect(Item item)
     return (Rect) { item.x - 7 - GetPlusX() , item.y, item.width + 2, item.height };
 }
 
+// 무기 충돌 범위 반환
+Rect GetWeaponRect()
+{
+    return (Rect) { player.Pos.x + 8 - GetPlusX(), player.Pos.x+16, player.Pos.y+3, player.Pos.y
+    +3};
+}
+
 // 아이템 먹었는지 체크
 void CheckItemPickup()
 {
