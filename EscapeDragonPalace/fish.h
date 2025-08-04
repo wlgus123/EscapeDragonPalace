@@ -5,7 +5,7 @@
 #define FISH_HP 3
 
 // 전역 변수
-static char fishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
+static char g_FishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
 	{
 		"  _______   ",
 		" /o　))　\\/)",
@@ -19,6 +19,8 @@ static char fishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
 };
 
 // 물고기 함수
-void UpdateFish(unsigned int now);
-void DrawFish();
-void HitFish(unsigned int now, int damage);
+void UpdateFish(unsigned int now);	// 물고기 업데이트
+void DrawFish();	// 물고기 그리기
+void HitFish(unsigned int now, int damage);	// 물고기 데미지 입히기
+bool GetFishAlive();	// 물고기 생존여부 반환
+bool GetFishIsDamaged();	// 물고기 데미지 여부 반환

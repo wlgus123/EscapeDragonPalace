@@ -5,11 +5,20 @@
 #define CRAB_HP 5
 
 // Àü¿ª º¯¼ö
-const char* crabGraphic[CRAB_HEIGHT] = {
-    "(\\/) (\\/)",
-    "  \\o_o/ ",
-    " =(___)= "
+static const char* crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
+    {   
+        "(\\/) (\\/)",
+         "  \\o_o/ ",
+         " =(___)= "
+    }, //ºñÆø·Â
+
+    {
+        "(l)  (l)",
+         " \\o_o/ ",
+         "=(___)= " //BeÆø·Â1
+    }
 };
+
 
 // ²É°Ô ÇÔ¼ö
 void UpdateCrab(unsigned int now);

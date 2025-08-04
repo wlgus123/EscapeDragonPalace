@@ -1,20 +1,16 @@
 #include "monster.h"
 
-// 전역 변수
-char fishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
-	{
-		"  _______   ",
-		" /o　))　\\/)",
-		" \\_______/\\)"
-	}, // 왼쪽 그림 0
-	{
-		"    _______  ",
-		" (\\/　((　o\\",
-		" (/\\_______/ "
-	},// 오른쪽 그림 1
-};
+Monster g_Fish = { { 5, MONSTER_Y }, Right, FISH_HP, true, MONSTER_FISH, 0, 0 }; // 물고기
 
-Monster g_Fish = { 5, MONSTER_Y, Right, FISH_HP, 1, MONSTER_FISH, 0, 0 };
+bool GetFishAlive()
+{
+	return g_Fish.alive;
+}
+
+bool GetFishIsDamaged()
+{
+	return g_Fish.isDamaged;
+}
 
 void UpdateFish(unsigned int now) {
 	if (!g_Fish.alive) return;
@@ -25,15 +21,15 @@ void UpdateFish(unsigned int now) {
 	}
 
 	// 이동
-	g_Fish.x += g_Fish.dir;
+	g_Fish.pos.x += g_Fish.dir;
 
 	// 벽 충돌 시 방향 전환
-	if (g_Fish.x <= 0) {
-		g_Fish.x = 0;
+	if (g_Fish.pos.x <= 0) {
+		g_Fish.pos.x = 0;
 		g_Fish.dir = 1;
 	}
-	if (g_Fish.x + FISH_WIDTH >= 82) {
-		g_Fish.x = 80 - FISH_WIDTH + 2;
+	if (g_Fish.pos.x + FISH_WIDTH >= 82) {
+		g_Fish.pos.x = 80 - FISH_WIDTH + 2;
 		g_Fish.dir = -1;
 	}
 }
@@ -45,27 +41,27 @@ void DrawFish() {
 
 		if (g_Fish.dir == Right) // 물고기 방향이 오른쪽일 때
 		{
-			char* line = fishGraphic[Right][y];
+			char* line = g_FishGraphic[Right][y];
 			int len = strlen(line);
 
 			for (int x = 0; x < len; x++)
 			{
 				if (line[x] != ' ')
 				{
-					_DrawText(g_Fish.x + x, g_Fish.y + y, (char[]) { line[x], '\0' });
+					_DrawText(g_Fish.pos.x + x, g_Fish.pos.y + y, (char[]) { line[x], '\0' });
 				}
 			}
 		}
 		else // 물고기 방향이 왼쪽일 때
 		{
-			char* line = fishGraphic[Left][y];
+			char* line = g_FishGraphic[Left][y];
 			int len = strlen(line);
 
 			for (int x = 0; x < len; x++)
 			{
 				if (line[x] != ' ')
 				{
-					_DrawText(g_Fish.x + x, g_Fish.y + y, (char[]) { line[x], '\0' });
+					_DrawText(g_Fish.pos.x + x, g_Fish.pos.y + y, (char[]) { line[x], '\0' });
 				}
 			}
 		}
@@ -86,22 +82,5 @@ void HitFish(unsigned int now, int damage) {
 
 	if (g_Fish.hp <= 0) {
 		g_Fish.alive = 0; // 죽음 처리
-	}
-}
-
-void UpdateMonster()
-{
-	unsigned int now = _GetTickCount();
-	UpdateCrab(now);
-	UpdateClam();
-	int damage = 1; // 무기 공격력 받아와야 함
-
-	if (g_Fish.alive) {
-		UpdateFish(now);
-	}
-
-	if (g_Fish.isDamaged)
-	{
-		HitFish(now, damage);
 	}
 }
