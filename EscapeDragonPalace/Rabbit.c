@@ -171,40 +171,50 @@ Rect GetItemRect(Item item)
     return (Rect) { item.x - 7 - GetPlusX() , item.y, item.width + 2, item.height };
 }
 
+// 몬스터의 충돌 범위 반환
+Rect GetMonsterRect(Monster monster)
+{
+    switch (monster.type)
+    {
+    case MONSTER_FISH:
+        return (Rect){ GetFishPos().x, GetFishPos().x + 12, GetFishPos().y, GetFishPos().y + 2 };
+    case MONSTER_CRAB:
+        return (Rect){ GetCrabPos().x, GetCrabPos().x + 9, GetCrabPos().y, GetCrabPos().y + 2 };
+    case MONSTER_CLAM:
+        return (Rect){ GetClamPos().x, GetClamPos().x + 6, GetClamPos().y, GetClamPos().y };
+    case MONSTER_TURTLE:
+        break;
+    }
+    return 
+}
+
 // 무기 충돌 범위 반환
 Rect GetWeaponRect()
 {
-    Rect rect;
+    // 플레이어가 오른쪽 보고 있을 때
     if (player.Direction == 0) {
         switch ((int)player.HeldWeapon)
         {
-        case 0:
-            rect = (Rect) {player.Pos.x + 13, player.Pos.x + 22, player.Pos.y + 2, player.Pos.y + 2};
-            break;
-        case 1:
-            rect = (Rect){ player.Pos.x + 13, player.Pos.x + 18, player.Pos.y + 2, player.Pos.y + 2 };
-            break;
-        case 2:
-            rect = (Rect){ player.Pos.x + 13, player.Pos.x + 21, player.Pos.y + 2, player.Pos.y + 2 };
-            break;
+        case 0: // 장검
+            return (Rect) {player.Pos.x + 13, player.Pos.x + 22, player.Pos.y + 2, player.Pos.y + 2};
+        case 1: // 단검
+            return (Rect){ player.Pos.x + 13, player.Pos.x + 18, player.Pos.y + 2, player.Pos.y + 2 };
+        case 2: // 창
+            return (Rect){ player.Pos.x + 13, player.Pos.x + 21, player.Pos.y + 2, player.Pos.y + 2 };
         }
     }
+    // 플레이어가 왼쪽 보고 있을 때
     else if (player.Direction == 1) {
         switch ((int)player.HeldWeapon)
         {
-        case 0:
-            rect = (Rect){ player.Pos.x - 1, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
-            break;
-        case 1:
-            rect = (Rect){ player.Pos.x +3, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
-            break;
-        case 2:
-            rect = (Rect){ player.Pos.x, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
-            break;
+        case 0: // 장검
+            return (Rect){ player.Pos.x - 1, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+        case 1: // 단검
+            return (Rect){ player.Pos.x +3, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+        case 2: // 창
+            return (Rect){ player.Pos.x, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
         }
     }
-    
-    return rect;
 }
 
 // 아이템 먹었는지 체크
@@ -403,8 +413,8 @@ int GetGroundY()
     int stage = GetMapStatus();
     int FpxL = (player.Pos.x + 8) + GetPlusX();
     int FpxR = (player.Pos.x + 12) + GetPlusX();
-    int MpxL = (player.Pos.x + 8) + GetPlusX();
-    int MpxR = (player.Pos.x + 12) + GetPlusX();
+    int MpxL = (player.Pos.x + 8);
+    int MpxR = (player.Pos.x + 12);
     int py = (int)(player.Pos.y + RabbitY);
 
     int y = py + 1;
@@ -469,20 +479,15 @@ void JumpFN()
 
 void AttackFN()
 {
-    // 공격 시작: 마우스 클릭 && 공격 중 아님
+    // 공격 시작: 마우스 클릭했을 때 공격 중 아니면
     if (g_MouseClick && !player.IsAttacking)
     {
+        // 공격중으로 변경
         player.IsAttacking = true;
         player.AttackFrame = 0;
         player.attackStartTime = GetTickCount();
 
-        switch (player.HeldWeapon ? player.HeldWeapon->attackSpeed : 1)
-        {
-        case 3: player.AttackFrameMax = 10; player.attackDuration = 100; break; // 단검
-        case 2: player.AttackFrameMax = 15; player.attackDuration = 300; break; // 장검
-        case 1: player.AttackFrameMax = 20; player.attackDuration = 500; break; // 창
-        default: player.AttackFrameMax = 15; player.attackDuration = 300; break;
-        }
+        
     }
 
     // 공격 애니메이션 처리
@@ -716,19 +721,21 @@ void InitPlayer() // 초기화
 
     // 무기 속도에 따라 공격 지속 시간 설정
     int speed = player.HeldWeapon->attackSpeed;
-    player.attackDuration = (speed == 3) ? 100 : (speed == 2) ? 200 : 400;
 
-    switch (player.HeldWeapon->attackSpeed)
+    switch (speed)
     {
-    case 3:  // 단검
+    case 3:
+        player.AttackFrameMax = 10;
         player.attackDuration = 100;
-        break;
-    case 2:  // 장검
+        break; // 단검
+    case 2:
+        player.AttackFrameMax = 15;
         player.attackDuration = 300;
-        break;
-    case 1:  // 창
+        break; // 장검
+    case 1:
+        player.AttackFrameMax = 20;
         player.attackDuration = 500;
-        break;
+        break; // 창
     }
 
     animFrame = 0;

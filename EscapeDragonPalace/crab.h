@@ -24,3 +24,5 @@ const static char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
 void UpdateCrab(unsigned int now);
 void DrawCrab();
 void HitCrab(unsigned int now, int damage);
+int GetCrabDir();
+MyPoint GetCrabPos();

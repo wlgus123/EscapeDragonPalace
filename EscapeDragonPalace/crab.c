@@ -2,6 +2,16 @@
 
 Monster g_Crab = { 30, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
 
+MyPoint GetCrabPos()
+{
+    return g_Crab.pos;
+}
+
+int GetCrabDir()
+{
+    return g_Crab.dir;
+}
+
 void UpdateCrab(unsigned int now) {
     if (!g_Crab.alive) return; // 죽었으면 처리하지 않음
 

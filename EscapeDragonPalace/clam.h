@@ -12,3 +12,5 @@ static const char* clamGraphic = "(\\  /)";
 void TriggerClam();
 void UpdateClam();
 void DrawClam();
+MyPoint GetClamPos();
+int GetClamDir();

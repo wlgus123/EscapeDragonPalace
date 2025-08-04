@@ -12,6 +12,16 @@ bool GetFishIsDamaged()
 	return g_Fish.isDamaged;
 }
 
+MyPoint GetFishPos()
+{
+	return g_Fish.pos;
+}
+
+int GetFishDir()
+{
+	return g_Fish.dir;
+}
+
 void UpdateFish(unsigned int now) {
 	if (!g_Fish.alive) return;
 

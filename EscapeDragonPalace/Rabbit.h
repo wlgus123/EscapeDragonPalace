@@ -4,6 +4,7 @@
 #include "weapon.h"
 #include "item.h"
 #include "screens.h"
+#include "monster.h"
 
 // --------------------------------------------------
 
@@ -87,6 +88,8 @@ void InitPlayer();
 bool IsOverlap(Rect player, Rect Obj);
 Rect GetPlayerRect();
 Rect GetItemRect(Item item);
+Rect GetWeaponRect();
+Rect GetMonsterRect(Monster monster);
 void CheckItemPickup();
 void UpdateSpeedBuffs();
 

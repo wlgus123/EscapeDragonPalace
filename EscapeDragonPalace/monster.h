@@ -1,15 +1,15 @@
-#include "Rabbit.h"
 #include "weapon.h"
 #include "clam.h"
 #include "crab.h"
 #include "fish.h"
+#include "map.h"
 
 #define MONSTER_H
 
 #define INVINCIBLE_TIME 1000  // 1초 무적시간
 
 #define Right 1
-#define Left 0
+#define Left -1
 
 #define MONSTER_Y 21 // 몬스터 Y좌표 초기 위치
 
@@ -30,7 +30,7 @@ typedef struct Monster {
     MonsterType type;   // 몬스터 종류
     int isDamaged;      // 피격 상태(무적 여부)
     unsigned int lastHitTime;  // 마지막 피격 시간
-    MapStatus monsterStatus; 
+    MapStatus monsterStatus; // 맵 스폰할때 사용
 } Monster;
 
 void UpdateMonster();
