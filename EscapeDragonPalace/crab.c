@@ -1,12 +1,12 @@
 #include "monster.h"
 
 // 전역 변수
-const char* crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
-    {"(\\/) (\\/)",
+char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
+    {"(\\/) (\\/) ",
      "  \\o_o/ ",
      " =(___)= "}, //비폭력0
 
-    {"(l)  (l)",
+    {"(l)  (l) ",
      " \\o_o/ ",
      "=(___)= " //Be폭력1
     }       
@@ -40,7 +40,7 @@ void DrawCrab() {
     for (int y = 0; y < CRAB_HEIGHT; y++) {
         _SetColor(g_Crab.isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
 
-        const char* line = crabGraphic[0][y]; 
+        const char* line = crabGraphic[0][y];
         for (int x = 0; line[x] != '\0'; x++) {
             if (line[x] != ' ') {
                 char ch[2] = { line[x], '\0' };
@@ -48,7 +48,7 @@ void DrawCrab() {
             }
         }
     }
-
+    
     _SetColor(15);
 }
 
@@ -65,14 +65,25 @@ void HitCrab(unsigned int now, int damage) {
     }
 }
 
-void ChasunsignedeCrab(unsigned int slap, int Paware, int Maware){
+/*void ChasunsignedeCrab(unsigned int slap, int Paware, int Maware) {
     Paware = g_Crab.x + 5; //양수 인식범위
     Maware = g_Crab.x - 5; //음수 인식범위
 
     if (player.Pos.x > Paware || player.Pos.x < Maware)
-        return; //범위에 안들어오면 무시
+        return;
         
+    //플레이어 위치에 따라 움직임
+    if (player.Pos.x > g_Crab.x){
+        g_Crab.x += g_Crab.x;
+    }
+    if (player.Pos.x < g_Crab.x) {ㅐ
+        g_Crab.x -= g_Crab.x;
+    }
     
-    
+    //플레이어와 같아졌다면
+    if (player.Pos.x == g_Crab.x && player.Pos.y == g_Crab.y) {
+        player.Health -= player.Health;
 
-}
+    }
+
+}*/
