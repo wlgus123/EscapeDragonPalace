@@ -1,4 +1,5 @@
 #pragma once
+#include "init.h"
 
 // ¸ÞÅ©·Î
 #define ClAM_WIDTH 1

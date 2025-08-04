@@ -1,7 +1,4 @@
 #include "weapon.h"
-#include "clam.h"
-#include "crab.h"
-#include "fish.h"
 #include "map.h"
 
 #define MONSTER_H

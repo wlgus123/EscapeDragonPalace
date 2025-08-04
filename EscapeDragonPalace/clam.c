@@ -1,5 +1,4 @@
 #include "init.h"
-#include "monster.h"
 #include "Rabbit.h"
 
 Monster g_Clam = { { 20, 23 }, Right, CLAM_HP, true, MONSTER_CLAM, 0, 0 };

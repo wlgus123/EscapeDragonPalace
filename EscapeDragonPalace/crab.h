@@ -1,4 +1,5 @@
 #pragma once
+#include "init.h"
 
 #define CRAB_WIDTH 13
 #define CRAB_HEIGHT 3

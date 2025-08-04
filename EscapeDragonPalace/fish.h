@@ -1,4 +1,5 @@
 #pragma once
+#include "init.h"
 
 #define FISH_WIDTH 15
 #define FISH_HEIGHT 3

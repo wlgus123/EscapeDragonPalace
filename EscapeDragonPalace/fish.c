@@ -1,5 +1,5 @@
-#include "monster.h"
-
+#include "init.h"
+#include "Rabbit.h"
 Monster g_Fish = { { 5, MONSTER_Y }, Right, FISH_HP, true, MONSTER_FISH, 0, 0 }; // ¹°°í±â
 
 bool GetFishAlive()

@@ -5,6 +5,11 @@
 #include "item.h"
 #include "screens.h"
 #include "monster.h"
+#include "clam.h"
+#include "crab.h"
+#include "fish.h"
+
+
 
 // --------------------------------------------------
 
