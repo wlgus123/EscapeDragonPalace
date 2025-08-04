@@ -87,6 +87,8 @@ void InitPlayer();
 bool IsOverlap(Rect player, Rect Obj);
 Rect GetPlayerRect();
 Rect GetItemRect(Item item);
+Rect GetWeaponRect();
+// Rect GetMonsterRect(Monster monster);
 void CheckItemPickup();
 void UpdateSpeedBuffs();
 

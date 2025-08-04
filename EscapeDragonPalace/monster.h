@@ -9,7 +9,7 @@
 #define INVINCIBLE_TIME 1000  // 1초 무적시간
 
 #define Right 1
-#define Left 0
+#define Left -1
 
 #define MONSTER_Y 21 // 몬스터 Y좌표 초기 위치
 

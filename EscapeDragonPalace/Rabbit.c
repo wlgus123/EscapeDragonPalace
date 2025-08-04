@@ -1,6 +1,7 @@
 #include "init.h"
 #include "Rabbit.h"
 #include "map.h"
+#include "monster.h"
 
 
 //--------------------------------------------------
@@ -169,6 +170,27 @@ Rect GetPlayerRect()
 Rect GetItemRect(Item item)
 {
     return (Rect) { item.x - 7 - GetPlusX() , item.y, item.width + 2, item.height };
+}
+
+// 몬스터의 충돌 범위 반환
+Rect GetMonsterRect(Monster monster)
+{
+    Rect rect;
+    switch (monster.type)
+    {
+    case MONSTER_FISH:
+        rect = (Rect){ GetFishPos().x, GetFishPos().x + 12, GetFishPos().y, GetFishPos().y + 2 };
+        break;
+    case MONSTER_CRAB:
+        rect = (Rect){ GetCrabPos().x, GetCrabPos().x + 9, GetCrabPos().y, GetCrabPos().y + 2 };
+        break;
+    case MONSTER_CLAM:
+        rect = (Rect){ GetClamPos().x, GetClamPos().x + 6, GetClamPos().y, GetClamPos().y };
+        break;
+    case MONSTER_TURTLE:
+        break;
+    }
+    return rect;
 }
 
 // 무기 충돌 범위 반환
@@ -403,8 +425,8 @@ int GetGroundY()
     int stage = GetMapStatus();
     int FpxL = (player.Pos.x + 8) + GetPlusX();
     int FpxR = (player.Pos.x + 12) + GetPlusX();
-    int MpxL = (player.Pos.x + 8) + GetPlusX();
-    int MpxR = (player.Pos.x + 12) + GetPlusX();
+    int MpxL = (player.Pos.x + 8);
+    int MpxR = (player.Pos.x + 12);
     int py = (int)(player.Pos.y + RabbitY);
 
     int y = py + 1;

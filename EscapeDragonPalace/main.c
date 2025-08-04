@@ -5,6 +5,7 @@
 #include "Rabbit.h"
 #include "weapon.h"
 #include "monster.h"
+#include "fish.h"
 
 // ===========================================================
 void Draw() // 화면 그리기
@@ -83,10 +84,9 @@ void Draw() // 화면 그리기
             
 
             // TODO: 몬스터가 살아있다면 몬스터 그리기 추가
-            DrawFish();
-            DrawCrab();
+            //DrawFish();
+            //DrawCrab();
             DrawClam();
-
 
 
             if (IsNearItem())

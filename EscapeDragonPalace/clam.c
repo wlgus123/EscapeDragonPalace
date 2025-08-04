@@ -4,6 +4,16 @@
 
 Monster g_Clam = { { 20, 23 }, Right, CLAM_HP, true, MONSTER_CLAM, 0, 0 };
 
+MyPoint GetClamPos()
+{
+    return g_Clam.pos;
+}
+
+int GetClamDir()
+{
+    return g_Clam.dir;
+}
+
 void TriggerClam() {
     
 }
