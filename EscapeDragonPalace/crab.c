@@ -1,17 +1,5 @@
 #include "monster.h"
 
-// Àü¿ª º¯¼ö
-char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
-    {"(\\/) (\\/) ",
-     "  \\o_o/ ",
-     " =(___)= "}, //ºñÆø·Â0
-
-    {"(l)  (l) ",
-     " \\o_o/ ",
-     "=(___)= " //BeÆø·Â1
-    }       
-};
-
 Monster g_Crab = { 30, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
 
 void UpdateCrab(unsigned int now) {
@@ -22,14 +10,14 @@ void UpdateCrab(unsigned int now) {
         g_Crab.isDamaged = 0;
     }
 
-    g_Crab.x += g_Crab.dir;
+    g_Crab.pos.x += g_Crab.dir;
 
-    if (g_Crab.x <= 0) {
-        g_Crab.x = 0;
+    if (g_Crab.pos.x <= 0) {
+        g_Crab.pos.x = 0;
         g_Crab.dir = 1;
     }       
-    if (g_Crab.x + CRAB_WIDTH >= 82) {
-        g_Crab.x = 80 - CRAB_WIDTH + 2;
+    if (g_Crab.pos.x + CRAB_WIDTH >= 82) {
+        g_Crab.pos.x = 80 - CRAB_WIDTH + 2;
         g_Crab.dir = -1;
     }
 }
@@ -44,7 +32,7 @@ void DrawCrab() {
         for (int x = 0; line[x] != '\0'; x++) {
             if (line[x] != ' ') {
                 char ch[2] = { line[x], '\0' };
-                _DrawText(g_Crab.x + x, g_Crab.y + y, ch);
+                _DrawText(g_Crab.pos.x + x, g_Crab.pos.y + y, ch);
             }
         }
     }

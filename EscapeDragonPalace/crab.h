@@ -5,7 +5,7 @@
 #define CRAB_HP 5
 
 // 전역 변수
-static const char* crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
+const static char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     {   
         "(\\/) (\\/)",
          "  \\o_o/ ",
