@@ -330,42 +330,68 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
     g_MouseClick = (GetAsyncKeyState(VK_LBUTTON) & 0x8000);
 }
 
-void ApplyGravity() // 중력 적용 함수
+// Rabbit가 현재 발판 위에 있는지 확인 (g_StagePlatform 또는 g_Map에 '='가 있으면 true)
+bool CheckGround()
 {
-    if (!CheckGround)
+    int pxL = (int)(player.Pos.x + 8) + GetPlusX();
+    int pxR = (int)(player.Pos.x + 12) + GetPlusX();
+    int py = (int)(player.Pos.y + RabbitY - 1);
+
+    for (int x = pxL; x <= pxR; x++)
     {
-        player.Pos.y += 1.0f;
+        if (g_StagePlatform[GetMapStatus()][py + 1][x] == '=' || g_Map[py + 1][x] == '=')
+            return true;
+    }
+    return false;
+}
+
+// 중력 적용 함수: 발 아래가 발판이 아니면 아래로 떨어짐
+void ApplyGravity()
+{
+    if (!CheckGround())
+    {
+        if (player.Pos.y > SCREEN_HEIGHT - RabbitY)
+            player.Pos.y = SCREEN_HEIGHT - RabbitY;
+        player.Pos.y += 1.0f; // 한 칸씩 아래로
+    }
+    else
+    {
+        // 발판 위에 정확히 정렬(한 칸 위에 위치)
+        player.Pos.y = (int)player.Pos.y;
     }
 }
 
-bool CheckGround() // 바닥 체크 함수
+// 발 아래 발판의 y좌표를 반환 (없으면 -1)
+int GetGroundY()
 {
-    int playerxL = player.Pos.x + 8; // 플레이어 x좌표 왼쪽 끝
-	int playerxR = player.Pos.x + 11; // 플레이어 x좌표 오른쪽 끝
+    int stage = GetMapStatus();
+    int pxL = (player.Pos.x + 8) + GetPlusX();
+    int pxR = (player.Pos.x + 12) + GetPlusX();
+    int py = (int)(player.Pos.y + RabbitY);
 
-	int playery = player.Pos.y; // 플레이어 y좌표
-    
-    for (int x = playerxL; x <= playerxR; x++)
-    {
-        if (g_Map[playery + 1][x] == '=' || g_StagePlatform[GetMapStatus()][playery + 1][x] == '=')
-        {
-            return true;
-        }
+    int y = py + 1;
+    if (y >= SCREEN_HEIGHT) return -1;
+    for (int x = pxL; x <= pxR; x++) {
+        if (g_StagePlatform[stage][y][x] == '=' || g_Map[y][x] == '=')
+            return y;
     }
-    
-    return false;
+    return -1;
+}
+
+bool CheckUnderGround()
+{
+
 }
 
 void JumpFN()
 {
     // 점프 시작
-    if (!player.IsJumping && g_KeyW)
+    if ((!player.IsJumping) && g_KeyW && CheckGround())
     {
         player.IsJumping = true;
         player.VelY = JUMP_POWER;
     }
 
-    // 중력 적용
     if (player.IsJumping)
     {
         player.VelY += GRAVITY;
@@ -374,14 +400,29 @@ void JumpFN()
 
         player.Pos.y += player.VelY;
 
-        if (player.Pos.y >= 21.0f)
+        // 점프 중 아래에 발판이 생기면 멈춤
+        if (player.VelY >= 0 && CheckGround())
         {
-            player.Pos.y = 21.0f;
+            int groundY = GetGroundY();
+            if (groundY != -1)
+                player.Pos.y = groundY - RabbitY + 1; // 발판 바로 위에 정렬
+            else
+                player.Pos.y = (int)player.Pos.y;
+
+            player.VelY = 0.0f;
+            player.IsJumping = false;
+        }
+
+        // 맵 아래로 떨어지는 것 방지
+        if (player.Pos.y > SCREEN_HEIGHT - RabbitY)
+        {
+            player.Pos.y = SCREEN_HEIGHT - RabbitY - 1;
             player.VelY = 0.0f;
             player.IsJumping = false;
         }
     }
 }
+
 
 void AttackFN()
 {
@@ -513,7 +554,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     if (player.Pos.x < 0 - iL) player.Pos.x = 0 - iL;
     if (player.Pos.x > SCREEN_WIDTH - iR) player.Pos.x = SCREEN_WIDTH - iR;
     if (player.Pos.y < 0) player.Pos.y = 0;
-    if (player.Pos.y > SCREEN_HEIGHT - RabbitY) player.Pos.y = SCREEN_HEIGHT - RabbitY;
+    if (player.Pos.y > SCREEN_HEIGHT - RabbitY) player.Pos.y = SCREEN_HEIGHT - RabbitY - 1;
 
     JumpFN();
 
