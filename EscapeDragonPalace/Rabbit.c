@@ -211,7 +211,7 @@ void CheckItemPickup()
                         {
                             speedBuffs[j].active = true;
                             speedBuffs[j].amount = amount;
-                            speedBuffs[j].endTime = GetTickCount() + duration;
+                            speedBuffs[j].endTime = GetTickCount64() + duration;
                             player.Speed += amount; // 즉시 적용
                             break;
                         }
