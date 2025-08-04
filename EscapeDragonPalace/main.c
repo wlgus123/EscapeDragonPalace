@@ -77,8 +77,7 @@ void Draw() // 화면 그리기
 
             DrawPlayer();
 
-            _DrawText(player.Pos.x + 13, player.Pos.y + 2, "~");
-            _DrawText(player.Pos.x + 8, player.Pos.y+2, "~");
+            
 
             
             

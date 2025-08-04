@@ -174,8 +174,37 @@ Rect GetItemRect(Item item)
 // 무기 충돌 범위 반환
 Rect GetWeaponRect()
 {
-    return (Rect) { player.Pos.x + 8 - GetPlusX(), player.Pos.x+16, player.Pos.y+3, player.Pos.y
-    +3};
+    Rect rect;
+    if (player.Direction == 0) {
+        switch ((int)player.HeldWeapon)
+        {
+        case 0:
+            rect = (Rect) {player.Pos.x + 13, player.Pos.x + 22, player.Pos.y + 2, player.Pos.y + 2};
+            break;
+        case 1:
+            rect = (Rect){ player.Pos.x + 13, player.Pos.x + 18, player.Pos.y + 2, player.Pos.y + 2 };
+            break;
+        case 2:
+            rect = (Rect){ player.Pos.x + 13, player.Pos.x + 21, player.Pos.y + 2, player.Pos.y + 2 };
+            break;
+        }
+    }
+    else if (player.Direction == 1) {
+        switch ((int)player.HeldWeapon)
+        {
+        case 0:
+            rect = (Rect){ player.Pos.x - 1, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+            break;
+        case 1:
+            rect = (Rect){ player.Pos.x +3, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+            break;
+        case 2:
+            rect = (Rect){ player.Pos.x, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+            break;
+        }
+    }
+    
+    return rect;
 }
 
 // 아이템 먹었는지 체크
