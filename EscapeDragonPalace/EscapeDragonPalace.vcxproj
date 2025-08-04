@@ -153,6 +153,8 @@
     <ClCompile Include="weapon.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="crab.h" />
+    <ClInclude Include="fish.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="map.h" />
