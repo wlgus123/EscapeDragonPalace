@@ -40,7 +40,7 @@ void DrawCrab() {
     for (int y = 0; y < CRAB_HEIGHT; y++) {
         _SetColor(g_Crab.isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
 
-        const char* line = crabGraphic[y]; 
+        const char* line = crabGraphic[0][y]; 
         for (int x = 0; line[x] != '\0'; x++) {
             if (line[x] != ' ') {
                 char ch[2] = { line[x], '\0' };
@@ -68,10 +68,11 @@ void HitCrab(unsigned int now, int damage) {
 void ChasunsignedeCrab(unsigned int slap, int Paware, int Maware){
     Paware = g_Crab.x + 5; //양수 인식범위
     Maware = g_Crab.x - 5; //음수 인식범위
-    if (player.Pos.x <= Paware) //플레이어가 범위에 들어오기까지 기다리는 중
-        return;
-        
 
+    if (player.Pos.x > Paware || player.Pos.x < Maware)
+        return; //범위에 안들어오면 무시
+        
+    
     
 
 }
