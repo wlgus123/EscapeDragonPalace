@@ -362,13 +362,20 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 // Rabbit가 현재 발판 위에 있는지 확인 (g_StagePlatform 또는 g_Map에 '='가 있으면 true)
 bool CheckGround()
 {
-    int pxL = (int)(player.Pos.x + 8) + GetPlusX();
-    int pxR = (int)(player.Pos.x + 12) + GetPlusX();
+    int FpxL = (int)(player.Pos.x + 8) + GetPlusX();
+    int FpxR = (int)(player.Pos.x + 12) + GetPlusX();
+    int MpxL = (int)(player.Pos.x + 8);
+    int MpxR = (int)(player.Pos.x + 12);
     int py = (int)(player.Pos.y + RabbitY - 1);
 
-    for (int x = pxL; x <= pxR; x++)
+    for (int x = FpxL; x <= FpxR; x++)
     {
-        if (g_StagePlatform[GetMapStatus()][py + 1][x] == '=' || g_Map[py + 1][x] == '=')
+        if (g_StagePlatform[GetMapStatus()][py + 1][x] == '=')
+            return true;
+    }
+    for (int x = MpxL; x <= MpxR; x++)
+    {
+        if (g_Map[py + 1][x] == '=')
             return true;
     }
     return false;
@@ -394,16 +401,23 @@ void ApplyGravity()
 int GetGroundY()
 {
     int stage = GetMapStatus();
-    int pxL = (player.Pos.x + 8) + GetPlusX();
-    int pxR = (player.Pos.x + 12) + GetPlusX();
+    int FpxL = (player.Pos.x + 8) + GetPlusX();
+    int FpxR = (player.Pos.x + 12) + GetPlusX();
+    int MpxL = (player.Pos.x + 8) + GetPlusX();
+    int MpxR = (player.Pos.x + 12) + GetPlusX();
     int py = (int)(player.Pos.y + RabbitY);
 
     int y = py + 1;
     if (y >= SCREEN_HEIGHT) return -1;
-    for (int x = pxL; x <= pxR; x++) {
-        if (g_StagePlatform[stage][y][x] == '=' || g_Map[y][x] == '=')
+    for (int x = FpxL; x <= FpxR; x++) {
+        if (g_StagePlatform[stage][y][x] == '=')
             return y;
     }
+    for (int x = MpxL; x <= MpxR; x++) {
+        if (g_Map[y][x] == '=')
+            return y;
+    }
+
     return -1;
 }
 
@@ -415,7 +429,7 @@ bool CheckUnderGround()
 void JumpFN()
 {
     // 점프 시작
-    if ((!player.IsJumping) && g_KeyW && CheckGround())
+    if (!player.IsJumping && g_KeyW && CheckGround())
     {
         player.IsJumping = true;
         player.VelY = JUMP_POWER;
@@ -666,7 +680,7 @@ void DrawHealth() // 플레이어 체력 그리기
 
         for (size_t i = 0; i < player.Health / 2; i++)
         {
-            _DrawText(x, 1, "★"); // 체력 아이콘 그리기
+            _DrawText(x, 1, "O"); // 체력 아이콘 그리기
             x += 3;
         }
 
@@ -674,7 +688,7 @@ void DrawHealth() // 플레이어 체력 그리기
         {
             halfHealth = false;
 
-            _DrawText(x, 1, "☆"); // 체력 반칸 아이콘 그리기
+            _DrawText(x, 1, "o"); // 체력 반칸 아이콘 그리기
         }
     }
     else
