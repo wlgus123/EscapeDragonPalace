@@ -1,10 +1,15 @@
 #include "monster.h"
 
 // 전역 변수
-const char* crabGraphic[CRAB_HEIGHT] = {
-    "(\\/) (\\/)",    
-    "  \\o_o/ ",      
-    " =(___)= "       
+const char* crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
+    {"(\\/) (\\/)",
+     "  \\o_o/ ",
+     " =(___)= "}, //비폭력0
+
+    {"(l)  (l)",
+     " \\o_o/ ",
+     "=(___)= " //Be폭력1
+    }       
 };
 
 Monster g_Crab = { 30, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
@@ -28,6 +33,7 @@ void UpdateCrab(unsigned int now) {
         g_Crab.dir = -1;
     }
 }
+
 
 // 꽃게 그리기 함수
 void DrawCrab() {
@@ -59,3 +65,13 @@ void HitCrab(unsigned int now, int damage) {
     }
 }
 
+void ChasunsignedeCrab(unsigned int slap, int Paware, int Maware){
+    Paware = g_Crab.x + 5; //양수 인식범위
+    Maware = g_Crab.x - 5; //음수 인식범위
+    if (player.Pos.x <= Paware) //플레이어가 범위에 들어오기까지 기다리는 중
+        return;
+        
+
+    
+
+}

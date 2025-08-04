@@ -40,6 +40,7 @@ typedef struct Monster {
     MonsterType type;   // 몬스터 종류
     int isDamaged;      // 피격 상태(무적 여부)
     unsigned int lastHitTime;  // 마지막 피격 시간
+    MapStatus monsterStatus; 
 } Monster;
 
 void UpdateMonster();
@@ -52,6 +53,7 @@ void HitFish(unsigned int now, int damage);
 void UpdateCrab(unsigned int now);
 void DrawCrab();
 void HitCrab(unsigned int now, int damage);
+void ChasunsignedeCrab(unsigned int slap,int Paware, int Maware);
 
 //조개 함수
 void TriggerClam();

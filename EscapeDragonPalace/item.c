@@ -101,10 +101,121 @@ void DrawItem(Item* item, int frame) {
 
 void InitItem() {
 
-	// 첫 번째 아이템 - 해초
+	// 감옥맥
+
+	// 해초
 	itemList[numItem++] = (Item){
 		.type = ITEM_LIFE,
-		.x = 30, .y = 21,
+		.x = 353, .y = 14,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 0
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 530, .y = 12,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 0
+	};
+
+	// 공기방울
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 160, .y = 22,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 0
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 570, .y = 22,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 0
+	};
+
+
+	// 용궁맵
+
+	// 해초
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 206, .y = 9,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 1
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 288, .y = 6,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 1
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 467, .y = 1,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 1
+	};
+
+	// 공기방울
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 190, .y = 22,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 1
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 340, .y = 22,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 1
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 484, .y = 22,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 1
+	};
+
+	// 바다맵 1
+
+	// 해초
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 99, .y = 21,
 		.isHeld = false,
 		.value = 2,
 		.width = 11,
@@ -112,14 +223,119 @@ void InitItem() {
 		.mapStatus = 2
 	};
 
-	// 두 번째 아이템 - 공기방울
+	itemList[numItem++] = (Item){
+	.type = ITEM_LIFE,
+	.x = 429, .y = 21,
+	.isHeld = false,
+	.value = 2,
+	.width = 11,
+	.height = 3,
+	.mapStatus = 2
+	};
+
+	// 공기방울
 	itemList[numItem++] = (Item){
 		.type = ITEM_SPEED,
-		.x = 60, .y = 22,
+		.x = 131, .y = 9,
 		.isHeld = true,
 		.value = 1,
 		.width = 5,
 		.height = 2,
 		.mapStatus = 2
 	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 282, .y = 8,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 2
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 386, .y = 14,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 2
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 563, .y = 13,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 2
+	};
+
+	// 바다맵 2
+
+	// 해초
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 100, .y = 21,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 3
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 210, .y = 5,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 3
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 471, .y = 21,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 3
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_LIFE,
+		.x = 542, .y = 11,
+		.isHeld = false,
+		.value = 2,
+		.width = 11,
+		.height = 3,
+		.mapStatus = 3
+	};
+
+	// 공기방울
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 138, .y = 11,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 3
+	};
+
+	itemList[numItem++] = (Item){
+		.type = ITEM_SPEED,
+		.x = 440, .y = 17,
+		.isHeld = true,
+		.value = 1,
+		.width = 5,
+		.height = 2,
+		.mapStatus = 3
+	};
+
 }
