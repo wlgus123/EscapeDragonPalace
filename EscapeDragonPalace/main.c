@@ -4,8 +4,6 @@
 #include "screens.h"
 #include "Rabbit.h"
 #include "weapon.h"
-#include "monster.h"
-#include "fish.h"
 
 // ===========================================================
 void Draw() // 화면 그리기

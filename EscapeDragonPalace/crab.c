@@ -1,4 +1,5 @@
-#include "monster.h"
+#include "init.h"
+#include "Rabbit.h"
 
 Monster g_Crab = { 30, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
 

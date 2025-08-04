@@ -185,7 +185,6 @@ Rect GetMonsterRect(Monster monster)
     case MONSTER_TURTLE:
         break;
     }
-    return 
 }
 
 // 무기 충돌 범위 반환
