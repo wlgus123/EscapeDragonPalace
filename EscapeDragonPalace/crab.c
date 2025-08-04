@@ -1,4 +1,3 @@
-#include "init.h"
 #include "Rabbit.h"
 
 Monster g_Crab = { 30, MONSTER_Y, Right, CRAB_HP, 1, MONSTER_CRAB, 0, 0 };
@@ -14,43 +13,28 @@ int GetCrabDir()
 }
 
 void UpdateCrab(unsigned int now) {
-    if (!g_Crab.alive) return; // 죽었으면 처리하지 않음
 
-    // 무적 시간 경과했는지 확인
-    if (g_Crab.isDamaged && now - g_Crab.lastHitTime >= INVINCIBLE_TIME) {
-        g_Crab.isDamaged = 0;
-    }
+    // monster.c UpdateMonster()로 이동
 
-    g_Crab.pos.x += g_Crab.dir;
-
-    if (g_Crab.pos.x <= 0) {
-        g_Crab.pos.x = 0;
-        g_Crab.dir = 1;
-    }       
-    if (g_Crab.pos.x + CRAB_WIDTH >= 82) {
-        g_Crab.pos.x = 80 - CRAB_WIDTH + 2;
-        g_Crab.dir = -1;
-    }
 }
 
 
 // 꽃게 그리기 함수
-void DrawCrab() {
+// 하영 수정 =================================
+void DrawCrab(MyPoint pos) {
     for (int y = 0; y < CRAB_HEIGHT; y++) {
-        _SetColor(g_Crab.isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
-
         const char* line = crabGraphic[0][y];
         for (int x = 0; line[x] != '\0'; x++) {
             if (line[x] != ' ') {
                 char ch[2] = { line[x], '\0' };
-                _DrawText(g_Crab.pos.x + x, g_Crab.pos.y + y, ch);
+                _DrawText(pos.x + x, pos.y + y, ch);
             }
         }
     }
-    
     _SetColor(15);
 }
 
+/* monster.c에 몬스터를 공격했을 때 함수 구현해둠 HitMonster()
 // 꽃게 피격 처리 함수
 void HitCrab(unsigned int now, int damage) {
     if (g_Crab.isDamaged) return; 
@@ -63,6 +47,7 @@ void HitCrab(unsigned int now, int damage) {
         g_Crab.alive = 0;         // 체력이 0 이하가 되면 사망 처리
     }
 }
+*/
 
 /*void ChasunsignedeCrab(unsigned int slap, int Paware, int Maware) {
     Paware = g_Crab.x + 5; //양수 인식범위

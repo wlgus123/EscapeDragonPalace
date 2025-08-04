@@ -1,4 +1,3 @@
-#include "init.h"
 #include "Rabbit.h"
 Monster g_Fish = { { 5, MONSTER_Y }, Right, FISH_HP, true, MONSTER_FISH, 0, 0 }; // 물고기
 
@@ -22,28 +21,14 @@ int GetFishDir()
 	return g_Fish.dir;
 }
 
+
 void UpdateFish(unsigned int now) {
-	if (!g_Fish.alive) return;
 
-	// 무적시간 지나면 피격 상태 해제
-	if (g_Fish.isDamaged && now - g_Fish.lastHitTime >= INVINCIBLE_TIME) {
-		g_Fish.isDamaged = 0;
-	}
+	// monster.c UpdateMonster()로 이동
 
-	// 이동
-	g_Fish.pos.x += g_Fish.dir;
-
-	// 벽 충돌 시 방향 전환
-	if (g_Fish.pos.x <= 0) {
-		g_Fish.pos.x = 0;
-		g_Fish.dir = 1;
-	}
-	if (g_Fish.pos.x + FISH_WIDTH >= 82) {
-		g_Fish.pos.x = 80 - FISH_WIDTH + 2;
-		g_Fish.dir = -1;
-	}
 }
 
+/*	// 수정전
 void DrawFish() {
 	for (int y = 0; y < FISH_HEIGHT; y++)
 	{
@@ -64,7 +49,8 @@ void DrawFish() {
 		}
 		else // 물고기 방향이 왼쪽일 때
 		{
-			char* line = g_FishGraphic[Left][y];
+			// Left 가 0 이었는데 오류나서 -1로 바꾸니까 배열에서 오류남 그냥 [0][y] 으로 바꿔둠
+			char* line = g_FishGraphic[0][y];
 			int len = strlen(line);
 
 			for (int x = 0; x < len; x++)
@@ -80,8 +66,46 @@ void DrawFish() {
 
 	_SetColor(15);
 }
+*/
+
+// 하영 수정 후
+void DrawFish(int dir, MyPoint pos) {
+	for (int y = 0; y < FISH_HEIGHT; y++)
+	{
+		if (dir == Right) // 물고기 방향이 오른쪽일 때
+		{
+			char* line = g_FishGraphic[Right][y];
+			int len = strlen(line);
+
+			for (int x = 0; x < len; x++)
+			{
+				if (line[x] != ' ')
+				{
+					_DrawText(pos.x + x, pos.y + y, (char[]) { line[x], '\0' });
+				}
+			}
+		}
+		else // 물고기 방향이 왼쪽일 때
+		{
+			char* line = g_FishGraphic[Left][y];
+			int len = strlen(line);
+
+			for (int x = 0; x < len; x++)
+			{
+				if (line[x] != ' ')
+				{
+					_DrawText(pos.x + x, pos.y + y, (char[]) { line[x], '\0' });
+				}
+			}
+		}
+
+	}
+
+	_SetColor(15);
+}
 
 
+/* monster.c에 몬스터를 공격했을 때 함수 구현해둠 HitMonster()
 // 몬스터 피격 함수 (체력 감소, 피격 상태 시작)
 void HitFish(unsigned int now, int damage) {
 	if (g_Fish.isDamaged) return; // 무적중이면 데미지 무시
@@ -94,3 +118,4 @@ void HitFish(unsigned int now, int damage) {
 		g_Fish.alive = 0; // 죽음 처리
 	}
 }
+*/

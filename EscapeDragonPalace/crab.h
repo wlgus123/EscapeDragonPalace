@@ -1,5 +1,4 @@
 #pragma once
-#include "init.h"
 
 #define CRAB_WIDTH 13
 #define CRAB_HEIGHT 3
@@ -23,7 +22,7 @@ const static char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
 
 // ²É°Ô ÇÔ¼ö
 void UpdateCrab(unsigned int now);
-void DrawCrab();
+void DrawCrab(MyPoint pos);
 void HitCrab(unsigned int now, int damage);
 int GetCrabDir();
 MyPoint GetCrabPos();

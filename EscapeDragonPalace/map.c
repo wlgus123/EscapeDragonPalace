@@ -1,4 +1,3 @@
-#include "init.h"
 #include "map.h"
 #include "Rabbit.h"
 
