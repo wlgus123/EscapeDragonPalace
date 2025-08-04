@@ -144,6 +144,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="map.c" />
+    <ClCompile Include="monster.c" />
     <ClCompile Include="mtg.c" />
     <ClCompile Include="Rabbit.c" />
     <ClCompile Include="screens.c" />
@@ -153,6 +154,9 @@
     <ClCompile Include="weapon.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="clam.h" />
+    <ClInclude Include="crab.h" />
+    <ClInclude Include="fish.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="map.h" />

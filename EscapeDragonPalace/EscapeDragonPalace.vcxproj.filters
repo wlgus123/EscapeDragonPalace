@@ -45,6 +45,12 @@
     <ClCompile Include="crab.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="clam.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="monster.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mtg.h">
@@ -71,5 +77,20 @@
     <ClInclude Include="monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="fish.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="crab.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="clam.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Map\Map_DragonPalace.txt" />
+    <Text Include="..\..\Map\Map_Jail.txt" />
+    <Text Include="..\..\Map\Map_Sea1.txt" />
+    <Text Include="..\..\Map\Map_Sea2.txt" />
   </ItemGroup>
 </Project>
