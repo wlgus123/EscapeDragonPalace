@@ -1,11 +1,7 @@
-#include "init.h"
 #include "map.h"
-#include "item.h"
-#include "screens.h"
 #include "Rabbit.h"
-#include "weapon.h"
+//================================================================
 
-// ===========================================================
 void Draw() // 화면 그리기
 {
     // 게임 시작 전
@@ -88,9 +84,18 @@ void Draw() // 화면 그리기
 
 
             // TODO: 몬스터가 살아있다면 몬스터 그리기 추가
-            DrawFish();
-            DrawCrab();
-            DrawClam();
+            //DrawFish();
+            //DrawCrab();
+            //DrawClam();
+
+            // 몬스터 출력
+            for (int i = 0; i < numMonster; i++)
+            {
+                if (monsterList[i].alive) {
+
+                    DrawMonster(monsterList[i]);
+                }
+            }
 
 
             // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -120,8 +125,10 @@ void Update()
     UpdateSpeedBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
     
 
-
     UpdateMonster();
+
+
+
 }
 
 // 키 입력
@@ -137,7 +144,7 @@ void main()
 
     SetConsoleTitle("용궁탈출");
 
-    
+    InitMonster();  // 몬스터 초기화
     InitItem();  // 아이템 초기화
     InitWeapon(weaponList); // 무기 초기화
     InitPlayer();

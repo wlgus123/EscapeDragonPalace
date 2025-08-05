@@ -1,5 +1,4 @@
 #pragma once
-#include "init.h"
 
 // 메크로
 #define ClAM_WIDTH 1
@@ -11,7 +10,7 @@ static const char* clamGraphic = "(\\  /)";
 
 //조개 함수
 void TriggerClam();
-void UpdateClam();
-void DrawClam();
+void UpdateClam(MyPoint pos, bool alive);
+void DrawClam(MyPoint pos);
 MyPoint GetClamPos();
 int GetClamDir();

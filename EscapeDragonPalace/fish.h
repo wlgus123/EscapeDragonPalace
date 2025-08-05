@@ -1,5 +1,4 @@
 #pragma once
-#include "init.h"
 
 #define FISH_WIDTH 15
 #define FISH_HEIGHT 3
@@ -8,21 +7,21 @@
 // 전역 변수
 static char g_FishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
 	{
-		"  _______   ",
-		" /o　))　\\/)",
-		" \\_______/\\)"
-	}, // 왼쪽 그림 0
-	{
 		"    _______  ",
 		" (\\/　((　o\\",
 		" (/\\_______/ "
-	},// 오른쪽 그림 1
+	},// 오른쪽 그림 0
+		{
+		"  _______   ",
+		" /o　))　\\/)",
+		" \\_______/\\)"
+	}, // 왼쪽 그림 1
 };
 
 // 물고기 함수
 void UpdateFish(unsigned int now);	// 물고기 업데이트
-void DrawFish();	// 물고기 그리기
-void HitFish(unsigned int now, int damage);	// 물고기 데미지 입히기
+void DrawFish(int dir, MyPoint pos);	// 물고기 그리기
+//void HitFish(unsigned int now, int damage);	// 물고기 데미지 입히기
 bool GetFishAlive();	// 물고기 생존여부 반환
 bool GetFishIsDamaged();	// 물고기 데미지 여부 반환
 MyPoint GetFishPos(); // 물고기 위치 반환
