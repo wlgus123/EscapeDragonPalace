@@ -1,4 +1,3 @@
-#include "init.h"
 #include "Rabbit.h"
 #include "map.h"
 
@@ -85,7 +84,7 @@ char Rabbit[14][RabbitY][RabbitX] =
 
 bool halfHealth = false; // 체력 반칸
 
-bool g_MouseClick = false;
+bool g_MouseClick = false;  // 마우스 클릭 여부
 
 
 //애니메이션 상태 관리
@@ -100,7 +99,7 @@ int animFramesTotal; // 전체 애니메이션 길이 (up+down)
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
-bool isNearItem = false;
+bool isNearItem = false;    // 플레이어 주변에 아이템이 있으면 true
 
 bool stageClear = false; // 스테이지 클리어 여부
 
@@ -192,7 +191,7 @@ Rect GetWeaponRect()
 {
     // 플레이어가 오른쪽 보고 있을 때
     if (player.Direction == 0) {
-        switch ((int)player.HeldWeapon)
+        switch (GetSelectedIndex())
         {
         case 0: // 장검
             return (Rect) {player.Pos.x + 13, player.Pos.x + 22, player.Pos.y + 2, player.Pos.y + 2};
@@ -204,7 +203,7 @@ Rect GetWeaponRect()
     }
     // 플레이어가 왼쪽 보고 있을 때
     else if (player.Direction == 1) {
-        switch ((int)player.HeldWeapon)
+        switch (GetSelectedIndex())
         {
         case 0: // 장검
             return (Rect){ player.Pos.x - 1, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
@@ -219,26 +218,31 @@ Rect GetWeaponRect()
 // 아이템 먹었는지 체크
 void CheckItemPickup()
 {
-
+    // 플레이어 충돌 범위 받아오기
     Rect playerRect = GetPlayerRect();
 
     for (int i = 0; i < numItem; i++)
     {
+        // 화면에 보이지 않는 아이템(이미 먹었거나 다른 스테이지)인 경우 넘어가기
         if (itemList[i].isHeld) continue;
 
+        // 아이템 충돌 범위 받아오기
         Rect itemRect = GetItemRect(itemList[i]);
 
+        // 플레이어와 아이템 충돌 체크, 충돌시
         if (IsOverlap(playerRect, itemRect))
         {
             SetIsNearItem(true);  // 문구출력
+            // e를 눌렀을 때
             if (GetAsyncKeyState('E') & 0x8000)
             {
-                itemList[i].isHeld = true;
+                itemList[i].isHeld = true;  // 화면에 안 보이게 처리
+                // 먹은 아이템 타입에 따라
                 switch (itemList[i].type) {
-                case ITEM_LIFE:
+                case ITEM_LIFE: // 목숨 추가  
                     player.Health += itemList[i].value;
                     break;
-                case ITEM_SPEED:
+                case ITEM_SPEED: // 이동속도 증가
                     // 속도 증가값, 지속시간(ms)
                     amount = itemList[i].value;
                     DWORD duration = 5000; // 예: 5초
@@ -375,16 +379,16 @@ bool CheckGround()
     int FpxR = (int)(player.Pos.x + 12) + GetPlusX();
     int MpxL = (int)(player.Pos.x + 8);
     int MpxR = (int)(player.Pos.x + 12);
-    int py = (int)(player.Pos.y + RabbitY - 1);
+    int py = (int)(player.Pos.y + RabbitY);
 
     for (int x = FpxL; x <= FpxR; x++)
     {
-        if (g_StagePlatform[GetMapStatus()][py + 1][x] == '=')
+        if (g_StagePlatform[GetMapStatus()][py][x] == '=')
             return true;
     }
     for (int x = MpxL; x <= MpxR; x++)
     {
-        if (g_Map[py + 1][x] == '=')
+        if (g_Map[py][x] == '=')
             return true;
     }
     return false;
@@ -399,11 +403,6 @@ void ApplyGravity()
             player.Pos.y = SCREEN_HEIGHT - RabbitY;
         player.Pos.y += 1.0f; // 한 칸씩 아래로
     }
-    else
-    {
-        // 발판 위에 정확히 정렬(한 칸 위에 위치)
-        player.Pos.y = (int)player.Pos.y;
-    }
 }
 
 // 발 아래 발판의 y좌표를 반환 (없으면 -1)
@@ -416,15 +415,14 @@ int GetGroundY()
     int MpxR = (player.Pos.x + 12);
     int py = (int)(player.Pos.y + RabbitY);
 
-    int y = py + 1;
-    if (y >= SCREEN_HEIGHT) return -1;
+    if (py >= SCREEN_HEIGHT) return -1;
     for (int x = FpxL; x <= FpxR; x++) {
-        if (g_StagePlatform[stage][y][x] == '=')
-            return y;
+        if (g_StagePlatform[stage][py][x] == '=')
+            return (py - 1);
     }
     for (int x = MpxL; x <= MpxR; x++) {
-        if (g_Map[y][x] == '=')
-            return y;
+        if (g_Map[py][x] == '=')
+            return (py - 1);
     }
 
     return -1;
@@ -478,21 +476,38 @@ void JumpFN()
 
 void AttackFN()
 {
-    // 공격 시작: 마우스 클릭했을 때 공격 중 아니면
+    // 공격 시작: 마우스 클릭했을 때 공격 중이 아니면
     if (g_MouseClick && !player.IsAttacking)
     {
         // 공격중으로 변경
         player.IsAttacking = true;
         player.AttackFrame = 0;
         player.attackStartTime = GetTickCount();
+        // 무기 충돌 범위 받아오기
+        Rect weaponRect = GetWeaponRect();
 
-        
+        for (int i = 0; i < numMonster; i++)
+        {
+            // 화면에 보이지 않는 몬스터(이미 죽었거나 다른 스테이지)인 경우 넘어가기
+            if (!monsterList[i].alive) continue;
+
+            // 몬스터 충돌 범위 받아오기
+            Rect monsterRect = GetMonsterRect(monsterList[i]);
+
+            // 무기와 몬스터 충돌 체크, 충돌시
+            if (IsOverlap(weaponRect, monsterRect))
+            {
+                // 몬스터 공격
+                HitMonster(monsterList[i], player.HeldWeapon, player.attackStartTime);
+            }
+        }
     }
 
     // 공격 애니메이션 처리
     if (player.IsAttacking)
     {
         player.AttackFrame++;
+
 
         if (GetTickCount() - player.attackStartTime >= player.attackDuration)
         {
@@ -578,6 +593,12 @@ void ClearInputBuffer()
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
     CheckGround();
+
+    if (!player.IsJumping && !CheckGround())
+    {
+        ApplyGravity();
+    }
+
     int iR = 0;
     int iL = 0;
 
