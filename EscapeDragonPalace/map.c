@@ -91,11 +91,15 @@ void UpdateMapPos()
 	if (GetKeyA() && player.Pos.x <= 24 || GetAsyncKeyState('A') & 0x8000)
 	{
 		SetMapEnd(false);
+		// 토끼가 끝 위치에서 왼쪽으로 이동할 때 화면의 가운데로 이동할 때까지 배경 멈추기
+		if (player.Pos.x >= 26) return;
 		g_Plus_X -= player.Speed;
 	}
 	else if (GetKeyD() && player.Pos.x >= 26 || GetAsyncKeyState('D') & 0x8000)
 	{
 		SetMapEnd(false);
+		// 토끼가 시작 위치에서 오른쪽으로 이동할 때 화면의 가운데로 이동할 때까지 배경 멈추기
+		if (player.Pos.x <= 24) return;
 		g_Plus_X += player.Speed;
 	}
 
