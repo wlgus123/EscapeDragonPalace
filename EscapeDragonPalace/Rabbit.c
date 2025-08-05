@@ -82,11 +82,6 @@ char Rabbit[14][RabbitY][RabbitX] =
 
 
 
-bool halfHealth = false; // 체력 반칸
-
-bool g_MouseClick = false;  // 마우스 클릭 여부
-
-
 //애니메이션 상태 관리
 int animFrame;         // 0 ~ jumpFrames*2-1 (up + down)
 int animRepeatCount;   // 애니메이션 반복 횟수
@@ -96,6 +91,8 @@ int centerX;
 int baseY;
 int jumpHeight;
 int animFramesTotal; // 전체 애니메이션 길이 (up+down)
+
+DWORD g_KeyInputEnableTime = 0; // 키 입력 허용 시각(밀리초)
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
@@ -109,6 +106,10 @@ bool g_KeyD = false;
 bool g_KeyS = false;
 
 bool IsMapEnd = false;
+
+bool halfHealth = false; // 체력 반칸
+
+bool g_MouseClick = false;  // 마우스 클릭 여부
 
 // --------------------------------------------------
 
@@ -615,6 +616,8 @@ void ISOnGoal()
         if (g_StagePlatform[mapStatus][py][x] == '@')// Rabbit이 @에 닿았는지 체크
         {
             stageClear = true;
+
+            g_KeyInputEnableTime = GetTickCount() + 3000; // 3초 후부터 키 입력 허용되게 하기 (UpdatePlayer에 내용에서 이어짐)
         }
     }
 }
@@ -622,32 +625,46 @@ void ISOnGoal()
 // 키보드 버퍼 비우기 함수
 void ClearInputBuffer()
 {
-    while (_kbhit()) g_Key = NULL;
+    g_Key = NULL;
 }
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
-	ISOnGoal(); // 플레이어가 목표에 도달했는지 체크
+    ISOnGoal(); // 플레이어가 목표에 도달했는지 체크
 
     if (!stageClear)
     {
-        ClearInputBuffer();
+        if (_kbhit())
+        {
+            ClearInputBuffer();
+        }
     }
     else
     {
-        if (g_Key != -1)
+        // 현재 시간
+        DWORD now = GetTickCount();
+
+        // 3초가 지나지 않았으면 키 입력 무시
+        if (now < g_KeyInputEnableTime)
         {
-            stageClear = false;
+            ClearInputBuffer();
+        }
+        else
+        {
+            if (g_Key != -1)
+            {
+                stageClear = false;
 
-            system("cls"); // 화면 지우기
+                system("cls"); // 화면 지우기
 
-            SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
-            SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
+                SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
+                SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
 
-            SetSettingItem(false);  // 스테이지 아이템 세팅 리셋
+                SetSettingItem(false);  // 스테이지 아이템 세팅 리셋
 
-            player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
-            player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
+                player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
+                player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
+            }
         }
     }
 
@@ -766,7 +783,7 @@ void InitPlayer() // 초기화
 
     player.Pos.x = RabbitXPos;
     player.Pos.y = RabbitYPos;
-    player.Speed = 5.0f;
+    player.Speed = 1.0f;
     player.Health = 10;
     player.VelY = 0.0f;
     player.IsJumping = false;
@@ -808,5 +825,7 @@ void InitPlayer() // 초기화
     animFramesTotal = 10;
 
     isNearItem = false;
+
+
 }
 
