@@ -3,7 +3,7 @@
 
 Monster monsterList[MAX_Monster_COUNT];	// 몬스터 배열 선언
 int numMonster = 0;
-
+/*
 // 몬스터 업데이트
 void UpdateMonster()
 {
@@ -73,9 +73,9 @@ void UpdateMonster()
 	{
 		HitFish(now, damage);
 	}
-	*/
+	
 }
-
+*/
 // 몬스터 그리는 함수
 void DrawMonster() {
 	for (int i = 0; i < numMonster; i++)
@@ -120,8 +120,8 @@ void HitMonster(Monster monster, Weapon* weapon, unsigned int now) {
 // 몬스터 초기화 함수
 void InitMonster() {
 	monsterList[numMonster++] = (Monster){
-		.pos.x = 40,
-		.pos.y = 21,
+		.pos.x = 160,
+		.pos.y = 20,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
