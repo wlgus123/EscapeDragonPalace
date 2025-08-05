@@ -304,7 +304,7 @@ void DrawRabbitAt(int x, int y, int idx)
 
 void RabbitCAnim() // Rabbit clear 애니메이션
 {
-	_DrawText(36, 10, "아무 키나 눌러 다음 스테이지로 넘어가기");
+	_DrawText(20, 10, "아무 키나 눌러 다음 스테이지로 넘어가기");
 
     player.Pos.x = RabbitXPos;
     player.Pos.y = RabbitYPos;
@@ -389,11 +389,19 @@ bool CheckGround()
 
     for (int x = FpxL; x <= FpxR; x++)
     {
-        if (g_StagePlatform[GetMapStatus()][py][x] == '=')
+        int mapStatus = GetMapStatus();
+
+        if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) 
+            return false;
+
+        if (g_StagePlatform[mapStatus][py][x] == '=')
             return true;
     }
     for (int x = MpxL; x <= MpxR; x++)
     {
+        if (py < 0 || py >= 25)
+            return false;
+
         if (g_Map[py][x] == '=')
             return true;
     }
@@ -414,7 +422,6 @@ void ApplyGravity()
 // 발 아래 발판의 y좌표를 반환 (없으면 -1)
 int GetGroundY()
 {
-    int stage = GetMapStatus();
     int FpxL = (player.Pos.x + 8) + GetPlusX();
     int FpxR = (player.Pos.x + 12) + GetPlusX();
     int MpxL = (player.Pos.x + 8);
@@ -429,11 +436,21 @@ int GetGroundY()
     if (MpxL < 0) MpxL = 0;
     if (MpxR >= MAP_WIDTH) MpxR = MAP_WIDTH - 1;
 
-    for (int x = FpxL; x <= FpxR; x++) {
-        if (g_StagePlatform[stage][py][x] == '=')
+    for (int x = FpxL; x <= FpxR; x++) 
+    {
+        int mapStatus = GetMapStatus();
+
+        if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25)
+            return false;
+
+        if (g_StagePlatform[mapStatus][py][x] == '=')
             return (py - 1);
     }
-    for (int x = MpxL; x <= MpxR; x++) {
+    for (int x = MpxL; x <= MpxR; x++) 
+    {
+        if (py < 0 || py >= 25)
+            return false;
+
         if (g_Map[py][x] == '=')
             return (py - 1);
     }
@@ -583,49 +600,58 @@ void moveFN()
     }
 }
 
-bool ISOnGoal()
+void ISOnGoal()
 {
-    /*int idx;
-    int dir = player.Direction;
+    int pxL = (int)(player.Pos.x + 8) + GetPlusX();
+    int pxR = (int)(player.Pos.x + 12) + GetPlusX();
+    int py = (int)player.Pos.y;
 
-    if (!weaponChosen)
-        idx = dir == 0 ? 12 : 13;
-    else {
-        int weaponType = player.HeldWeapon ? player.HeldWeapon->attackSpeed : 2;
-        if (weaponType == 3)      idx = dir == 0 ? 4 : 5;
-        else if (weaponType == 2) idx = dir == 0 ? 0 : 1;
-        else                      idx = dir == 0 ? 8 : 9;
-        if (player.IsAttacking) {
-            if (weaponType == 3)      idx = dir == 0 ? 6 : 7;
-            else if (weaponType == 2) idx = dir == 0 ? 2 : 3;
-            else                      idx = dir == 0 ? 10 : 11;
+    for (int x = pxL; x <= pxR; x++)
+    {
+        int mapStatus = GetMapStatus();
+        if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25 || x < 0 || x >= 700)
+            return false;
+
+        if (g_StagePlatform[mapStatus][py][x] == '@')// Rabbit이 @에 닿았는지 체크
+        {
+            stageClear = true;
         }
     }
-
-    for (int y = 0; y < RabbitY; y++) {
-        const char* line = Rabbit[idx][y];
-        int len = strlen(line);
-        for (int x = 0; x < len; x++) {
-            if (line[x] != ' ') {
-                int px = (int)player.Pos.x + x;
-                int py = (int)player.Pos.y + y;
-                if (px == GX && py == GY)
-                    return true;
-            }
-        }
-    }
-    return false;*/
 }
 
 // 키보드 버퍼 비우기 함수
 void ClearInputBuffer()
 {
-    while (_kbhit()) _getch();
+    while (_kbhit()) g_Key = NULL;
 }
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
-    CheckGround();
+	ISOnGoal(); // 플레이어가 목표에 도달했는지 체크
+
+    if (!stageClear)
+    {
+        ClearInputBuffer();
+    }
+    else
+    {
+        if (g_Key != -1)
+        {
+            stageClear = false;
+
+            system("cls"); // 화면 지우기
+
+            SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
+            SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
+
+            SetSettingItem(false);  // 스테이지 아이템 세팅 리셋
+
+            player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
+            player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
+        }
+    }
+
+	CheckGround(); // 플레이어가 땅에 있는지 체크
 
     if (!player.IsJumping && !CheckGround())
     {
@@ -662,27 +688,6 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     AttackFN();
 
     moveFN();
-
-    // Rabbit이 @에 닿았는지 체크
-    if (ISOnGoal())
-    {
-        //stageClear = true;
-    }
-
-    if (_kbhit())
-    {
-        g_Key = _getch();
-
-        if (stageClear == false)
-        {
-            ClearInputBuffer(); // 키보드 버퍼 비우기
-        }
-        else if (g_Key != -1 && stageClear == true)
-        {
-            stageClear = false; // 스테이지 클리어 상태 초기화
-        }
-    }
-    
 }
 
 void DrawPlayer()
@@ -736,7 +741,7 @@ void DrawHealth() // 플레이어 체력 그리기
 
         int x = 3;
 
-        for (size_t i = 0; i < player.Health / 2; i++)
+        for (int i = 0; i < player.Health / 2; i++)
         {
             _DrawText(x, 1, "O"); // 체력 아이콘 그리기
             x += 3;
@@ -757,9 +762,11 @@ void DrawHealth() // 플레이어 체력 그리기
 
 void InitPlayer() // 초기화
 {
+    g_Key = _GetKey;
+
     player.Pos.x = RabbitXPos;
     player.Pos.y = RabbitYPos;
-    player.Speed = 1.0f;
+    player.Speed = 5.0f;
     player.Health = 10;
     player.VelY = 0.0f;
     player.IsJumping = false;
@@ -795,7 +802,7 @@ void InitPlayer() // 초기화
     animRepeatCount = 0;
     jumpFrames = 5;
     maxRepeats = 4;
-    centerX = 40;
+    centerX = 30;
     baseY = 20;
     jumpHeight = 2;
     animFramesTotal = 10;

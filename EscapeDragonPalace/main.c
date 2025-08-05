@@ -28,10 +28,9 @@ void Draw() // 화면 그리기
         // 스테이지 클리어
         else if (StageClear())
         {
-            _Delay(45);
             RabbitCAnim();  // 스테이지 클리어 화면 출력
-            SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
-            SetSettingItem(false);  // 스테이지 아이템 세팅 리셋
+            _Delay(45);
+            // 여기 있던 거 Rabbit.c에 ISOnGoal()로 옮겼어요 _ 서영
         }
         // 플레이 중일 때
         else {

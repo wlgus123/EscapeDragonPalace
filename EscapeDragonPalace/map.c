@@ -6,7 +6,7 @@ int g_Plus_X = 0; // X좌표 이동 증가값
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
 // 현재 맵 정보
-MapStatus g_MapStatus = E_Ground;
+MapStatus g_MapStatus = E_Jail;
 
 // TODO: 코드 수정
 // 맵 틀 그리기
@@ -45,6 +45,9 @@ void DrawMapBG()
 	// 일반 맵일 경우
 	else
 	{
+		if (g_MapStatus >= 5)
+			return;
+
 		// 배경 그리기
 		for (int y = 0; y < SCREEN_HEIGHT; y++)
 		{
@@ -88,7 +91,7 @@ int GetPlusX()
 // X값 변경하기
 void SetPlusX(int src)
 {
-	g_Plus_X;
+	g_Plus_X = src;
 }
 
 // 맵 위치 업데이트
@@ -123,9 +126,9 @@ void UpdateMapPos()
 		g_Plus_X = MAP_WIDTH - SCREEN_WIDTH;
 		SetMapEnd(true);
 	}
-	else if (g_MapStatus == E_Ground && g_Plus_X > SCREEN_WIDTH) // 보스 맵일 때
+	else if (g_MapStatus == E_Ground /* && g_Plus_X > SCREEN_WIDTH*/) // 보스 맵일 때
 	{
-		g_Plus_X = SCREEN_WIDTH;
+		g_Plus_X = 0;
 		SetMapEnd(true);
 	}
 
