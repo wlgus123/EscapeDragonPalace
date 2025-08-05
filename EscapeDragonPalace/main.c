@@ -88,13 +88,8 @@ void Draw() // 화면 그리기
             //DrawClam();
 
             // 몬스터 출력
-            for (int i = 0; i < numMonster; i++)
-            {
-                if (monsterList[i].alive) {
 
-                    DrawMonster();
-                }
-            }
+            DrawMonster();
 
 
             // 플레이어 주변에 아이템이 있을 때 알림문구 출력
