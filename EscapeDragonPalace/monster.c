@@ -3,7 +3,7 @@
 
 Monster monsterList[MAX_Monster_COUNT];	// 몬스터 배열 선언
 int numMonster = 0;
-/*
+
 // 몬스터 업데이트
 void UpdateMonster()
 {
@@ -59,23 +59,8 @@ void UpdateMonster()
 
 	}
 
-	//UpdateCrab(now);
-	//UpdateClam();
-	// =========================================
-
-	// int damage = 1; // 무기 공격력 받아와야 함
-	/*
-	if (GetFishAlive()) {
-		UpdateFish(now);
-	}
-
-	if (GetFishIsDamaged())
-	{
-		HitFish(now, damage);
-	}
-	
 }
-*/
+
 // 몬스터 그리는 함수
 void DrawMonster() {
 	for (int i = 0; i < numMonster; i++)
@@ -104,15 +89,15 @@ void DrawMonster() {
 
 
 // 몬스터 피격 처리 함수
-void HitMonster(Monster monster, Weapon* weapon, unsigned int now) {
-	if (monster.isDamaged) return;
+void HitMonster(Monster* monster, Weapon* weapon, unsigned int now) {
+	if (monster->isDamaged) return;
 
-	monster.hp -= weapon->attack;
-	monster.isDamaged = true;	// 무적 상태 진입
-	monster.lastHitTime = now;	// 피격 시간 기록
+	monster->hp -= weapon->attack;
+	monster->isDamaged = true;	// 무적 상태 진입
+	monster->lastHitTime = now;	// 피격 시간 기록
 
-	if (monster.hp <= 0) {
-		monster.alive = false;         // 체력이 0 이하가 되면 사망 처리
+	if (monster->hp <= 0) {
+		monster->alive = false;         // 체력이 0 이하가 되면 사망 처리
 	}
 }
 

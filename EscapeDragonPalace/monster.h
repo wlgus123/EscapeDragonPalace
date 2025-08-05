@@ -39,7 +39,7 @@ extern Monster monsterList[MAX_Monster_COUNT];
 extern int numMonster;
 
 void UpdateMonster();
-void HitMonster(Monster monster, Weapon* weapon, unsigned int now);
+void HitMonster(Monster* monster, Weapon* weapon, unsigned int now);
 void InitMonster();
 void DrawMonster();
 
