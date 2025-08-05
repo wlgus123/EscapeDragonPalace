@@ -379,16 +379,16 @@ bool CheckGround()
     int FpxR = (int)(player.Pos.x + 12) + GetPlusX();
     int MpxL = (int)(player.Pos.x + 8);
     int MpxR = (int)(player.Pos.x + 12);
-    int py = (int)(player.Pos.y + RabbitY - 1);
+    int py = (int)(player.Pos.y + RabbitY);
 
     for (int x = FpxL; x <= FpxR; x++)
     {
-        if (g_StagePlatform[GetMapStatus()][py + 1][x] == '=')
+        if (g_StagePlatform[GetMapStatus()][py][x] == '=')
             return true;
     }
     for (int x = MpxL; x <= MpxR; x++)
     {
-        if (g_Map[py + 1][x] == '=')
+        if (g_Map[py][x] == '=')
             return true;
     }
     return false;
@@ -403,11 +403,6 @@ void ApplyGravity()
             player.Pos.y = SCREEN_HEIGHT - RabbitY;
         player.Pos.y += 1.0f; // 한 칸씩 아래로
     }
-    else
-    {
-        // 발판 위에 정확히 정렬(한 칸 위에 위치)
-        player.Pos.y = (int)player.Pos.y;
-    }
 }
 
 // 발 아래 발판의 y좌표를 반환 (없으면 -1)
@@ -420,15 +415,14 @@ int GetGroundY()
     int MpxR = (player.Pos.x + 12);
     int py = (int)(player.Pos.y + RabbitY);
 
-    int y = py + 1;
-    if (y >= SCREEN_HEIGHT) return -1;
+    if (py >= SCREEN_HEIGHT) return -1;
     for (int x = FpxL; x <= FpxR; x++) {
-        if (g_StagePlatform[stage][y][x] == '=')
-            return y;
+        if (g_StagePlatform[stage][py][x] == '=')
+            return (py - 1);
     }
     for (int x = MpxL; x <= MpxR; x++) {
-        if (g_Map[y][x] == '=')
-            return y;
+        if (g_Map[py][x] == '=')
+            return (py - 1);
     }
 
     return -1;
@@ -599,6 +593,12 @@ void ClearInputBuffer()
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
     CheckGround();
+
+    if (!player.IsJumping && !CheckGround())
+    {
+        ApplyGravity();
+    }
+
     int iR = 0;
     int iL = 0;
 
