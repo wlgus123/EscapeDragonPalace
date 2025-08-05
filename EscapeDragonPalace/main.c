@@ -119,7 +119,7 @@ void Update()
     UpdateSpeedBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
     
 
-    //UpdateMonster();
+    UpdateMonster();
 
 
 

@@ -174,14 +174,15 @@ Rect GetItemRect(Item item)
 // 몬스터의 충돌 범위 반환
 Rect GetMonsterRect(Monster monster)
 {
+    int tempX = monster.pos.x + 1;
     switch (monster.type)
     {
     case MONSTER_FISH:
-        return (Rect){ GetFishPos().x, GetFishPos().x + 12, GetFishPos().y, GetFishPos().y + 2 };
+        return (Rect){ tempX, monster.pos.y, 11, 3 };
     case MONSTER_CRAB:
-        return (Rect){ GetCrabPos().x, GetCrabPos().x + 9, GetCrabPos().y, GetCrabPos().y + 2 };
+        return (Rect){ tempX, monster.pos.y, 9, 3 };
     case MONSTER_CLAM:
-        return (Rect){ GetClamPos().x, GetClamPos().x + 6, GetClamPos().y, GetClamPos().y };
+        return (Rect){ tempX, monster.pos.y, 6, 1 };
     case MONSTER_TURTLE:
         break;
     }
@@ -190,28 +191,29 @@ Rect GetMonsterRect(Monster monster)
 // 무기 충돌 범위 반환
 Rect GetWeaponRect()
 {
+    int tempX = player.Pos.x;
     // 플레이어가 오른쪽 보고 있을 때
-    if (player.Direction == 0) {
+    if (player.Direction == Right) {
         switch (GetSelectedIndex())
         {
         case 0: // 장검
-            return (Rect) {player.Pos.x + 13, player.Pos.x + 22, player.Pos.y + 2, player.Pos.y + 2};
+            return (Rect) { tempX + 12, player.Pos.y + 2, 8, 0};
         case 1: // 단검
-            return (Rect){ player.Pos.x + 13, player.Pos.x + 18, player.Pos.y + 2, player.Pos.y + 2 };
+            return (Rect){ tempX + 12, player.Pos.y + 2, 4, 0 };
         case 2: // 창
-            return (Rect){ player.Pos.x + 13, player.Pos.x + 21, player.Pos.y + 2, player.Pos.y + 2 };
+            return (Rect){ tempX + 12, player.Pos.y + 2, 7, 0 };
         }
     }
     // 플레이어가 왼쪽 보고 있을 때
-    else if (player.Direction == 1) {
+    else if (player.Direction == Left) {
         switch (GetSelectedIndex())
         {
         case 0: // 장검
-            return (Rect){ player.Pos.x - 1, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+            return (Rect){ tempX, player.Pos.y + 2, 8, 0 };
         case 1: // 단검
-            return (Rect){ player.Pos.x +3, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+            return (Rect){ tempX +2, player.Pos.y + 2, 4, 0 };
         case 2: // 창
-            return (Rect){ player.Pos.x, player.Pos.x + 8, player.Pos.y + 2, player.Pos.y + 2 };
+            return (Rect){ tempX+1, player.Pos.y + 2, 7, 0 };
         }
     }
 }
@@ -534,24 +536,7 @@ void AttackFN()
         player.IsAttacking = true;
         player.AttackFrame = 0;
         player.attackStartTime = GetTickCount();
-        // 무기 충돌 범위 받아오기
-        Rect weaponRect = GetWeaponRect();
-
-        for (int i = 0; i < numMonster; i++)
-        {
-            // 화면에 보이지 않는 몬스터(이미 죽었거나 다른 스테이지)인 경우 넘어가기
-            if (!monsterList[i].alive) continue;
-
-            // 몬스터 충돌 범위 받아오기
-            Rect monsterRect = GetMonsterRect(monsterList[i]);
-
-            // 무기와 몬스터 충돌 체크, 충돌시
-            if (IsOverlap(weaponRect, monsterRect))
-            {
-                // 몬스터 공격
-                HitMonster(monsterList[i], player.HeldWeapon, player.attackStartTime);
-            }
-        }
+        
     }
 
     // 공격 애니메이션 처리
@@ -564,6 +549,24 @@ void AttackFN()
         {
             player.IsAttacking = false;
             player.AttackFrame = 0;
+            // 무기 충돌 범위 받아오기
+            Rect weaponRect = GetWeaponRect();
+
+            for (int i = 0; i < numMonster; i++)
+            {
+                // 화면에 보이지 않는 몬스터(이미 죽었거나 다른 스테이지)인 경우 넘어가기
+                if (!monsterList[i].alive) continue;
+
+                // 몬스터 충돌 범위 받아오기
+                Rect monsterRect = GetMonsterRect(monsterList[i]);
+
+                // 무기와 몬스터 충돌 체크, 충돌시
+                if (IsOverlap(weaponRect, monsterRect))
+                {
+                    // 몬스터 공격
+                    HitMonster(&monsterList[i], player.HeldWeapon, player.attackStartTime);
+                }
+            }
         }
     }
 }
