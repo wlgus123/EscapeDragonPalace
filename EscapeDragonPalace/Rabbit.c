@@ -381,6 +381,12 @@ bool CheckGround()
     int MpxR = (int)(player.Pos.x + 12);
     int py = (int)(player.Pos.y + RabbitY);
 
+    // x좌표 경계 보정
+    if (FpxL < 0) FpxL = 0;
+    if (FpxR >= MAP_WIDTH) FpxR = MAP_WIDTH - 1;
+    if (MpxL < 0) MpxL = 0;
+    if (MpxR >= MAP_WIDTH) MpxR = MAP_WIDTH - 1;
+
     for (int x = FpxL; x <= FpxR; x++)
     {
         if (g_StagePlatform[GetMapStatus()][py][x] == '=')
@@ -416,6 +422,13 @@ int GetGroundY()
     int py = (int)(player.Pos.y + RabbitY);
 
     if (py >= SCREEN_HEIGHT) return -1;
+
+    // x좌표 경계 보정
+    if (FpxL < 0) FpxL = 0;
+    if (FpxR >= MAP_WIDTH) FpxR = MAP_WIDTH - 1;
+    if (MpxL < 0) MpxL = 0;
+    if (MpxR >= MAP_WIDTH) MpxR = MAP_WIDTH - 1;
+
     for (int x = FpxL; x <= FpxR; x++) {
         if (g_StagePlatform[stage][py][x] == '=')
             return (py - 1);
@@ -426,11 +439,6 @@ int GetGroundY()
     }
 
     return -1;
-}
-
-bool CheckUnderGround()
-{
-
 }
 
 void JumpFN()
@@ -448,8 +456,6 @@ void JumpFN()
         if (player.VelY > MAX_FALL_SPEED)
             player.VelY = MAX_FALL_SPEED;
 
-        player.Pos.y += player.VelY;
-
         // 점프 중 아래에 발판이 생기면 멈춤
         if (player.VelY >= 0 && CheckGround())
         {
@@ -463,6 +469,34 @@ void JumpFN()
             player.IsJumping = false;
         }
 
+        float nextY = player.Pos.y + player.VelY;
+        float step = (player.VelY > 0) ? 1.0f : -1.0f;
+        bool landed = false;
+
+        // y축 이동을 1씩 쪼개서 검사
+        while ((step > 0 && player.Pos.y < nextY) || (step < 0 && player.Pos.y > nextY))
+        {
+            player.Pos.y += step;
+
+            if (player.VelY >= 0 && CheckGround())
+            {
+                int groundY = GetGroundY();
+                if (groundY != -1)
+                    player.Pos.y = groundY - RabbitY + 1;
+                else
+                    player.Pos.y = (int)player.Pos.y;
+
+                player.VelY = 0.0f;
+                player.IsJumping = false;
+                landed = true;
+                break;
+            }
+        }
+
+        // 남은 이동량 처리(착지하지 않은 경우)
+        if (!landed)
+            player.Pos.y = nextY;
+
         // 맵 아래로 떨어지는 것 방지
         if (player.Pos.y > SCREEN_HEIGHT - RabbitY)
         {
@@ -472,7 +506,6 @@ void JumpFN()
         }
     }
 }
-
 
 void AttackFN()
 {
