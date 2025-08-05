@@ -45,6 +45,9 @@ void DrawMapBG()
 	// 일반 맵일 경우
 	else
 	{
+		if (g_MapStatus >= 5)
+			return;
+
 		// 배경 그리기
 		for (int y = 0; y < SCREEN_HEIGHT; y++)
 		{
@@ -88,7 +91,7 @@ int GetPlusX()
 // X값 변경하기
 void SetPlusX(int src)
 {
-	g_Plus_X;
+	g_Plus_X = src;
 }
 
 // 맵 위치 업데이트
@@ -123,9 +126,9 @@ void UpdateMapPos()
 		g_Plus_X = MAP_WIDTH - SCREEN_WIDTH;
 		SetMapEnd(true);
 	}
-	else if (g_MapStatus == E_Ground && g_Plus_X > SCREEN_WIDTH) // 보스 맵일 때
+	else if (g_MapStatus == E_Ground /* && g_Plus_X > SCREEN_WIDTH*/) // 보스 맵일 때
 	{
-		g_Plus_X = SCREEN_WIDTH;
+		g_Plus_X = 0;
 		SetMapEnd(true);
 	}
 
