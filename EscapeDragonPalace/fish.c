@@ -68,76 +68,27 @@ void DrawFish() {
 }
 */
 
-// 하영 수정 후
+// 쓸모없는 주석 제거
 void DrawFish(int dir, MyPoint pos, Monster* fish) {
-	/*
-	for (int y = 0; y < FISH_HEIGHT; y++)
-	{
-		if (dir == Right) // 물고기 방향이 오른쪽일 때
-		{
-			char* line = g_FishGraphic[Right][y];
-			int len = strlen(line);
 
-			for (int x = 0; x < len; x++)
-			{
-				if (line[x] != ' ')
-				{
-					_DrawText(pos.x + x, pos.y + y, (char[]) { line[x], '\0' });
+	int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
+
+	// 화면 범위 밖이면 출력 안 함
+	if (tempX + FISH_WIDTH < 0 || tempX >= SCREEN_WIDTH) return;
+
+	for (int y = 0; y < FISH_HEIGHT; y++) {
+		char* line = g_FishGraphic[dir][y];
+		int len = strlen(line);
+
+		for (int x = 0; x < len; x++) {
+			if (line[x] != ' ') {
+				if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
+					_DrawText(tempX + x, pos.y + y, (char[]) { line[x], '\0' });
 				}
 			}
 		}
-		else // 물고기 방향이 왼쪽일 때
-		{
-			char* line = g_FishGraphic[Left][y];
-			int len = strlen(line);
-
-			for (int x = 0; x < len; x++)
-			{
-				if (line[x] != ' ')
-				{
-					_DrawText(pos.x + x, pos.y + y, (char[]) { line[x], '\0' });
-				}
-			}
-		}
-
 	}
 
 	_SetColor(15);
-	*/
-
-		int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
-
-		// 화면 범위 밖이면 출력 안 함
-		if (tempX + FISH_WIDTH < 0 || tempX >= SCREEN_WIDTH) return;
-
-		for (int y = 0; y < FISH_HEIGHT; y++) {
-			char* line = g_FishGraphic[dir][y];
-			int len = strlen(line);
-
-			for (int x = 0; x < len; x++) {
-				if (line[x] != ' ') {
-					if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
-						_DrawText(tempX + x, pos.y + y, (char[]) { line[x], '\0' });
-					}
-				}
-			}
-		}
-
-		_SetColor(15);
 
 }
-
-/* monster.c에 몬스터를 공격했을 때 함수 구현해둠 HitMonster()
-// 몬스터 피격 함수 (체력 감소, 피격 상태 시작)
-void HitFish(unsigned int now, int damage) {
-	if (g_Fish.isDamaged) return; // 무적중이면 데미지 무시
-
-	g_Fish.hp--;
-	g_Fish.isDamaged = 1;
-	g_Fish.lastHitTime = now;
-
-	if (g_Fish.hp <= 0) {
-		g_Fish.alive = 0; // 죽음 처리
-	}
-}
-*/
