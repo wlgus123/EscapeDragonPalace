@@ -1,8 +1,8 @@
 #pragma once
 
 // 메크로
-#define ClAM_WIDTH 1
-#define CLAM_HEIGHT 1
+#define CLAM_WIDTH 1
+#define CLAM_HEIGHT 7
 #define CLAM_HP 1
 
 // 전역변수

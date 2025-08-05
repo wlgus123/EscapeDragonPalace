@@ -18,12 +18,12 @@ char seaweedSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS] = {
 // 공기방울 sprite
 char bubblesSprite[2][ITEM_SPRITE_ROWS][ITEM_SPRITE_COLS] = {
 	{
-		"ㅇ.o",
-		".ㅇo"
+		"o .o",
+		".o o"
 	},
 	{
-		".ㅇo",
-		"ㅇ.o"
+		".o o",
+		"o .o"
 	}
 };
 
