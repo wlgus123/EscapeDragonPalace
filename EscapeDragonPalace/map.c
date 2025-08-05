@@ -6,7 +6,7 @@ int g_Plus_X = 0; // X좌표 이동 증가값
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
 // 현재 맵 정보
-MapStatus g_MapStatus = E_Ground;
+MapStatus g_MapStatus = E_DragonPalace;
 
 // TODO: 코드 수정
 // 맵 틀 그리기
@@ -91,11 +91,15 @@ void UpdateMapPos()
 	if (GetKeyA() && player.Pos.x <= 24 || GetAsyncKeyState('A') & 0x8000)
 	{
 		SetMapEnd(false);
+		// 토끼가 끝 위치에서 왼쪽으로 이동할 때 화면의 가운데로 이동할 때까지 배경 멈추기
+		if (player.Pos.x >= 26) return;
 		g_Plus_X -= player.Speed;
 	}
 	else if (GetKeyD() && player.Pos.x >= 26 || GetAsyncKeyState('D') & 0x8000)
 	{
 		SetMapEnd(false);
+		// 토끼가 시작 위치에서 오른쪽으로 이동할 때 화면의 가운데로 이동할 때까지 배경 멈추기
+		if (player.Pos.x <= 24) return;
 		g_Plus_X += player.Speed;
 	}
 
