@@ -80,7 +80,7 @@ bool CheckGround();
 void JumpFN();
 void AttackFN();
 void moveFN();
-bool ISOnGoal();
+void ISOnGoal();
 void ClearInputBuffer();
 void UpdatePlayer();
 void DrawPlayer();
