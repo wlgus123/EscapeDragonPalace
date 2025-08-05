@@ -41,6 +41,6 @@ extern int numMonster;
 void UpdateMonster();
 void HitMonster(Monster monster, Weapon* weapon, unsigned int now);
 void InitMonster();
-void DrawMonster(Monster monster);
+void DrawMonster();
 
 // (자라 함수도 같은 형식으로 추가)

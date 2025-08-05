@@ -77,22 +77,28 @@ void UpdateMonster()
 }
 
 // 몬스터 그리는 함수
-void DrawMonster(Monster monster) {
-	switch (monster.type)
+void DrawMonster() {
+	for (int i = 0; i < numMonster; i++)
 	{
-	case MONSTER_FISH:
-		_SetColor(monster.isDamaged ? 12 : 9);
-		DrawFish(monster.dir, monster.pos);
-		break;
-	case MONSTER_CRAB:
-		_SetColor(monster.isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
-		DrawCrab(monster.pos);
-		break;
-	case MONSTER_CLAM:
-		DrawClam(monster.pos);
-		break;
-	case MONSTER_TURTLE:
-		break;
+		if (monsterList[i].alive) {
+
+			switch (monsterList[i].type)
+			{
+			case MONSTER_FISH:
+				_SetColor(monsterList[i].isDamaged ? 12 : 9);
+				DrawFish(monsterList[i].dir, monsterList[i].pos);
+				break;
+			case MONSTER_CRAB:
+				_SetColor(monsterList[i].isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
+				DrawCrab(monsterList[i].pos);
+				break;
+			case MONSTER_CLAM:
+				DrawClam(monsterList[i].pos);
+				break;
+			case MONSTER_TURTLE:
+				break;
+			}
+		}
 	}
 }
 

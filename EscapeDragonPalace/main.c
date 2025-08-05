@@ -93,7 +93,7 @@ void Draw() // 화면 그리기
             {
                 if (monsterList[i].alive) {
 
-                    DrawMonster(monsterList[i]);
+                    DrawMonster();
                 }
             }
 

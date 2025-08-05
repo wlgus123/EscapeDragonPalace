@@ -6,7 +6,7 @@ int g_Plus_X = 0; // X좌표 이동 증가값
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
 // 현재 맵 정보
-MapStatus g_MapStatus = E_Ground;
+MapStatus g_MapStatus = E_Jail;
 
 // TODO: 코드 수정
 // 맵 틀 그리기
