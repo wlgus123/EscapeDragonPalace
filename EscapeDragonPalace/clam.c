@@ -26,16 +26,16 @@ void UpdateClam(MyPoint pos, bool alive) {
 }
 
 void DrawClam(MyPoint pos) {
-    int tempX = pos.x + GetPlusX();
-
     //if (g_Clam.alive) {
+    //    int tempX = pos.x - GetPlusX();
+
     //    for (int y = 0; y < CLAM_HEIGHT; y++) {
     //        for (int x = 0; x < CLAM_WIDTH; x++)
     //        {
     //            // 몬스터 위치가 화면 내에 있을 때만 출력
     //            if (tempX - x >= 0 && tempX + x < SCREEN_WIDTH)
     //            {
-    //                _DrawText(tempX + x, pos.y + y, (char[]) { clamGraphic[x], 0 });
+    //                _DrawText(tempX - x, pos.y + y, "(\\   /)");
     //            }
     //        }
     //    }
@@ -45,12 +45,12 @@ void DrawClam(MyPoint pos) {
     //    _DrawText(pos.x + GetPlusX(), pos.y, " ");
     //}
 
-    if (g_Clam.alive) {
+    /*if (g_Clam.alive) {
         _DrawText(pos.x, pos.y, clamGraphic);
     }
     else {
         _DrawText(pos.x, pos.y, " ");
-    }
+    }*/
 }
 
 
