@@ -109,6 +109,8 @@ bool halfHealth = false; // 체력 반칸
 
 bool g_MouseClick = false;  // 마우스 클릭 여부
 
+bool IsDamaged = false; // 플레이어가 피격당했는지 여부
+
 // --------------------------------------------------
 
 bool SetMapEnd(bool src)
@@ -216,18 +218,27 @@ Rect GetWeaponRect()
     }
 }
 
-/* 
 bool isSpeedReduced = false;        // 현재 속도 감소 상태 여부
 const unsigned int slowDuration = 3000;  // 3초 동안 속도 감소 (단위: 밀리초) // define 으로 해야할 듯
 
 // 플레이어가 공격당했을 때
 void HitPlayer(Monster monster) {
+    DWORD now = GetTickCount();
+
+    // 무적 시간 체크
+    if (now - player.lastHitTime < INVINCIBLE_TIME) {
+        return; // 아직 무적 상태면 데미지 무시
+    }
+
+    // 피격 처리
     player.Health -= monster.attack;
-    if (monster.type == E_MONSTER_CLAM || monster.type == E_MONSTER_TURTLE) {
-        player.Speed 
+    player.lastHitTime = now; // 마지막 피격 시각 갱신
+
+    // 조개: 속도 감소
+    if (monster.type == E_MONSTER_CLAM) {
+        player.Speed *= 0.6f;
     }
 }
-*.
 
 // 아이템 먹었는지 체크
 void CheckItemPickup()
@@ -271,7 +282,6 @@ void CheckItemPickup()
                             player.Speed += amount; // 즉시 적용
                             break;
                         }
-                        break;
                     }
                     break;
                 }
@@ -685,6 +695,12 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
             SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
 
             SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
+
+            for (int i = 0; i < MAX_BUFFS; i++)
+            {
+                player.Speed = 1; // 원래대로 감소
+                speedBuffs[i].active = false;
+            }
 
             player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
             player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
