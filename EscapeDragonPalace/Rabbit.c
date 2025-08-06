@@ -634,6 +634,15 @@ void moveFN()
     if (g_KeyS)
     {
         if ((player.Pos.y + RabbitY) > 21) return; // 화면 밖으로 내려가지 않도록
+        DWORD now = GetTickCount();
+        int StartTime = 0;
+		int KeyignoreTime = 50; // 키 입력 무시 시간 (ms)
+
+        if (now - StartTime < KeyignoreTime) {
+			return; // 키 입력 무시
+        }
+
+        StartTime = now;
 
         player.Pos.y++;
 
@@ -643,6 +652,8 @@ void moveFN()
         {
             ApplyGravity();
         }
+
+        Sleep(30);
     }
 }
 
