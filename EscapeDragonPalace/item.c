@@ -32,16 +32,6 @@ Item itemList[MAX_ITEM_COUNT];	// 아이템 배열 선언
 int numItem = 0;	// 아이템 개수 초기화
 int frame = 0;		// 아이템 모션효과용 frame 초기화
 
-
-
-
-// frame 값 가져오기
-int GetFrame()
-{
-	return frame;
-}
-
-
 clock_t lastFrameTime = 0;
 const int frameDelay = 400;  // 400ms마다 프레임 전환
 
@@ -59,38 +49,48 @@ void ItemFrameDelay() {
 }
 
 // 아이템 그리는 함수
-void DrawItem(Item* item, int frame) {
+void DrawItem() {
 
-	SpriteType* sprite = &seaweedSprite;
+	for (int i = 0; i < numItem; i++)
+	{
+		if (!itemList[i].isHeld) {
 
-	// 아이템 타입에 따라 해초 or 공기방울 sprite 선택
-	switch (item->type) {
-	case E_ITEM_LIFE:
-		sprite = &seaweedSprite;
-		break;
-	case E_ITEM_SPEED:
-		sprite = &bubblesSprite;
-		break;
-	}
+			SpriteType* sprite = &seaweedSprite;
+
+			// 아이템 타입에 따라 해초 or 공기방울 sprite 선택
+			switch (itemList[i].type) {
+			case E_ITEM_LIFE:
+				sprite = &seaweedSprite;
+				_SetColor(E_Green);
+
+				break;
+			case E_ITEM_SPEED:
+				sprite = &bubblesSprite;
+				_SetColor(E_Teal);
+				break;
+			}
 
 
-	int tempX = item->x - GetPlusX();
+			int tempX = itemList[i].x - GetPlusX();
 
 
-	for (int row = 0; row < ITEM_SPRITE_ROWS; row++) {
-		if ((*sprite)[frame][row] == '\0') break;  // 공백 줄이면 중단
+			for (int row = 0; row < ITEM_SPRITE_ROWS; row++) {
+				if ((*sprite)[frame][row] == '\0') break;  // 공백 줄이면 중단
 
-		for (int col = 0; col < ITEM_SPRITE_COLS; col++)
-		{
-			// 아이템 위치가 화면 내에 있을 때만 출력
-			if(0 <= tempX + col && SCREEN_WIDTH >= tempX + col)
-			{
-				if (tempX + 7 > 0 && tempX < SCREEN_WIDTH) {
-					_DrawText(tempX + col, item->y + row, (char[]) { (*sprite)[frame][row][col], 0 });
+				for (int col = 0; col < ITEM_SPRITE_COLS; col++)
+				{
+					// 아이템 위치가 화면 내에 있을 때만 출력
+					if (0 <= tempX + col && SCREEN_WIDTH >= tempX + col)
+					{
+						if (tempX + 7 > 0 && tempX < SCREEN_WIDTH) {
+							_DrawText(tempX + col, itemList[i].y + row, (char[]) { (*sprite)[frame][row][col], 0 });
+						}
+					}
 				}
 			}
 		}
 	}
+
 }
 
 

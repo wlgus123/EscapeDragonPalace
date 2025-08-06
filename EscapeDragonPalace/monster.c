@@ -85,6 +85,7 @@ void DrawMonster() {
 				DrawCrab(tempX, monsterList[i].pos.y);
 				break;
 			case E_MONSTER_CLAM:
+				_SetColor(E_White);
 				DrawClam(tempX, monsterList[i].pos.y);
 				break;
 			case E_MONSTER_TURTLE:
