@@ -97,14 +97,14 @@ void SetPlusX(int src)
 // 맵 위치 업데이트
 void UpdateMapPos()
 {
-	if (GetKeyA() && player.Pos.x <= 24 || GetAsyncKeyState('A') & 0x8000)
+	if (GetKeyA() && player.Pos.x <= 24 || ((GetAsyncKeyState('A') & 0x8000) && !(GetAsyncKeyState('D') & 0x8000)))
 	{
 		SetMapEnd(false);
 		// 토끼가 끝 위치에서 왼쪽으로 이동할 때 화면의 가운데로 이동할 때까지 배경 멈추기
 		if (player.Pos.x >= 26) return;
 		g_Plus_X -= player.Speed;
 	}
-	else if (GetKeyD() && player.Pos.x >= 26 || GetAsyncKeyState('D') & 0x8000)
+	else if (GetKeyD() && player.Pos.x >= 26 || ((GetAsyncKeyState('D') & 0x8000) && !(GetAsyncKeyState('A') & 0x8000)))
 	{
 		if(g_MapStatus < E_Ground)
 			SetMapEnd(false);

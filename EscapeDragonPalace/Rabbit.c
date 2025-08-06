@@ -371,6 +371,7 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 
     // 마우스 왼쪽 버튼 클릭 여부
     g_MouseClick = (GetAsyncKeyState(VK_LBUTTON) & 0x8000);
+
 }
 
 // Rabbit가 현재 발판 위에 있는지 확인 (g_StagePlatform 또는 g_Map에 '='가 있으면 true)
@@ -573,6 +574,14 @@ void moveFN()
 {
     // 이동 처리
     float move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
+
+
+    // A와 D가 동시에 눌리면 둘 다 false 처리
+    if (g_KeyA && g_KeyD)
+    {
+        g_KeyA = false;
+        g_KeyD = false;
+    }
 
     if (g_KeyA)
     {
