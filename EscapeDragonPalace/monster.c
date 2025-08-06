@@ -63,6 +63,7 @@ void UpdateMonster()
 
 // 몬스터 그리는 함수
 void DrawMonster() {
+	
 	for (int i = 0; i < numMonster; i++)
 	{
 		if (monsterList[i].alive) {
@@ -70,7 +71,7 @@ void DrawMonster() {
 			switch (monsterList[i].type)
 			{
 			case MONSTER_FISH:
-				_SetColor(monsterList[i].isDamaged ? 12 : 9);
+				_SetColor(monsterList[i].isDamaged ? 12 : 15);
 				DrawFish(monsterList[i].dir, monsterList[i].pos);
 				break;
 			case MONSTER_CRAB:
@@ -85,8 +86,8 @@ void DrawMonster() {
 			}
 		}
 	}
-}
 
+}
 
 // 몬스터 피격 처리 함수
 void HitMonster(Monster* monster, Weapon* weapon, unsigned int now) {
@@ -104,6 +105,8 @@ void HitMonster(Monster* monster, Weapon* weapon, unsigned int now) {
 
 // 몬스터 초기화 함수
 void InitMonster() {
+	//감옥
+	//꽃게
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 160,
 		.pos.y = 20,
@@ -115,10 +118,10 @@ void InitMonster() {
 		.lastHitTime = 0,
 		.monsterStatus = 0
 	};
-
+	//물고기
 	monsterList[numMonster++] = (Monster){
-		.pos.x = 20,
-		.pos.y = 21,
+		.pos.x = 100,
+		.pos.y = 10,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
@@ -128,6 +131,55 @@ void InitMonster() {
 		.monsterStatus = 0
 	};
 
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 170,
+	.pos.y = 10,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 300,
+	.pos.y = 10,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 500,
+	.pos.y = 10,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 500,
+	.pos.y = 21,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 0
+	};
+
+	//조개
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 30,
 		.pos.y = 23,
@@ -139,4 +191,165 @@ void InitMonster() {
 		.lastHitTime = 0,
 		.monsterStatus = 0
 	};
+
+	//용궁맵
+	//꽃게
+
+	//물고기
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 70,
+	.pos.y = 14,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 1
+	};
+
+	monsterList[numMonster++] = (Monster){
+    .pos.x = 170,
+    .pos.y = 14,
+    .dir = Right,
+    .hp = 5,
+    .alive = true,
+    .type = MONSTER_FISH,
+    .isDamaged = false,
+    .lastHitTime = 0,
+    .monsterStatus = 1
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 280,
+	.pos.y = 11,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 1
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 520,
+	.pos.y = 11,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 1
+	};
+
+	//조개
+
+	//바다 1맵
+	//꽃게
+
+	//물고기
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 120,
+	.pos.y = 21,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 2
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 190,
+	.pos.y = 12,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 2
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 300,
+	.pos.y = 21,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 2
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 400,
+	.pos.y = 13,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 2
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 480,
+	.pos.y = 21,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 2
+	};
+
+	//조개
+
+	//바다맵2
+	//꽃게
+
+	//물고기
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 260,
+	.pos.y = 21,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 3
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 320,
+	.pos.y = 16,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 3
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 410,
+	.pos.y = 16,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.monsterStatus = 3
+	};
+	//조개
 }
