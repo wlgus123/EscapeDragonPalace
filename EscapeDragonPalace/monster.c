@@ -266,6 +266,44 @@ void InitMonster() {
 
 	//¿ë±Ã¸Ê
 	//²É°Ô
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 70,
+		.pos.y = 21,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 170,
+		.pos.y = 21,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 280,
+		.pos.y = 21,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
 
 	//¹°°í±â
 	monsterList[numMonster++] = (Monster){
@@ -362,6 +400,44 @@ void InitMonster() {
 
 	//¹Ù´Ù 1¸Ê
 	//²É°Ô
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 120,
+		.pos.y = 12,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 190,
+		.pos.y = 21,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 400,
+		.pos.y = 21,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
 
 	//¹°°í±â
 	monsterList[numMonster++] = (Monster){
