@@ -92,8 +92,6 @@ int baseY;
 int jumpHeight;
 int animFramesTotal; // 전체 애니메이션 길이 (up+down)
 
-DWORD g_KeyInputEnableTime = 0; // 키 입력 허용 시각(밀리초)
-
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
 bool isNearItem = false;    // 플레이어 주변에 아이템이 있으면 true
@@ -602,6 +600,19 @@ void moveFN()
         player.Pos.x += move;
         player.Direction = 0;
     }
+    if (g_KeyS)
+    {
+        player.Pos.y += 2;
+
+		if (player.Pos.y <= 0) player.Pos.y = 1; // 화면 밖으로 내려가지 않도록
+
+        CheckGround();
+
+        if (!player.IsJumping && !CheckGround())
+        {
+            ApplyGravity();
+        }
+    }
 }
 
 void ISOnGoal()
@@ -619,8 +630,6 @@ void ISOnGoal()
         if (g_StagePlatform[mapStatus][py][x] == '@')// Rabbit이 @에 닿았는지 체크
         {
             stageClear = true;
-
-            g_KeyInputEnableTime = GetTickCount() + 3000; // 3초 후부터 키 입력 허용되게 하기 (UpdatePlayer에 내용에서 이어짐)
         }
     }
 }
@@ -644,31 +653,21 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
     }
     else
     {
-        // 현재 시간
-        DWORD now = GetTickCount();
-
-        // 3초가 지나지 않았으면 키 입력 무시
-        if (now < g_KeyInputEnableTime)
+        if (g_Key != -1)
         {
-            ClearInputBuffer();
+            stageClear = false;
+
+            system("cls"); // 화면 지우기
+
+            SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
+            SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
+
+            SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
+
+            player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
+            player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
         }
-        else
-        {
-            if (g_Key != -1)
-            {
-                stageClear = false;
-
-                system("cls"); // 화면 지우기
-
-                SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
-                SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
-
-                SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
-
-                player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
-                player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
-            }
-        }
+        
     }
 
 	CheckGround(); // 플레이어가 땅에 있는지 체크
@@ -828,7 +827,5 @@ void InitPlayer() // 초기화
     animFramesTotal = 10;
 
     isNearItem = false;
-
-
 }
 
