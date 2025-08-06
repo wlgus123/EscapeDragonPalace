@@ -22,9 +22,9 @@ int GetSmallFishDir()
 	return g_SmallFish.dir;
 }
 
-void DrawSmallFish(int dir, MyPoint pos) {
+void DrawSmallFish(int dir, int posX, int posY) {
 
-	int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
+	int tempX = posX - GetPlusX();  // 카메라 기준 위치 조정
 
 	// 화면 범위 밖이면 출력 안 함
 	if (tempX + SMALLFISH_WIDTH < 0 || tempX >= SCREEN_WIDTH) return;
@@ -36,7 +36,7 @@ void DrawSmallFish(int dir, MyPoint pos) {
 		for (int x = 0; x < len; x++) {
 			if (line[x] != ' ') {
 				if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
-					_DrawText(tempX + x, pos.y + y, (char[]) { line[x], '\0' });
+					_DrawText(tempX + x, posY + y, (char[]) { line[x], '\0' });
 				}
 			}
 		}

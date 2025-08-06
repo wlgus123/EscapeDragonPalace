@@ -29,12 +29,10 @@ bool CheckCollison(Rect p, Rect crab) {
 
 // 꽃게 그리기 함수
 // 하영 수정 =================================
-void DrawCrab(MyPoint pos)
+void DrawCrab(int posX, int posY)
 {
-	int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
-
 	// 화면 범위 밖이면 출력 안 함
-	if (tempX + CRAB_WIDTH < 0 || tempX >= SCREEN_WIDTH) return;
+	if (posX + CRAB_WIDTH < 0 || posX >= SCREEN_WIDTH) return;
 
 
 	Rect PlayerPos = {player.Pos.x, player.Pos.y, 8, 3 };
@@ -50,9 +48,9 @@ void DrawCrab(MyPoint pos)
 			{
 				if (line[x] != ' ') 
 				{
-					if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
+					if (0 <= posX + x && posX + x < SCREEN_WIDTH) {
 						char ch[2] = { line[x], '\0' };
-						_DrawText(tempX + x, pos.y + y, ch);
+						_DrawText(posX + x, posY + y, ch);
 					}
 				}
 			}
@@ -64,9 +62,9 @@ void DrawCrab(MyPoint pos)
 			{
 				if (line[x] != ' ')
 				{
-					if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
+					if (0 <= posX + x && posX + x < SCREEN_WIDTH) {
 						char ch[2] = { line[x], '\0' };
-						_DrawText(tempX + x, pos.y + y, ch);
+						_DrawText(posX + x, posY + y, ch);
 					}
 				}
 			}

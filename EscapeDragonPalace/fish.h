@@ -20,9 +20,5 @@ static char g_FishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
 
 // 물고기 함수
 void UpdateFish(unsigned int now);	// 물고기 업데이트
-void DrawFish(int dir, MyPoint pos);	// 물고기 그리기
+void DrawFish(int dir, int posX, int posY);	// 물고기 그리기
 //void HitFish(unsigned int now, int damage);	// 물고기 데미지 입히기
-bool GetFishAlive();	// 물고기 생존여부 반환
-bool GetFishIsDamaged();	// 물고기 데미지 여부 반환
-MyPoint GetFishPos(); // 물고기 위치 반환
-int GetFishDir();	// 물고기 방향 반환

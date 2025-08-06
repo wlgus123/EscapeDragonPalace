@@ -3,7 +3,7 @@
 #include "clam.h"
 #include "crab.h"
 #include "fish.h"
-#include "SmallFish.h"
+#include "small_fish.h"
 
 #define MONSTER_H
 
