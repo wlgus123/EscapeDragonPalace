@@ -1,26 +1,4 @@
 #include "Rabbit.h"
-Monster g_Fish = { { 5, MONSTER_Y }, Right, FISH_HP, true, MONSTER_FISH, 0, 0 }; // 물고기
-
-bool GetFishAlive()
-{
-	return g_Fish.alive;
-}
-
-bool GetFishIsDamaged()
-{
-	return g_Fish.isDamaged;
-}
-
-MyPoint GetFishPos()
-{
-	return g_Fish.pos;
-}
-
-int GetFishDir()
-{
-	return g_Fish.dir;
-}
-
 
 void UpdateFish(unsigned int now) {
 
@@ -69,12 +47,10 @@ void DrawFish() {
 */
 
 // 쓸모없는 주석 제거
-void DrawFish(int dir, MyPoint pos) {
-
-	int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
+void DrawFish(int dir, int posX, int posY) {
 
 	// 화면 범위 밖이면 출력 안 함
-	if (tempX + FISH_WIDTH < 0 || tempX >= SCREEN_WIDTH) return;
+	if (posX + FISH_WIDTH < 0 || posX >= SCREEN_WIDTH) return;
 
 	for (int y = 0; y < FISH_HEIGHT; y++) {
 		char* line = g_FishGraphic[dir][y];
@@ -82,8 +58,8 @@ void DrawFish(int dir, MyPoint pos) {
 
 		for (int x = 0; x < len; x++) {
 			if (line[x] != ' ') {
-				if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
-					_DrawText(tempX + x, pos.y + y, (char[]) { line[x], '\0' });
+				if (0 <= posX + x && posX + x < SCREEN_WIDTH) {
+					_DrawText(posX + x, posY + y, (char[]) { line[x], '\0' });
 				}
 			}
 		}

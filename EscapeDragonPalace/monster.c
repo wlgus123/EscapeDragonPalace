@@ -73,26 +73,27 @@ void DrawMonster() {
 
 	for (int i = 0; i < numMonster; i++)
 	{
+		int tempX = monsterList[i].pos.x - GetPlusX();  // 카메라 기준 위치 조정
 		if (monsterList[i].alive) {
 
 			switch (monsterList[i].type)
 			{
 			case MONSTER_FISH:
 				_SetColor(monsterList[i].isDamaged ? 12 : 15);
-				DrawFish(monsterList[i].dir, monsterList[i].pos);
+				DrawFish(monsterList[i].dir, tempX, monsterList[i].pos.y);
 				break;
 			case MONSTER_CRAB:
 				_SetColor(monsterList[i].isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
-				DrawCrab(monsterList[i].pos);
+				DrawCrab(tempX, monsterList[i].pos.y);
 				break;
 			case MONSTER_CLAM:
-				DrawClam(monsterList[i].pos);
+				DrawClam(tempX, monsterList[i].pos.y);
 				break;
 			case MONSTER_TURTLE:
 				break;
 			case MONSTER_SMALLFISH:
 				//_SetColor(monsterList[i].isDamaged ? 12 : 15);
-				DrawSmallFish(monsterList[i].dir, monsterList[i].pos);
+				DrawSmallFish(monsterList[i].dir, tempX, monsterList[i].pos.y);
 				break;
 			}
 		}

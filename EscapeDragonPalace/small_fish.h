@@ -15,8 +15,6 @@ static char g_SmallFishGraphic[2][SMALLFISH_HEIGHT][SMALLFISH_WIDTH] = {
 };
 
 // 물고기 함수
-void DrawSmallFish(int dir, MyPoint pos);	// 물고기 그리기
+void DrawSmallFish(int dir, int posX, int posY);	// 물고기 그리기
 bool GetSmallFishAlive();	// 물고기 생존여부 반환
 bool GetSmallFishIsDamaged();	// 물고기 데미지 여부 반환
-MyPoint GetSmallFishPos(); // 물고기 위치 반환
-int GetSmallFishDir();	// 물고기 방향 반환
