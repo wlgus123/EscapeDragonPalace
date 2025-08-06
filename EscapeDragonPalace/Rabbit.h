@@ -70,14 +70,20 @@ bool IsNearItem();
 void SetIsNearItem(bool src);
 bool StageClear();
 bool IsOverlap(Rect player, Rect Obj);
+Rect GetPlayerRect();
+Rect GetItemRect(Item item);
+Rect GetMonsterRect(Monster monster);
+Rect GetWeaponRect();
+void HitPlayer(Monster monster);
 void CheckItemPickup();
 void UpdateSpeedBuffs();
 void ClearRabbitAt(int x, int y);
 void DrawRabbitAt(int x, int y, int idx);
 void RabbitCAnim();
 void GetInput();
-void ApplyGravity();
 bool CheckGround();
+void ApplyGravity();
+int GetGroundY();
 void JumpFN();
 void AttackFN();
 void moveFN();
@@ -88,15 +94,6 @@ void DrawPlayer();
 void DrawHealth();
 void InitPlayer();
 
-bool IsOverlap(Rect player, Rect Obj);
-Rect GetPlayerRect();
-Rect GetItemRect(Item item);
-Rect GetWeaponRect();
-Rect GetMonsterRect(Monster monster);
-void CheckItemPickup();
-void UpdateSpeedBuffs();
-
-SpeedBuff speedBuffs;
 
 
 
