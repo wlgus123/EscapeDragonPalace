@@ -148,6 +148,7 @@
     <ClCompile Include="mtg.c" />
     <ClCompile Include="Rabbit.c" />
     <ClCompile Include="screens.c" />
+    <ClCompile Include="SmallFish.c" />
     <ClCompile Include="terrapin.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -164,6 +165,7 @@
     <ClInclude Include="mtg.h" />
     <ClInclude Include="Rabbit.h" />
     <ClInclude Include="screens.h" />
+    <ClInclude Include="SmallFish.h" />
     <ClInclude Include="weapon.h" />
   </ItemGroup>
   <ItemGroup>
