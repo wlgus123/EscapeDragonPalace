@@ -25,7 +25,7 @@ void UpdateMonster()
 
 			// 무적시간 지나면 피격 상태 해제
 			if (monsterList[i].isDamaged && now - monsterList[i].lastHitTime >= INVINCIBLE_TIME) {
-				monsterList[i].isDamaged = 0;
+				monsterList[i].isDamaged = false;
 			}
 
 			// 몬스터 이동
