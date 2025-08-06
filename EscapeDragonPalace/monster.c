@@ -119,8 +119,8 @@ void InitMonster() {
 	//°¨¿Á
 	//²É°Ô
 	monsterList[numMonster++] = (Monster){
-		.pos.x = 160,
-		.pos.y = 20,
+		.pos.x = 100,
+		.pos.y = 5,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
