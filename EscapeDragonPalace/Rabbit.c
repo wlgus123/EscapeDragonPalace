@@ -216,6 +216,19 @@ Rect GetWeaponRect()
     }
 }
 
+/* 
+bool isSpeedReduced = false;        // 현재 속도 감소 상태 여부
+const unsigned int slowDuration = 3000;  // 3초 동안 속도 감소 (단위: 밀리초) // define 으로 해야할 듯
+
+// 플레이어가 공격당했을 때
+void HitPlayer(Monster monster) {
+    player.Health -= monster.attack;
+    if (monster.type == E_MONSTER_CLAM || monster.type == E_MONSTER_TURTLE) {
+        player.Speed 
+    }
+}
+*.
+
 // 아이템 먹었는지 체크
 void CheckItemPickup()
 {
