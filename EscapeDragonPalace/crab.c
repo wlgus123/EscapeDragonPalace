@@ -18,19 +18,26 @@ void UpdateCrab(unsigned int now) {
 
 }
 
+bool CheckCollison(Rect p, Rect crab) {
+	if ((p.x < crab.x + crab.w) && (p.x + p.w > crab.x) &&
+		(p.y < crab.y + crab.h) && (p.y + p.h > crab.y))
+		return true;
+	return false;
+}
+
+
 
 // 꽃게 그리기 함수
 // 하영 수정 =================================
 void DrawCrab(MyPoint pos)
 {
-	float dx = player.Pos.x - g_Crab.pos.x; //여기서부터
-	float dy = player.Pos.y - g_Crab.pos.y;
+	Rect PlayerPos = {player.Pos.x, player.Pos.y, 8, 3 };
 
 	_SetColor(g_Crab.isDamaged ? 6 : 12);// 피격 시 노란색, 평시 빨간색
 
 	for (int y = 0; y < CRAB_HEIGHT; y++)
 	{
-		if (sqrt(dx * dx + dy * dy) <= 2)
+		if(CheckCollison(PlayerPos,(Rect){g_Crab.pos.x,g_Crab.pos.y, 9, 3 }))
 		{
 			const char* line = crabGraphic[1][y];
 			for (int x = 0; line[x] != '\0'; x++) 
@@ -38,7 +45,7 @@ void DrawCrab(MyPoint pos)
 				if (line[x] != ' ') 
 				{
 					char ch[2] = { line[x], '\0' };
-					_DrawText(g_Crab.pos.x + x, g_Crab.pos.y + y, ch);
+					_DrawText(pos.x + x, pos.y + y, ch);
 				}
 			}
 		}
@@ -57,3 +64,4 @@ void DrawCrab(MyPoint pos)
 	}
 	_SetColor(15);
 }
+
