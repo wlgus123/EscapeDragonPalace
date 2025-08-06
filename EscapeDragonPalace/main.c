@@ -4,17 +4,43 @@
 
 bool MapSetting = false;	// 아이템 세팅여부 변수
 
-// 아이템 세팅 여부 가져오기
+// 맵 아이템, 몬스터 세팅 여부 가져오기
 bool GetMapSetting()
 {
     return MapSetting;
 }
 
-// 아이템 세팅 여부 세팅하기
+// 맵 아이템, 몬스터 세팅 여부 세팅하기
 void SetMapSetting(bool src)
 {
     MapSetting = src;
 }
+
+void FMapSetting() {
+    for (int i = 0; i < numItem; i++)
+    {
+        // 현재 스테이지에 들어가는 아이템 보이게 하기
+        if (itemList[i].mapStatus == GetMapStatus()) {
+            itemList[i].isHeld = false;
+        }
+        else {
+            itemList[i].isHeld = true;
+        }
+    }
+    for (int i = 0; i < numMonster; i++)
+    {
+        // 현재 스테이지에 들어가는 몬스터 보이게 하기
+        if (monsterList[i].mapStatus == GetMapStatus()) {
+            monsterList[i].alive = true;
+        }
+        else {
+            monsterList[i].alive = false;
+        }
+    }
+    // 스테이지 아이템 세팅 완료
+    SetMapSetting(true);
+}
+
 
 // ===============================================================
 
@@ -69,67 +95,32 @@ void Draw() // 화면 그리기
 
                 // 스테이지 시작후 아이템 세팅이 안 되어있을 때
                 if (!GetMapSetting()) {
-                    for (int i = 0; i < numItem; i++)
-                    {
-                        // 현재 스테이지에 들어가는 아이템 보이게 하기
-                        if (itemList[i].mapStatus == GetMapStatus()) {
-                            itemList[i].isHeld = false;
-                        }
-                        else {
-                            itemList[i].isHeld = true;
-                        }
-                    }
-                    for (int i = 0; i < numMonster; i++)
-                    {
-                        // 현재 스테이지에 들어가는 몬스터 보이게 하기
-                        if (monsterList[i].mapStatus == GetMapStatus()) {
-                            monsterList[i].alive = true;
-                        }
-                        else {
-                            monsterList[i].alive = false;
-                        }
-                    }
-                    // 스테이지 아이템 세팅 완료
-                    SetMapSetting(true);
+                    FMapSetting();
                 }
                 
                 // 아이템 출력
-                for (int i = 0; i < numItem; i++)
+                DrawItem();
+                _SetColor(E_White); // 아이템 외 색상 초기화
+
+                // 플레이어 출력
+                DrawPlayer();
+
+                // 몬스터 출력
+
+                DrawMonster();
+                _SetColor(E_White); // 몬스터 외 색상 초기화
+
+
+                // 플레이어 주변에 아이템이 있을 때 알림문구 출력
+                if (IsNearItem())
                 {
-                    if (!itemList[i].isHeld) {
-
-                        DrawItem(&itemList[i], GetFrame());
-                    }
+                    _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 }
-                
 
+                // 맵 틀 그리기
+                DrawMap();
             }
-
-            DrawPlayer();
-
-
-            // TODO: 몬스터가 살아있다면 몬스터 그리기 추가
-            //DrawFish();
-            //DrawCrab();
-            //DrawClam();
-
-            // 몬스터 출력
-
-            DrawMonster();
-
-			_SetColor(E_White); // 몬스터 외 색상 초기화
-
-
-            // 플레이어 주변에 아이템이 있을 때 알림문구 출력
-            if (IsNearItem())
-            {
-                _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
-            }
-
-            // 맵 틀 그리기
-            DrawMap();
         }
-
     }
 }
 // ===========================================================
