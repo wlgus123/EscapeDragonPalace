@@ -1,6 +1,22 @@
 #include "map.h"
 #include "Rabbit.h"
-//================================================================
+// ===============================================================
+
+bool MapSetting = false;	// 아이템 세팅여부 변수
+
+// 아이템 세팅 여부 가져오기
+bool GetMapSetting()
+{
+    return MapSetting;
+}
+
+// 아이템 세팅 여부 세팅하기
+void SetMapSetting(bool src)
+{
+    MapSetting = src;
+}
+
+// ===============================================================
 
 void Draw() // 화면 그리기
 {
@@ -52,7 +68,7 @@ void Draw() // 화면 그리기
 
 
                 // 스테이지 시작후 아이템 세팅이 안 되어있을 때
-                if (!GetSettingItem()) {
+                if (!GetMapSetting()) {
                     for (int i = 0; i < numItem; i++)
                     {
                         // 현재 스테이지에 들어가는 아이템 보이게 하기
@@ -63,8 +79,18 @@ void Draw() // 화면 그리기
                             itemList[i].isHeld = true;
                         }
                     }
+                    for (int i = 0; i < numMonster; i++)
+                    {
+                        // 현재 스테이지에 들어가는 몬스터 보이게 하기
+                        if (monsterList[i].mapStatus == GetMapStatus()) {
+                            monsterList[i].alive = true;
+                        }
+                        else {
+                            monsterList[i].alive = false;
+                        }
+                    }
                     // 스테이지 아이템 세팅 완료
-                    SetSettingItem(true);
+                    SetMapSetting(true);
                 }
                 
                 // 아이템 출력

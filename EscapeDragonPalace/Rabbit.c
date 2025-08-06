@@ -663,7 +663,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
                 SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
                 SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
 
-                SetSettingItem(false);  // 스테이지 아이템 세팅 리셋
+                SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
 
                 player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
                 player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
