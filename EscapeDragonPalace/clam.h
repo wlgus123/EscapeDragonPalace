@@ -6,7 +6,7 @@
 #define CLAM_HP 1
 
 // 전역변수
-static const char g_ClamGraphic[CLAM_WIDTH] = "(\\  /)";
+static const char g_ClamGraphic[CLAM_WIDTH] = "(\\ /)";
 
 //조개 함수
 void TriggerClam();
