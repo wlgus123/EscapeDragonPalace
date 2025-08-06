@@ -7,16 +7,17 @@ int numMonster = 0;
 // 몬스터 업데이트
 void UpdateMonster()
 {
-	// 하영 수정 ================================
-
+	// 몬스터 배열 for문
 	for (int i = 0; i < numMonster; i++) {
-
+		// 조개일 때
 		if (monsterList[i].type == MONSTER_CLAM) {
 			UpdateClam(monsterList[i].pos, monsterList[i].alive);
 		}
+		// 자라일 때
 		else if (monsterList[i].type == MONSTER_TURTLE) {
-
+			// 자라 업데이트 함수 적기
 		}
+		// 그 외(큰물고기, 작은물고기, 꽃게)
 		else {
 			// 화면에 보이지 않는 몬스터(죽었거나 다른 스테이지)인 경우 넘어가기
 			if (!monsterList[i].alive) continue;
