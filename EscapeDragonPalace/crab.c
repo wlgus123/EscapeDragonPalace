@@ -31,6 +31,12 @@ bool CheckCollison(Rect p, Rect crab) {
 // 하영 수정 =================================
 void DrawCrab(MyPoint pos)
 {
+	int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
+
+	// 화면 범위 밖이면 출력 안 함
+	if (tempX + CRAB_WIDTH < 0 || tempX >= SCREEN_WIDTH) return;
+
+
 	Rect PlayerPos = {player.Pos.x, player.Pos.y, 8, 3 };
 
 	_SetColor(g_Crab.isDamaged ? 6 : 12);// 피격 시 노란색, 평시 빨간색
@@ -44,8 +50,10 @@ void DrawCrab(MyPoint pos)
 			{
 				if (line[x] != ' ') 
 				{
-					char ch[2] = { line[x], '\0' };
-					_DrawText(pos.x + x, pos.y + y, ch);
+					if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
+						char ch[2] = { line[x], '\0' };
+						_DrawText(tempX + x, pos.y + y, ch);
+					}
 				}
 			}
 		}
@@ -56,8 +64,10 @@ void DrawCrab(MyPoint pos)
 			{
 				if (line[x] != ' ')
 				{
-					char ch[2] = { line[x], '\0' };
-					_DrawText(pos.x + x, pos.y + y, ch);
+					if (0 <= tempX + x && tempX + x < SCREEN_WIDTH) {
+						char ch[2] = { line[x], '\0' };
+						_DrawText(tempX + x, pos.y + y, ch);
+					}
 				}
 			}
 		}
