@@ -63,7 +63,7 @@ void UpdateMonster()
 
 // 몬스터 그리는 함수
 void DrawMonster() {
-	
+
 	for (int i = 0; i < numMonster; i++)
 	{
 		if (monsterList[i].alive) {
@@ -181,15 +181,39 @@ void InitMonster() {
 
 	//조개
 	monsterList[numMonster++] = (Monster){
-		.pos.x = 30,
-		.pos.y = 23,
+		.pos.x = 119,
+		.pos.y = 13,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
 		.type = MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
-		.mapStatus = 0
+		.mapStatus = E_Jail
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 251,
+	.pos.y = 18,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_CLAM,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.mapStatus = E_Jail
+	};
+
+	monsterList[numMonster++] = (Monster){
+	.pos.x = 400,
+	.pos.y = 23,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_CLAM,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.mapStatus = E_Jail
 	};
 
 	//용궁맵
@@ -209,15 +233,15 @@ void InitMonster() {
 	};
 
 	monsterList[numMonster++] = (Monster){
-    .pos.x = 170,
-    .pos.y = 14,
-    .dir = Right,
-    .hp = 5,
-    .alive = true,
-    .type = MONSTER_FISH,
-    .isDamaged = false,
-    .lastHitTime = 0,
-    .mapStatus = 1
+	.pos.x = 170,
+	.pos.y = 14,
+	.dir = Right,
+	.hp = 5,
+	.alive = true,
+	.type = MONSTER_FISH,
+	.isDamaged = false,
+	.lastHitTime = 0,
+	.mapStatus = 1
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -245,6 +269,41 @@ void InitMonster() {
 	};
 
 	//조개
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 145,
+		.pos.y = 19,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_DragonPalace
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 308,
+		.pos.y = 13,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_DragonPalace
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 413,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_DragonPalace
+	};
 
 	//바다 1맵
 	//꽃게
@@ -311,6 +370,53 @@ void InitMonster() {
 	};
 
 	//조개
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 140,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea1
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 226,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea1
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 404,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea1
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 532,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea1
+	};
 
 	//바다맵2
 	//꽃게
@@ -351,5 +457,65 @@ void InitMonster() {
 	.lastHitTime = 0,
 	.mapStatus = 3
 	};
+
 	//조개
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 62,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea2
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 167,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea2
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 247,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea2
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 335,
+		.pos.y = 23,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea2
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 374,
+		.pos.y = 18,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CLAM,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = E_Sea2
+	};
 }
