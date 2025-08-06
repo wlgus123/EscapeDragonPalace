@@ -10,27 +10,6 @@
 #define MAP_WIDTH 700 // ¸Ê ³Êºñ
 #define GOAL_HEIGHT 5 // µµÂøÁöÁ¡ ³ôÀÌ
 
-// CMD »ö±ò
-typedef enum CMDColor
-{
-	E_Black,
-	E_Blue,
-	E_Green,
-	E_Teal, // Ã»·Ï»ö
-	E_Red,
-	E_Purple,
-	E_Yellow,
-	E_White,
-	E_Gray,
-	E_BrightBlue,
-	E_BrightGreen,
-	E_BrightTeal,
-	E_BrightRed,
-	E_BrightPurple,
-	E_BrightYellow,
-	E_BrightWhite,
-} CMDColor;
-
 // ¸Ê
 typedef enum MapStatus
 {

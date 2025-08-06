@@ -29,5 +29,26 @@ typedef enum {
     E_LEFT,
 } Direction;
 
+// CMD 색깔
+typedef enum CMDColor
+{
+	E_Black,
+	E_Blue,
+	E_Green,
+	E_Teal, // 청록색
+	E_Red,
+	E_Purple,
+	E_Yellow,
+	E_White,
+	E_Gray,
+	E_BrightBlue,
+	E_BrightGreen,
+	E_BrightTeal,
+	E_BrightRed,
+	E_BrightPurple,
+	E_BrightYellow,
+	E_BrightWhite,
+} CMDColor;
+
 // 전역 변수
 int g_Key;
