@@ -821,7 +821,7 @@ void InitPlayer() // √ ±‚»≠
 
     player.Pos.x = RabbitXPos;
     player.Pos.y = RabbitYPos;
-    player.Speed = 1.0f;
+    player.Speed = 1.2f;
     player.Health = 10;
     player.VelY = 0.0f;
     player.IsJumping = false;
