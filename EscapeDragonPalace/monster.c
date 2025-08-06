@@ -122,7 +122,7 @@ void InitMonster() {
 	//²É°Ô
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 100,
-		.pos.y = 5,
+		.pos.y = 21,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
@@ -131,6 +131,33 @@ void InitMonster() {
 		.lastHitTime = 0,
 		.mapStatus = 0
 	};
+	
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 170,
+		.pos.y = 21,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
+
+	monsterList[numMonster++] = (Monster){
+		.pos.x = 285,
+		.pos.y = 21,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = MONSTER_CRAB,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 0
+	};
+
+
+
 	//¹°°í±â
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 100,
