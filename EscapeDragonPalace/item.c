@@ -33,19 +33,7 @@ int numItem = 0;	// 아이템 개수 초기화
 int frame = 0;		// 아이템 모션효과용 frame 초기화
 
 
-bool SettingItem = false;	// 아이템 세팅여부 변수
 
-// 아이템 세팅 여부 가져오기
-bool GetSettingItem()
-{
-	return SettingItem;
-}
-
-// 아이템 세팅 여부 세팅하기
-void SetSettingItem(bool src)
-{
-	SettingItem = src;
-}
 
 // frame 값 가져오기
 int GetFrame()

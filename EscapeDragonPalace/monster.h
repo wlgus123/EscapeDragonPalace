@@ -32,7 +32,7 @@ typedef struct Monster {
     MonsterType type;   // 몬스터 종류
     bool isDamaged;      // 피격 상태(무적 여부)
     unsigned int lastHitTime;  // 마지막 피격 시간
-    MapStatus monsterStatus; // 맵 스폰할때 사용
+    MapStatus mapStatus; // 맵 스폰할때 사용
 } Monster;
 
 extern Monster monsterList[MAX_Monster_COUNT];

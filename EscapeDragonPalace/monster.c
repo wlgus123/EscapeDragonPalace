@@ -116,7 +116,7 @@ void InitMonster() {
 		.type = MONSTER_CRAB,
 		.isDamaged = false,
 		.lastHitTime = 0,
-		.monsterStatus = 0
+		.mapStatus = 0
 	};
 	//물고기
 	monsterList[numMonster++] = (Monster){
@@ -128,7 +128,7 @@ void InitMonster() {
 		.type = MONSTER_FISH,
 		.isDamaged = false,
 		.lastHitTime = 0,
-		.monsterStatus = 0
+		.mapStatus = 0
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -140,7 +140,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 0
+	.mapStatus = 0
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -152,7 +152,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 0
+	.mapStatus = 0
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -164,7 +164,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 0
+	.mapStatus = 0
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -176,7 +176,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 0
+	.mapStatus = 0
 	};
 
 	//조개
@@ -189,7 +189,7 @@ void InitMonster() {
 		.type = MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
-		.monsterStatus = 0
+		.mapStatus = 0
 	};
 
 	//용궁맵
@@ -205,7 +205,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 1
+	.mapStatus = 1
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -217,7 +217,7 @@ void InitMonster() {
     .type = MONSTER_FISH,
     .isDamaged = false,
     .lastHitTime = 0,
-    .monsterStatus = 1
+    .mapStatus = 1
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -229,7 +229,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 1
+	.mapStatus = 1
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -241,7 +241,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 1
+	.mapStatus = 1
 	};
 
 	//조개
@@ -259,7 +259,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 2
+	.mapStatus = 2
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -271,7 +271,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 2
+	.mapStatus = 2
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -283,7 +283,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 2
+	.mapStatus = 2
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -295,7 +295,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 2
+	.mapStatus = 2
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -307,7 +307,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 2
+	.mapStatus = 2
 	};
 
 	//조개
@@ -325,7 +325,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 3
+	.mapStatus = 3
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -337,7 +337,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 3
+	.mapStatus = 3
 	};
 
 	monsterList[numMonster++] = (Monster){
@@ -349,7 +349,7 @@ void InitMonster() {
 	.type = MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
-	.monsterStatus = 3
+	.mapStatus = 3
 	};
 	//조개
 }
