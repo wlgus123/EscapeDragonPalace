@@ -602,9 +602,9 @@ void moveFN()
     }
     if (g_KeyS)
     {
-        player.Pos.y += 2;
+        if ((player.Pos.y + RabbitY) > 21) return; // 화면 밖으로 내려가지 않도록
 
-		if (player.Pos.y <= 0) player.Pos.y = 1; // 화면 밖으로 내려가지 않도록
+        player.Pos.y++;
 
         CheckGround();
 
