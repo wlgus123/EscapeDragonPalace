@@ -1,6 +1,6 @@
 #include "Rabbit.h"
 
-Monster g_SmallFish = { { 10, MONSTER_Y }, Right, SMALLFISH_HP, true, MONSTER_SMALLFISH, 0, 0 }; // 물고기
+Monster g_SmallFish = { { 10, MONSTER_Y }, Right, SMALLFISH_HP, true, E_MONSTER_SMALLFISH, 0, 0 }; // 물고기
 
 bool GetSmallFishAlive()
 {

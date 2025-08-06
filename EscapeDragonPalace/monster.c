@@ -10,11 +10,11 @@ void UpdateMonster()
 	// 몬스터 배열 for문
 	for (int i = 0; i < numMonster; i++) {
 		// 조개일 때
-		if (monsterList[i].type == MONSTER_CLAM) {
+		if (monsterList[i].type == E_MONSTER_CLAM) {
 			UpdateClam(monsterList[i].pos, monsterList[i].alive);
 		}
 		// 자라일 때
-		else if (monsterList[i].type == MONSTER_TURTLE) {
+		else if (monsterList[i].type == E_MONSTER_TURTLE) {
 			// 자라 업데이트 함수 적기
 		}
 		// 그 외(큰물고기, 작은물고기, 꽃게)
@@ -29,36 +29,33 @@ void UpdateMonster()
 			}
 
 			// 몬스터 이동
-			if (monsterList[i].dir == Right)
-				monsterList[i].pos.x += 1;
-			else
-				monsterList[i].pos.x -= 1;
+			monsterList[i].pos.x += (monsterList[i].dir == Right) ? 1 : -1;
 
 			// 왼쪽 벽 충돌 시 방향 전환
-			if (monsterList[i].pos.x <= 0) {
+			/*if (monsterList[i].pos.x <= 0) {
 				monsterList[i].pos.x = 0;
 				monsterList[i].dir = Right;
-			}
+			}*/
 
 			// 몬스터 타입에 따라 오른쪽 벽 충돌시 방향전환
-			if (monsterList[i].type == MONSTER_FISH) {
+			if (monsterList[i].type == E_MONSTER_FISH) {
 				// 물고기
-				if (monsterList[i].pos.x + FISH_WIDTH >= 82) {
-					monsterList[i].pos.x = 80 - FISH_WIDTH + 2;
+				if (monsterList[i].pos.x + FISH_WIDTH >= monsterList[i].pos.x + monsterList[i].moveNum + GetPlusX()) {
+					monsterList[i].pos.x = monsterList[i].moveNum - FISH_WIDTH;
 					monsterList[i].dir = Left;
 				}
 			}
-			else if (monsterList[i].type == MONSTER_CRAB) {
+			else if (monsterList[i].type == E_MONSTER_CRAB) {
 				// 꽃게
-				if (monsterList[i].pos.x + CRAB_WIDTH >= 82) {
-					monsterList[i].pos.x = 80 - CRAB_WIDTH + 2;
+				if (monsterList[i].pos.x + CRAB_WIDTH >= monsterList[i].pos.x + monsterList[i].moveNum - GetPlusX()) {
+					monsterList[i].pos.x = monsterList[i].moveNum - CRAB_WIDTH;
 					monsterList[i].dir = Left;
 				}
 			}
-			else if (monsterList[i].type == MONSTER_SMALLFISH) {
+			else if (monsterList[i].type == E_MONSTER_SMALLFISH) {
 				// 작은 물고기
-				if (monsterList[i].pos.x + SMALLFISH_WIDTH >= 82) {
-					monsterList[i].pos.x = 80 - SMALLFISH_WIDTH + 2;
+				if (monsterList[i].pos.x + SMALLFISH_WIDTH >= monsterList[i].pos.x + monsterList[i].moveNum + GetPlusX()) {
+					monsterList[i].pos.x = monsterList[i].moveNum - SMALLFISH_WIDTH;
 					monsterList[i].dir = Left;
 				}
 			}
@@ -79,20 +76,20 @@ void DrawMonster() {
 
 			switch (monsterList[i].type)
 			{
-			case MONSTER_FISH:
+			case E_MONSTER_FISH:
 				_SetColor(monsterList[i].isDamaged ? 12 : 15);
 				DrawFish(monsterList[i].dir, tempX, monsterList[i].pos.y);
 				break;
-			case MONSTER_CRAB:
+			case E_MONSTER_CRAB:
 				_SetColor(monsterList[i].isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
 				DrawCrab(tempX, monsterList[i].pos.y);
 				break;
-			case MONSTER_CLAM:
+			case E_MONSTER_CLAM:
 				DrawClam(tempX, monsterList[i].pos.y);
 				break;
-			case MONSTER_TURTLE:
+			case E_MONSTER_TURTLE:
 				break;
-			case MONSTER_SMALLFISH:
+			case E_MONSTER_SMALLFISH:
 				//_SetColor(monsterList[i].isDamaged ? 12 : 15);
 				DrawSmallFish(monsterList[i].dir, tempX, monsterList[i].pos.y);
 				break;
@@ -123,22 +120,24 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 100,
 		.pos.y = 21,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CRAB,
+		.type = E_MONSTER_CRAB,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = 0
 	};
-	
+
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 170,
 		.pos.y = 21,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CRAB,
+		.type = E_MONSTER_CRAB,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = 0
@@ -147,10 +146,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 285,
 		.pos.y = 21,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CRAB,
+		.type = E_MONSTER_CRAB,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = 0
@@ -162,10 +162,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 100,
 		.pos.y = 10,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_FISH,
+		.type = E_MONSTER_FISH,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = 0
@@ -174,10 +175,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 170,
 	.pos.y = 10,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 0
@@ -186,10 +188,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 300,
 	.pos.y = 10,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 0
@@ -198,10 +201,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 500,
 	.pos.y = 10,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 0
@@ -210,10 +214,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 500,
 	.pos.y = 21,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 0
@@ -223,10 +228,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 119,
 		.pos.y = 13,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Jail
@@ -235,10 +241,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 251,
 	.pos.y = 18,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_CLAM,
+	.type = E_MONSTER_CLAM,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = E_Jail
@@ -247,10 +254,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 400,
 	.pos.y = 23,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_CLAM,
+	.type = E_MONSTER_CLAM,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = E_Jail
@@ -263,10 +271,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 70,
 	.pos.y = 14,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 1
@@ -275,10 +284,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 170,
 	.pos.y = 14,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 1
@@ -287,10 +297,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 280,
 	.pos.y = 11,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 1
@@ -299,10 +310,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 520,
 	.pos.y = 11,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 1
@@ -312,10 +324,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 145,
 		.pos.y = 19,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_DragonPalace
@@ -324,10 +337,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 308,
 		.pos.y = 13,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_DragonPalace
@@ -336,10 +350,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 413,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_DragonPalace
@@ -352,10 +367,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 120,
 	.pos.y = 21,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 2
@@ -364,10 +380,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 190,
 	.pos.y = 12,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 2
@@ -376,10 +393,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 300,
 	.pos.y = 21,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 2
@@ -388,10 +406,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 400,
 	.pos.y = 13,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 2
@@ -400,10 +419,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 480,
 	.pos.y = 21,
+	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
 	.alive = true,
-	.type = MONSTER_FISH,
+	.type = E_MONSTER_FISH,
 	.isDamaged = false,
 	.lastHitTime = 0,
 	.mapStatus = 2
@@ -413,10 +433,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 140,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea1
@@ -425,10 +446,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 226,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea1
@@ -437,10 +459,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 404,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea1
@@ -449,10 +472,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 532,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea1
@@ -463,49 +487,53 @@ void InitMonster() {
 
 	//물고기
 	monsterList[numMonster++] = (Monster){
-	.pos.x = 260,
-	.pos.y = 21,
-	.dir = Right,
-	.hp = 5,
-	.alive = true,
-	.type = MONSTER_FISH,
-	.isDamaged = false,
-	.lastHitTime = 0,
-	.mapStatus = 3
+		.pos.x = 260,
+		.pos.y = 21,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_FISH,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 3
 	};
 
 	monsterList[numMonster++] = (Monster){
-	.pos.x = 320,
-	.pos.y = 16,
-	.dir = Right,
-	.hp = 5,
-	.alive = true,
-	.type = MONSTER_FISH,
-	.isDamaged = false,
-	.lastHitTime = 0,
-	.mapStatus = 3
+		.pos.x = 320,
+		.pos.y = 16,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_FISH,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 3
 	};
 
 	monsterList[numMonster++] = (Monster){
-	.pos.x = 410,
-	.pos.y = 16,
-	.dir = Right,
-	.hp = 5,
-	.alive = true,
-	.type = MONSTER_FISH,
-	.isDamaged = false,
-	.lastHitTime = 0,
-	.mapStatus = 3
+		.pos.x = 410,
+		.pos.y = 16,
+		.moveNum = 30,
+		.dir = Right,
+		.hp = 5,
+		.alive = true,
+		.type = E_MONSTER_FISH,
+		.isDamaged = false,
+		.lastHitTime = 0,
+		.mapStatus = 3
 	};
 
 	//조개
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 62,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea2
@@ -514,10 +542,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 167,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea2
@@ -526,10 +555,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 247,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea2
@@ -538,10 +568,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 335,
 		.pos.y = 23,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea2
@@ -550,10 +581,11 @@ void InitMonster() {
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 374,
 		.pos.y = 18,
+		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
 		.alive = true,
-		.type = MONSTER_CLAM,
+		.type = E_MONSTER_CLAM,
 		.isDamaged = false,
 		.lastHitTime = 0,
 		.mapStatus = E_Sea2
