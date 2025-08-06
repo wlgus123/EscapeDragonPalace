@@ -4,8 +4,6 @@
 
 //--------------------------------------------------
 
-float amount;
-
 char Rabbit[14][RabbitY][RabbitX] =
 {
     {
@@ -91,6 +89,10 @@ int centerX;
 int baseY;
 int jumpHeight;
 int animFramesTotal; // 전체 애니메이션 길이 (up+down)
+
+float amount;
+
+SpeedBuff speedBuffs;
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
@@ -238,7 +240,17 @@ void HitPlayer(Monster monster) {
     if (monster.type == E_MONSTER_CLAM) {
         player.Speed *= 0.6f;
     }
+    /* 조개: 속도 감소 돌아오게 하는 코드 hitplayer함수 넣을때 넣어주세욥
+    DWORD now = GetTickCount();
+
+    if (now - player.lastHitTime < slowDuration)
+    {
+        player.Speed = 1;
+    }
+    */
 }
+
+
 
 // 아이템 먹었는지 체크
 void CheckItemPickup()
