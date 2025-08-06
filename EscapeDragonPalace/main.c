@@ -117,6 +117,8 @@ void Draw() // 화면 그리기
 
             DrawMonster();
 
+			_SetColor(E_White); // 몬스터 외 색상 초기화
+
 
             // 플레이어 주변에 아이템이 있을 때 알림문구 출력
             if (IsNearItem())
