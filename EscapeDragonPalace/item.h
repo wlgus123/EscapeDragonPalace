@@ -6,17 +6,18 @@
 #define ITEM_SPRITE_COLS 20
 #define ITEMNUM 2            // 아이템 종류 수
 #define MAX_ITEM_COUNT 100   // 맵에 등장할 수 있는 아이템 인스턴스 수
+#define SPEEDUP 0.5     // 속도 증가값
+#define LIFEUP 2        // 생명 증가값
 
 typedef enum {
-    ITEM_SPEED,
-    ITEM_LIFE
+    E_ITEM_SPEED,
+    E_ITEM_LIFE
 } ItemType;
 
 typedef struct Item {
     ItemType type;
     float x, y;
     bool isHeld;    // 0: 바닥에 있음, 1: 플레이어가 소지
-    int value;     // 효과 수치
     float width, height;
     MapStatus mapStatus;
 } Item;
