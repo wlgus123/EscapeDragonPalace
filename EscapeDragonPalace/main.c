@@ -102,24 +102,24 @@ void Draw() // 화면 그리기
                 DrawItem();
                 _SetColor(E_White); // 아이템 외 색상 초기화
 
-                // 플레이어 출력
-                DrawPlayer();
 
                 // 몬스터 출력
 
                 DrawMonster();
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
-
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
                 if (IsNearItem())
                 {
                     _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 }
-
-                // 맵 틀 그리기
-                DrawMap();
             }
+
+            // 플레이어 출력
+            DrawPlayer();
+
+            // 맵 틀 그리기
+            DrawMap();
         }
     }
 }
