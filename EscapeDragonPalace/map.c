@@ -1,7 +1,7 @@
 #include "map.h"
 #include "Rabbit.h"
 
-int g_Plus_X = 0; // X좌표 이동 증가값
+float g_Plus_X = 0.f; // X좌표 이동 증가값
 
 // TODO: 맵 시작 시 E_Jail에서 시작
 // TODO: 맵 클리어 시 자동으로 넘어가기
@@ -37,7 +37,7 @@ void DrawMapBG()
 			char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
 			for (int x = 0; x < SCREEN_WIDTH; x++)
 			{
-				if (tmpPlatform[x ] != ' ')
+				if (tmpPlatform[x] != ' ')
 					_DrawTextColor(x, y, (char[]) { tmpPlatform[x], 0 }, E_White);
 			}
 		}
@@ -54,7 +54,7 @@ void DrawMapBG()
 			char* tmpBG = g_StageBG[g_MapStatus][y]; // 현재 맵의 배경 정보 가져오기
 			for (int x = 0; x < SCREEN_WIDTH; x++)
 			{
-				_DrawTextColor(x, y, (char[]) { tmpBG[x + g_Plus_X], 0 }, E_Gray);
+				_DrawTextColor(x, y, (char[]) { tmpBG[(int)(x + g_Plus_X)], 0 }, E_Gray);
 			}
 		}
 		// 발판 그리기
@@ -63,8 +63,8 @@ void DrawMapBG()
 			char* tmpPlatform = g_StagePlatform[g_MapStatus][y]; // 현재 맵의 발판 정보 가져오기
 			for (int x = 0; x < SCREEN_WIDTH; x++)
 			{
-				if (tmpPlatform[x + g_Plus_X] != ' ')
-					_DrawTextColor(x, y, (char[]) { tmpPlatform[x + g_Plus_X], 0 }, E_White);
+				if (tmpPlatform[(int)(x + g_Plus_X)] != ' ')
+					_DrawTextColor(x, y, (char[]) { tmpPlatform[(int)(x + g_Plus_X)], 0 }, E_White);
 			}
 		}
 	}
@@ -116,9 +116,9 @@ void UpdateMapPos()
 	}
 
 	// X좌표 증가값이 맵을 넘어갈 때
-	if (g_Plus_X < 0)
+	if (g_Plus_X < 0.f)
 	{
-		g_Plus_X = 0;
+		g_Plus_X = 0.f;
 		SetMapEnd(true);
 	}
 	else if (g_MapStatus < E_Ground && g_Plus_X > MAP_WIDTH - SCREEN_WIDTH) // 일반 맵일 때
@@ -126,9 +126,9 @@ void UpdateMapPos()
 		g_Plus_X = MAP_WIDTH - SCREEN_WIDTH;
 		SetMapEnd(true);
 	}
-	else if (g_MapStatus == E_Ground /* && g_Plus_X > SCREEN_WIDTH*/) // 보스 맵일 때
+	else if (g_MapStatus == E_Ground) // 보스 맵일 때
 	{
-		g_Plus_X = 0;
+		g_Plus_X = 0.f;
 		SetMapEnd(true);
 	}
 
