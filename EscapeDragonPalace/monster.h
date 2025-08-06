@@ -3,6 +3,7 @@
 #include "clam.h"
 #include "crab.h"
 #include "fish.h"
+#include "SmallFish.h"
 
 #define MONSTER_H
 
@@ -21,6 +22,7 @@ typedef enum MonsterType {
     MONSTER_CRAB,
     MONSTER_CLAM,
     MONSTER_TURTLE,
+    MONSTER_SMALLFISH,
     MONSTER_TYPE_COUNT
 } MonsterType;
 

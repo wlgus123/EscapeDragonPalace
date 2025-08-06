@@ -47,10 +47,17 @@ void UpdateMonster()
 					monsterList[i].dir = Left;
 				}
 			}
-			else {
+			else if (monsterList[i].type == MONSTER_CRAB) {
 				// 꽃게
 				if (monsterList[i].pos.x + CRAB_WIDTH >= 82) {
 					monsterList[i].pos.x = 80 - CRAB_WIDTH + 2;
+					monsterList[i].dir = Left;
+				}
+			}
+			else if (monsterList[i].type == MONSTER_SMALLFISH) {
+				// 작은 물고기
+				if (monsterList[i].pos.x + SMALLFISH_WIDTH >= 82) {
+					monsterList[i].pos.x = 80 - SMALLFISH_WIDTH + 2;
 					monsterList[i].dir = Left;
 				}
 			}
@@ -82,6 +89,10 @@ void DrawMonster() {
 				DrawClam(monsterList[i].pos);
 				break;
 			case MONSTER_TURTLE:
+				break;
+			case MONSTER_SMALLFISH:
+				//_SetColor(monsterList[i].isDamaged ? 12 : 15);
+				DrawSmallFish(monsterList[i].dir, monsterList[i].pos);
 				break;
 			}
 		}

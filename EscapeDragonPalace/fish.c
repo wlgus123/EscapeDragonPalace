@@ -69,7 +69,7 @@ void DrawFish() {
 */
 
 // 쓸모없는 주석 제거
-void DrawFish(int dir, MyPoint pos, Monster* fish) {
+void DrawFish(int dir, MyPoint pos) {
 
 	int tempX = pos.x - GetPlusX();  // 카메라 기준 위치 조정
 

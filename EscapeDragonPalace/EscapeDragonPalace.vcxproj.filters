@@ -51,6 +51,9 @@
     <ClCompile Include="monster.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="SmallFish.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mtg.h">
@@ -84,6 +87,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="clam.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallFish.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
