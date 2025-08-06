@@ -264,25 +264,17 @@ void CheckItemPickup()
                 itemList[i].isHeld = true;  // 화면에 안 보이게 처리
                 // 먹은 아이템 타입에 따라
                 switch (itemList[i].type) {
-                case ITEM_LIFE: // 목숨 추가  
-                    player.Health += itemList[i].value;
+                case E_ITEM_LIFE: // 목숨 추가  
+                    player.Health += LIFEUP;
                     break;
-                case ITEM_SPEED: // 이동속도 증가
-                    // 속도 증가값, 지속시간(ms)
-                    amount = itemList[i].value;
-                    DWORD duration = 5000; // 예: 5초
-
-                    for (int j = 0; j < MAX_BUFFS; j++)
+                case E_ITEM_SPEED: // 이동속도 증가
+                    if (!speedBuffs.active)
                     {
-                        if (!speedBuffs[j].active)
-                        {
-                            speedBuffs[j].active = true;
-                            speedBuffs[j].amount = amount;
-                            speedBuffs[j].endTime = GetTickCount64() + duration;
-                            player.Speed += amount; // 즉시 적용
-                            break;
-                        }
+                        speedBuffs.active = true;
+                        speedBuffs.endTime = GetTickCount() + DURATION;
+                        player.Speed += SPEEDUP; // 즉시 적용
                     }
+                    speedBuffs.endTime += DURATION;
                     break;
                 }
             }
@@ -293,15 +285,10 @@ void CheckItemPickup()
 // 속도 버프 지속시간 체크 및 종료 처리
 void UpdateSpeedBuffs()
 {
-    DWORD now = GetTickCount();
-
-    for (int i = 0; i < MAX_BUFFS; i++)
+    if (speedBuffs.active && GetTickCount() >= speedBuffs.endTime)
     {
-        if (speedBuffs[i].active && now >= speedBuffs[i].endTime)
-        {
-            player.Speed -= speedBuffs[i].amount; // 원래대로 감소
-            speedBuffs[i].active = false;
-        }
+        player.Speed -= SPEEDUP; // 원래대로 감소
+        speedBuffs.active = false;
     }
 }
 
@@ -696,11 +683,10 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 
             SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
 
-            for (int i = 0; i < MAX_BUFFS; i++)
-            {
-                player.Speed = 1; // 원래대로 감소
-                speedBuffs[i].active = false;
-            }
+
+            player.Speed = 1; // 원래대로 감소
+            speedBuffs.active = false;
+
 
             player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
             player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화

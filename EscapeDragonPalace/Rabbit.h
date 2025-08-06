@@ -17,10 +17,10 @@
 #define GRAVITY 0.5f // 중력 가속도
 #define MAX_FALL_SPEED 4.0f  // 최대 낙하 속도
 
-#define MAX_BUFFS 10
-
 #define RabbitXPos 7.0f
 #define RabbitYPos 21.0f
+
+#define DURATION 5000
 
 // --------------------------------------------------
 
@@ -49,7 +49,6 @@ Player player;
 
 
 typedef struct SpeedBuff {
-	float amount;       // 증가량
 	DWORD endTime;      // 종료 시간 (ms)
 	bool active;
 } SpeedBuff;
@@ -97,7 +96,7 @@ Rect GetMonsterRect(Monster monster);
 void CheckItemPickup();
 void UpdateSpeedBuffs();
 
-SpeedBuff speedBuffs[MAX_BUFFS];
+SpeedBuff speedBuffs;
 
 
 
