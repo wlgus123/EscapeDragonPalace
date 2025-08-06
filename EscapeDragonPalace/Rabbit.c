@@ -175,13 +175,13 @@ Rect GetMonsterRect(Monster monster)
     int tempX = monster.pos.x + 1;
     switch (monster.type)
     {
-    case MONSTER_FISH:
+    case E_MONSTER_FISH:
         return (Rect){ tempX, monster.pos.y, 11, 3 };
-    case MONSTER_CRAB:
+    case E_MONSTER_CRAB:
         return (Rect){ tempX, monster.pos.y, 9, 3 };
-    case MONSTER_CLAM:
+    case E_MONSTER_CLAM:
         return (Rect){ tempX, monster.pos.y, 6, 1 };
-    case MONSTER_TURTLE:
+    case E_MONSTER_TURTLE:
         break;
     }
 }
