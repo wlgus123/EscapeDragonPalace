@@ -30,7 +30,6 @@ extern SpriteType bubblesSprite;
 extern Item itemList[MAX_ITEM_COUNT];
 extern int numItem;
 
-
 void InitItem();
-void DrawItem(Item* item, int frame);
+void DrawItem();
 void ItemFrameDelay();

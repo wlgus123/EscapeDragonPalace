@@ -357,3 +357,5 @@ int GetMapStatus(); // 현재 맵 불러오기
 void SetMapStatus(int src); // 현재 맵 상태 변경하기
 int GetPlusX(); // X 증가값 불러오기
 void SetPlusX(int src); // X값 변경하기
+bool GetMapSetting();
+void SetMapSetting(bool src);
