@@ -77,7 +77,7 @@ void DrawMonster() {
 			switch (monsterList[i].type)
 			{
 			case E_MONSTER_FISH:
-				_SetColor(monsterList[i].isDamaged ? 12 : 15);
+				_SetColor(monsterList[i].isDamaged ? 12 : 9);
 				DrawFish(monsterList[i].dir, tempX, monsterList[i].pos.y);
 				break;
 			case E_MONSTER_CRAB:
@@ -161,7 +161,7 @@ void InitMonster() {
 	//¹°°í±â
 	monsterList[numMonster++] = (Monster){
 		.pos.x = 100,
-		.pos.y = 10,
+		.pos.y = 11,
 		.moveNum = 30,
 		.dir = Right,
 		.hp = 5,
@@ -174,7 +174,7 @@ void InitMonster() {
 
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 170,
-	.pos.y = 10,
+	.pos.y = 11,
 	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
@@ -187,7 +187,7 @@ void InitMonster() {
 
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 300,
-	.pos.y = 10,
+	.pos.y = 11,
 	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
@@ -200,7 +200,7 @@ void InitMonster() {
 
 	monsterList[numMonster++] = (Monster){
 	.pos.x = 500,
-	.pos.y = 10,
+	.pos.y = 12,
 	.moveNum = 30,
 	.dir = Right,
 	.hp = 5,
