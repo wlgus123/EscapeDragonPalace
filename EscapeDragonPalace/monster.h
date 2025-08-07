@@ -4,7 +4,6 @@
 #include "crab.h"
 #include "fish.h"
 #include "small_fish.h"
-#include "turtle.h"
 
 #define MONSTER_H
 

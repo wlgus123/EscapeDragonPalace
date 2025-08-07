@@ -106,6 +106,7 @@ void Draw() // 화면 그리기
                 // 몬스터 출력
 
                 DrawMonster();
+                DrawTurtle();
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -139,7 +140,8 @@ void Update()
     
 
     UpdateMonster();
-
+    unsigned int now = _GetTickCount();
+    UpdateTurtle(now);
 
 
 }
@@ -156,7 +158,8 @@ void main()
     _BeginWindow();
 
     SetConsoleTitle("용궁탈출");
-
+    
+   
     InitMonster();  // 몬스터 초기화
     InitItem();  // 아이템 초기화
     InitWeapon(weaponList); // 무기 초기화
@@ -165,7 +168,8 @@ void main()
     SelectWeapon(); // 무기 선택
     player.HeldWeapon = &weaponList[GetSelectedIndex()];    // 플레이어 무기 세팅
 
-
+    unsigned int startTime = _GetTickCount();
+    InitTurtle(startTime);
 
 
     //로직
