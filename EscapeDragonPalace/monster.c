@@ -7,6 +7,7 @@ int numMonster = 0;
 // 몬스터 업데이트
 void UpdateMonster()
 {
+	unsigned int now = _GetTickCount();
 	// 몬스터 배열 for문
 	for (int i = 0; i < numMonster; i++) {
 		// 조개일 때
@@ -15,6 +16,8 @@ void UpdateMonster()
 		}
 		// 자라일 때
 		else if (monsterList[i].type == E_MONSTER_TURTLE) {
+			UpdateTurtle(&monsterList[i], now);  // Monster* 와 시간 모두 전달
+			continue;
 			// 자라 업데이트 함수 적기
 		}
 		// 그 외(큰물고기, 작은물고기, 꽃게)
