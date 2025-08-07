@@ -35,9 +35,8 @@ void DrawCrab(int posX, int posY)
 
 	for (int y = 0; y < CRAB_HEIGHT; y++)
 	{
-		if(IsOverlap(PlayerPos, MosterPos))
-		{
-			const char* line = crabGraphic[IsOverlap ? 1 : 0][y]; //충돌하면 1, 비충돌 시 0
+		
+			const char* line = crabGraphic[IsOverlap(PlayerPos, MosterPos) ? 1 : 0][y]; //충돌하면 1, 비충돌 시 0
 			for (int x = 0; line[x] != '\0'; x++) 
 			{
 				if (line[x] != ' ') 
@@ -49,36 +48,22 @@ void DrawCrab(int posX, int posY)
 				}
 			}
 		}
-	}
 	_SetColor(15);
 }
 //받아오는 부분이 다르다고 챗지피티는 그랬는데 일단 모르겠음
 
-void CrabHitP() {
-	static DWORD lastHitTime = 0;  // 마지막 공격 시간
-	static int hitCount = 0;       // 총 공격 횟수
+void CrabHitP(int posX, int posY) {
+	Rect PlayerPos = { player.Pos.x, player.Pos.y, 8, 3 };
+	Rect MosterPos = { posX, posY, 9, 3 };
+	if ((IsOverlap(PlayerPos, MosterPos)) == false)
+		return;
 
-	// 몬스터와 플레이어 위치 정보
-	Rect monsterpos = GetMonsterRect(monsterList[E_MONSTER_CRAB]);
-	Rect playerpos = GetPlayerRect();
 
-	if (IsOverlap(playerpos, monsterpos)) {
-		DWORD now = GetTickCount();
 
-		// 공격 3번까지만 허용
-		if (hitCount < 3) {
-			// 1초(1000ms)마다 공격
-			if (now - lastHitTime >= 1000) {
-				player.Health -= E_CRAB_ATTACK;
-				lastHitTime = now;
-				hitCount++;
-			}
-		}
-	}
-	else {
-		// 떨어지면 리셋 (다시 가까워지면 다시 3번 공격 가능)
-		lastHitTime = 0;
-		hitCount = 0;
-	}
+	//time_t BleedStatime = (NULL);
+	//time_t BleedEndtime = BleedStatime + 3;
+
+
+	
 }
 

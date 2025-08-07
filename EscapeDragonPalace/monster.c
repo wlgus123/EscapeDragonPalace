@@ -86,6 +86,7 @@ void DrawMonster() {
 			case E_MONSTER_CRAB:
 				_SetColor(monsterList[i].isDamaged ? 6 : 12);  // 피격 시 노란색, 평시 빨간색
 				DrawCrab(tempX, monsterList[i].pos.y);
+				CrabHitP(tempX, monsterList[i].pos.y);
 				break;
 			case E_MONSTER_CLAM:
 				_SetColor(E_White);

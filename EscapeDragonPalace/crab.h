@@ -26,4 +26,4 @@ void DrawCrab(int posX, int posY);
 void HitCrab(unsigned int now, int damage);
 int GetCrabDir();
 MyPoint GetCrabPos();
-void CrabHitP();
+void CrabHitP(int posX, int posY);
