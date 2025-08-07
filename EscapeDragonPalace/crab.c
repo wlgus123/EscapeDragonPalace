@@ -29,32 +29,18 @@ void DrawCrab(int posX, int posY)
 	// 화면 범위 밖이면 출력 안 함
 	if (posX + CRAB_WIDTH < 0 || posX >= SCREEN_WIDTH) return;
 	Rect PlayerPos = {player.Pos.x, player.Pos.y, 8, 3 };
-	//isDamaged
+	Rect MosterPos = { posX, posY, 9, 3 };
+	
 	_SetColor(monsterList[E_MONSTER_CRAB].isDamaged ? 6 : 12);// 피격 시 노란색, 평시 빨간색
 
 	for (int y = 0; y < CRAB_HEIGHT; y++)
 	{
-		if(IsOverlap(PlayerPos,(Rect){posX,posY, 9, 3 }))
+		if(IsOverlap(PlayerPos, MosterPos))
 		{
-			const char* line = crabGraphic[1][y];
+			const char* line = crabGraphic[IsOverlap ? 1 : 0][y]; //충돌하면 1, 비충돌 시 0
 			for (int x = 0; line[x] != '\0'; x++) 
 			{
 				if (line[x] != ' ') 
-				{
-					if (0 <= posX + x && posX + x < SCREEN_WIDTH) {
-						char ch[2] = { line[x], '\0' };
-						_DrawText(posX + x, posY + y, ch);
-					}
-				}
-			}
-
-		}
-		else
-		{
-			const char* line = crabGraphic[0][y];
-			for (int x = 0; line[x] != '\0'; x++)
-			{
-				if (line[x] != ' ')
 				{
 					if (0 <= posX + x && posX + x < SCREEN_WIDTH) {
 						char ch[2] = { line[x], '\0' };
@@ -83,7 +69,7 @@ void CrabHitP() {
 		if (hitCount < 3) {
 			// 1초(1000ms)마다 공격
 			if (now - lastHitTime >= 1000) {
-				player.Health -= 1;
+				player.Health -= E_CRAB_ATTACK;
 				lastHitTime = now;
 				hitCount++;
 			}
