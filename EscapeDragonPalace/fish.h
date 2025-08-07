@@ -7,14 +7,14 @@
 // 전역 변수
 static char g_FishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
 	{
-		"    _______  ",
-		" (\\/　((　o\\",
-		" (/\\_______/ "
+		"   _______  ",
+		"(\\/　((　o\\",
+		"(/\\_______/ "
 	},// 오른쪽 그림 0
 		{
-		"  _______   ",
-		" /o　))　\\/)",
-		" \\_______/\\)"
+		" _______   ",
+		"/o　))　\\/)",
+		"\\_______/\\)"
 	}, // 왼쪽 그림 1
 };
 
@@ -22,3 +22,4 @@ static char g_FishGraphic[2][FISH_HEIGHT][FISH_WIDTH] = {
 void UpdateFish(unsigned int now);	// 물고기 업데이트
 void DrawFish(int dir, int posX, int posY);	// 물고기 그리기
 //void HitFish(unsigned int now, int damage);	// 물고기 데미지 입히기
+void FishHitP(int posX, int posY);	// 물고기가 플레이어를 공격하는 함수

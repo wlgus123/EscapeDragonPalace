@@ -28,3 +28,21 @@ void DrawFish(int dir, int posX, int posY) {
 	_SetColor(15);
 
 }
+
+void FishHitP(int posX, int posY) {//물고기 > 플레이어 공격하는 함수
+	Rect PlayerPos = { player.Pos.x, player.Pos.y, 8, 3 };
+	Rect MosterPos = { posX, posY, 3, 3 };
+	DWORD now = GetTickCount();
+
+	if ((IsOverlap(PlayerPos, MosterPos)) == false)
+		return;
+
+	// 무적 시간 체크
+	if (now - monsterList[E_MONSTER_CRAB].lastHitTime < INVINCIBLE_TIME) {
+		return; // 아직 무적 상태면 데미지 무시
+	}
+
+	player.Health -= E_FISH_ATTACK; // 플레이어 체력 2 감소
+
+	monsterList[E_MONSTER_CRAB].lastHitTime = now; // 마지막 피격 시간 갱신
+}

@@ -13,7 +13,7 @@ const static char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     }, //ºñÆø·Â
 
     {
-        "(l)  (l)",
+        "(|)  (|)",
          " \\o_o/ ",
          "=(___)= " //BeÆø·Â1
     }

@@ -12,16 +12,26 @@ void UpdateClam(MyPoint pos, bool alive) {
 		alive = false;
 	}
 }
-
+//충돌 하면 닫히게 만듬
 // 조개 그리기
 void DrawClam(int posX, int posY) {
-	for (int y = 0; y < CLAM_HEIGHT; y++) {
-		for (int x = 0; x < CLAM_WIDTH; x++)
+	// 화면 범위 밖이면 출력 안 함
+	if (posX + CLAM_WIDTH < 0 || posX >= SCREEN_WIDTH) return;
+	Rect PlayerPos = { player.Pos.x, player.Pos.y, 8, 3 };
+	Rect MosterPos = { posX, posY, 1, 1 };
+
+	for (int y = 0; y < CLAM_HEIGHT; y++)
+	{
+		const char* line = g_ClamGraphic[IsOverlap(PlayerPos, MosterPos) ? 1 : 0][y];
+		//충돌하면 1, 비충돌 시 0
+		for (int x = 0; line[x] != '\0'; x++)
 		{
-			// 몬스터 위치가 화면 내에 있을 때만 출력
-			if (posX + x >= 0 && posX + x < SCREEN_WIDTH)
+			if (line[x] != ' ')
 			{
-				_DrawText(posX + x, posY + y, (char[]) { g_ClamGraphic[x], 0 });
+				if (0 <= posX + x && posX + x < SCREEN_WIDTH) {
+					char ch[2] = { line[x], '\0' };
+					_DrawText(posX + x, posY + y, ch);
+				}
 			}
 		}
 	}
