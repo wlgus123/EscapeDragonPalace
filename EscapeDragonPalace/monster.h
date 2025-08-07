@@ -1,3 +1,4 @@
+#pragma once
 #include "weapon.h"
 #include "map.h"
 #include "clam.h"
