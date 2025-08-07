@@ -1,5 +1,4 @@
 #pragma once
-#include "monster.h" 
 
 #define TURTLE_HEIGHT 6
 #define TURTLE_WIDTH 23
@@ -12,6 +11,6 @@ extern const char* turtleGraphic[2][TURTLE_HEIGHT];
 // Monster turtleBoss = { .pos = {startX, startY}, .moveNum = moveSteps, .type = E_MONSTER_TURTLE, .hp = TURTLE_HP, .speed = defaultSpeed, .attack = E_TURTLE_ATTACK, .alive = true, .mapStatus = currentMap };
 // InitTurtle(&turtleBoss, now);
 
-void InitTurtle(Monster* turtle, unsigned int now);
-void UpdateTurtle(Monster* turtle, unsigned int now);
-void DrawTurtle(Monster* turtle);
+void InitTurtle(unsigned int now);
+void UpdateTurtle(unsigned int now);
+void DrawTurtle();
