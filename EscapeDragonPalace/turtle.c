@@ -1,9 +1,8 @@
+#include "turtle.h"
 #include "monster.h"
-#include "Rabbit.h"
+#include "map.h"
 
-
-//1. 이동 2. 평타 3. 돌진 4. 물대포 구현해야함.
-
+Monster g_Turtle;
 const char* turtleGraphic[2][TURTLE_HEIGHT] = {
     {
         "        ______ ",
@@ -23,50 +22,37 @@ const char* turtleGraphic[2][TURTLE_HEIGHT] = {
     }
 };
 
-static Monster g_Turtle = { {50, MONSTER_Y}, 1, TURTLE_HP, 1, E_MONSTER_TURTLE, 0, 0 };
-
-MyPoint GetTurtlePos() {
-    return g_Turtle.pos;
+static unsigned int randRange(unsigned int min, unsigned int max) {
+    return min + rand() % (max - min + 1);
 }
 
-int GetTurtleDir() {
-    return g_Turtle.dir;
+void InitTurtle(unsigned int now) {
+    srand((unsigned int)time(NULL));
+    g_Turtle.type = E_MONSTER_TURTLE;
+    g_Turtle.hp = TURTLE_HP;
+    g_Turtle.attack = E_TURTLE_ATTACK;
+    g_Turtle.dir = Right;
+    g_Turtle.alive = true;
+    g_Turtle.isDamaged = false;
+    g_Turtle.lastHitTime = now;
+    // moveNum, speed 등은 외부에서 세팅
 }
 
-void UpdateTurtle(Monster* turtle, unsigned int now) {
+void UpdateTurtle(unsigned int now) {
     if (!g_Turtle.alive) return;
-
-    // 피격 무적시간 체크
     if (g_Turtle.isDamaged && now - g_Turtle.lastHitTime >= INVINCIBLE_TIME) {
-        g_Turtle.isDamaged = 0;
+        g_Turtle.isDamaged = false;
     }
-
-    // 이동
-    if (g_Turtle.dir == 0) {
-        g_Turtle.pos.x--;
-        if (g_Turtle.pos.x <= 0) g_Turtle.dir = 1;
-    }
-    else {
-        g_Turtle.pos.x++;
-        if (g_Turtle.pos.x >= 80) g_Turtle.dir = 0;
-    }
-
-    DrawTurtle();
+    // 기본 이동
+    g_Turtle.pos.x += (g_Turtle.dir == Right ? 1 : -1);
+    if (g_Turtle.pos.x < 0) g_Turtle.pos.x = SCREEN_WIDTH;
+    if (g_Turtle.pos.x > SCREEN_WIDTH) g_Turtle.pos.x = 0;
+    // 스킬 호출: TODO 구현
 }
 
 void DrawTurtle() {
-    if (!g_Turtle.alive) return;
-
-    int frame = g_Turtle.dir;
-
-    if (g_Turtle.isDamaged)
-        _SetColor(12);
-    else
-        _SetColor(11);
-
-    for (int i = 0; i < TURTLE_HEIGHT; i++) {
-        _DrawText(g_Turtle.pos.x, g_Turtle.pos.y + i, (char*)turtleGraphic[frame][i]);
+    int x = g_Turtle.pos.x - GetPlusX();
+    for (int r = 0; r < TURTLE_HEIGHT; ++r) {
+        _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[g_Turtle.dir][r]);
     }
-
-    _SetColor(15);
 }

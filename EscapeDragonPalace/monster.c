@@ -16,7 +16,7 @@ void UpdateMonster()
 		}
 		// 자라일 때
 		else if (monsterList[i].type == E_MONSTER_TURTLE) {
-			UpdateTurtle(&monsterList[i], now);  // Monster* 와 시간 모두 전달
+			UpdateTurtle(now);
 			continue;
 			// 자라 업데이트 함수 적기
 		}
