@@ -13,7 +13,7 @@ const static char crabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     }, //ºñÆø·Â
 
     {
-        "(l)  (l)",
+        "(|)  (|)",
          " \\o_o/ ",
          "=(___)= " //BeÆø·Â1
     }
@@ -26,4 +26,4 @@ void DrawCrab(int posX, int posY);
 void HitCrab(unsigned int now, int damage);
 int GetCrabDir();
 MyPoint GetCrabPos();
-void CrabHitP();
+void CrabHitP(int posX, int posY);
