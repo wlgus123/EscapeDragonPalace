@@ -106,7 +106,7 @@ void Draw() // 화면 그리기
                 // 몬스터 출력
 
                 DrawMonster();
-                DrawTurtle();
+                if (GetMapStatus() == E_Ground) DrawTurtle();
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -141,9 +141,16 @@ void Update()
 
     UpdateMonster();
     unsigned int now = _GetTickCount();
-    UpdateTurtle(now);
-
-
+    static int s_prevMap = -1;
+    int curMap = GetMapStatus();
+    if (s_prevMap != curMap) {
+        if (curMap == E_Ground) {
+            // 보스맵으로 진입하면 한 번만 초기화 ( 타이머를 쓰다보니 초기화 해줘야함 (스킬) )
+            InitTurtle(now);
+        }
+        s_prevMap = curMap;
+    }
+    if (curMap == E_Ground) UpdateTurtle(now);
 }
 
 // 키 입력
