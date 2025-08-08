@@ -1,26 +1,22 @@
 #pragma once
 
 #define TURTLE_HEIGHT      6
-#define TURTLE_WIDTH       13
+#define TURTLE_WIDTH       12
 #define TURTLE_HP          80
 
-// 돌진 횟수 (한 사이클에 몇 번 돌진할지)
+// 돌진 횟수
 #define TURTLE_RUSH_COUNT  3
-// Idle 상태일 때 거북이 Y 좌표
+// Idle Y좌표
 #define TURTLE_IDLE_Y      18
 
-// 돌진 옵션 개수 (첫 돌진 제외)
-#define TURTLE_RUSH_OPTION_COUNT 3
-
-// 첫 돌진 Y좌표 (Idle보다 1칸 위)
-extern int g_TargetFirstY;
-// 이후 돌진에서 사용할 Y 옵션들 (랜덤 선택)
-extern int g_TargetOptions[TURTLE_RUSH_OPTION_COUNT];
-// 출현 X좌표: [0]=왼쪽 시작, [1]=오른쪽 시작
-extern int g_StartX[2];
+#define WATER_DROP_INTERVAL_MIN_MS 500
+#define WATER_DROP_INTERVAL_MAX_MS 700
+#define MAX_WATER_DROPS 64
+#define WATER_DROP_MOVE_MS 150
 
 typedef struct { int x, y; } Point;
 
+// 거북이 구조체
 typedef struct {
     Point pos;
     float speed;
@@ -32,14 +28,19 @@ typedef struct {
     unsigned int lastHitTime;
 } Turtle;
 
-//돌진 상태
+// 상태 정의
 typedef enum {
-    TURTLE_STATE_IDLE, // 평시 상태
-    TURTLE_STATE_PREPARE_RUSH, // 돌진 준비
-    TURTLE_STATE_RUSHING // 돌진중
+    TURTLE_STATE_IDLE,
+    TURTLE_STATE_PREPARE_RUSH,
+    TURTLE_STATE_RUSHING
 } TurtleState;
 
 extern Turtle g_Turtle;
+
+// 돌진 Y좌표 배열
+extern int g_TargetYs[TURTLE_RUSH_COUNT];
+// 돌진 시작 X좌표
+extern int g_StartX[2];
 
 void InitTurtle(unsigned int now);
 void UpdateTurtle(unsigned int now);
