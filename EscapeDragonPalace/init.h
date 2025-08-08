@@ -8,6 +8,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "mtg.h" // mtg 파일 불러오기
 
 // 메크로
