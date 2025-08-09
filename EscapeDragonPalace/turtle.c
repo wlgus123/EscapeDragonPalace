@@ -186,7 +186,7 @@ void InitTurtle(unsigned int now) {
     g_Turtle.pos.x = 58;
     g_Turtle.pos.y = TURTLE_IDLE_Y;
     g_Turtle.speed = 1.0f;
-    g_Turtle.dir = E_Right;
+    g_Turtle.dir = E_Left;
     g_Turtle.mon.hp = TURTLE_HP;
     g_Turtle.attack = 2;
     g_Turtle.mon.alive = true;
@@ -197,7 +197,7 @@ void InitTurtle(unsigned int now) {
     g_PrepStartTime = g_NextRushTime - 2000;
     g_ShowPrep = false;
     g_RushCount = 0;
-    g_InitialDir = E_Right;
+    g_InitialDir = -1;
     g_RushDir = g_InitialDir;
     g_LastRandIdx = -1;
 
@@ -241,7 +241,7 @@ static bool IsPlayerNear(void) {
 
     // 자라의 머리 화면 X 좌표 계산
     int turtleScreenX = g_Turtle.pos.x - GetPlusX();
-    int headOffset = (g_Turtle.dir != E_Right) ? E_Left : 0; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
+    int headOffset = (g_Turtle.dir != E_Right) ? (TURTLE_WIDTH - E_Left) : 0; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
     int headScreenX = turtleScreenX + headOffset;
 
     if (playerRight < headScreenX - TURTLE_ATTACK_RANGE) return false;
@@ -493,9 +493,9 @@ void UpdateTurtle(unsigned int now) {
             g_ShowPrep = false;
             g_RushCount = 0;
             g_RushDir = g_InitialDir;
-            g_Turtle.dir = (g_RushDir < E_Right ? E_Left : E_Right);
+            g_Turtle.dir = (g_RushDir < E_Right ? E_Left : E_Right); // TODO: 변경하기
             g_Turtle.pos.y = g_TargetFirstY;
-            g_Turtle.pos.x = (g_RushDir < E_Right ? g_StartX[E_Left] - 20 : g_StartX[E_Right] + 20);
+            g_Turtle.pos.x = (g_RushDir < E_Right ? g_StartX[E_Left] - 20 : g_StartX[E_Right] + 20); // TODO: 변경하기
             g_RushEndTime = now + 1000;
         }
         break;
@@ -515,7 +515,7 @@ void UpdateTurtle(unsigned int now) {
         int step = (int)(g_Turtle.speed * 3);
         g_Turtle.pos.x += (g_RushDir < E_Right ? -step : step);
         bool passed = (g_RushDir < E_Right)
-            ? (g_Turtle.pos.x + TURTLE_WIDTH < 0)
+            ? (g_Turtle.pos.x + TURTLE_WIDTH < E_Right)
             : (g_Turtle.pos.x > SCREEN_WIDTH);
         if (passed && now >= g_RushEndTime) {
             g_RushCount++;
@@ -524,7 +524,7 @@ void UpdateTurtle(unsigned int now) {
                 g_Turtle.dir = (g_RushDir < E_Right ? E_Left : E_Right);
                 int opts = sizeof(g_TargetOptions) / sizeof(int);
                 int idx;
-                do { idx = randRange(0, opts - 1); } while (idx == g_LastRandIdx && opts > 1);
+                do { idx = randRange(0, opts - 1); } while (idx == g_LastRandIdx && opts > E_Left);
                 g_LastRandIdx = idx;
 
                 // 돌진 할 발판에 ! 표시
@@ -595,7 +595,7 @@ void DrawTurtle(void) {
         int leftScreen = leftWorld - GetPlusX();
         int rightScreen = rightWorld - GetPlusX();
 
-        if (leftScreen < 0) leftScreen = 0;
+        if (leftScreen < E_Right) leftScreen = E_Right;
         if (rightScreen >= SCREEN_WIDTH) rightScreen = SCREEN_WIDTH - 1;
         if (rightScreen < leftScreen) rightScreen = leftScreen;
 
