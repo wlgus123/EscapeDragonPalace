@@ -110,3 +110,4 @@ void UpdateTurtle(unsigned int now); // 자라 업데이트
 void DrawTurtle(void); // 자라 그리기
 void TurtleHitP(int posX, int posY); // 자라가 플레이어를 공격했는지 확인
 int GetTurtleHp(); // 자라 체력 가져오기
+int SetTurtleHp(); // 자라 체력 초기화
