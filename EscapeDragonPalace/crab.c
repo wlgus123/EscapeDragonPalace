@@ -27,16 +27,33 @@ void UpdateCrab(unsigned long now)
 			tempCrab[idx].mon.isDamaged = false;
 		}
 
+		if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) > (player.Pos.x - GetPlusX()) - 20) {	// 플레이어가 꽃게와 가까워지면 추격 상태로 변경
+			tempCrab[idx].state = true;
+		}
+
+		// 플레이어 인식 후
+		if (tempCrab[idx].state == true) {
+			// 플레이어가 꽃게보다 오른쪽에 있을 때
+			if(tempCrab[idx].pos.x > player.Pos.x + GetPlusX() + RABBIT_WIDTH) {
+				tempCrab[idx].dir = E_Left;
+			}
+			// 플레이어가 꽃게보다 왼쪽에 있을 때
+			else if (tempCrab[idx].pos.x < player.Pos.x + GetPlusX())
+				tempCrab[idx].dir = E_Right;
+		}
+
+		// 플레이어 인식 전
+		if(tempCrab[idx].state == false){
+			if (tempCrab[idx].pos.x <= tempCrab[idx].startPosX)
+			{
+				tempCrab[idx].dir = E_Right;
+			}
+			if (tempCrab[idx].pos.x + CRAB_WIDTH >= tempCrab[idx].startPosX + tempCrab[idx].moveNum)
+			{
+				tempCrab[idx].dir = E_Left;
+			}
+		}
 		
-		// 정해진 범위 안에서 이동
-		if (tempCrab[idx].pos.x <= tempCrab[idx].startPosX)
-		{
-			tempCrab[idx].dir = E_Right;
-		}
-		else if (tempCrab[idx].pos.x + CRAB_WIDTH >= tempCrab[idx].startPosX + tempCrab[idx].moveNum)
-		{
-			tempCrab[idx].dir = E_Left;
-		}
 
 		// 몬스터 이동
 		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right) ? g_CrabMon.speed : -g_CrabMon.speed;
