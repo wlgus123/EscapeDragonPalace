@@ -103,6 +103,7 @@ void BigFishHitPlayer()
 	}
 }
 
+// 플레이어 > 큰 물고기 공격하는 함수
 void PlayerHitBigFish()
 {
 	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
@@ -133,6 +134,18 @@ void PlayerHitBigFish()
 		}
 	}
 }
+
+void SettingBigFish() {
+	for (int i = 0; i < STAGE_CNT; i++)
+	{
+		BigFish* tempBigFish = g_BigFishList[i];
+		for (int idx = 0; idx < g_BigFishListIdx[i]; idx++)
+		{
+			tempBigFish[idx].mon.alive = true;		// 생존 여부
+		}
+	}
+}
+
 
 // 큰 물고기 초기화
 void InitBigFish()
