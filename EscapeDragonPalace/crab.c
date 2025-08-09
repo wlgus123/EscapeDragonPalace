@@ -92,9 +92,9 @@ void CheckAttacking()
 void CrabHitPlayer() {
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
-		Crab tempCrab = g_CrabList[GetMapStatus()][idx];
-		int posX = tempCrab.pos.x + GetPlusX();
-		int posY = tempCrab.pos.y;
+		Crab* tempCrab = &g_CrabList[GetMapStatus()][idx];
+		int posX = tempCrab->pos.x - GetPlusX();
+		int posY = tempCrab->pos.y;
 		Rect PlayerPos = GetPlayerRect();
 		Rect MosterPos = { posX, posY, 1, 3 };
 		DWORD now = GetTickCount();
@@ -106,20 +106,20 @@ void CrabHitPlayer() {
 		if (isBleeding == false)
 			return;
 
-		if (count == tempCrab.skill.attackCnt) {
-			count = 0; // 카운트 초기화
+		if(count == 3) {
 			isBleeding = false; // 3번 공격 후 출혈 상태 해제
+			count = 0;
 		}
 
-		if (now - tempCrab.mon.lastHitTime < INVINCIBLE_TIME) {
+		if (now - tempCrab->mon.lastHitTime < INVINCIBLE_TIME) {
 			return; // 아직 때린지 1초가 안지났으면 안때림
 		}
-		//출혈 데미지
+		//출혈 
 
-		player.Health -= tempCrab.skill.attack; // 플레이어 체력 1 감소
+		player.Health -= tempCrab->skill.attack; // 플레이어 체력 1 감소
 
 		count++;
-		tempCrab.mon.lastHitTime = now; // 마지막 피격 시간 갱신
+		tempCrab->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 	}
 }
 
