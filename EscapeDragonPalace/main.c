@@ -139,8 +139,8 @@ void Update()
     UpdateBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
 
 
-    //UpdateMonster();
-	//MonsterHitPlayer(); // 몬스터 피격 처리 함수
+    UpdateMonster();
+	MonsterHitPlayer(); // 몬스터 피격 처리 함수
     PlayerHitMonster();
 
     // 보스맵일 경우 자라 업데이트
