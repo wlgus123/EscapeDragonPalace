@@ -633,15 +633,17 @@ void DrawTurtle(void) {
     int lines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
     for (int r = 0; r < lines; ++r) _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[idx][r]);
 
-	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
+    
+    TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
+	
 }
 
 void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
     Rect PlayerPos = GetPlayerRect();
-    Rect MosterPos = { posX, posY, 58, TURTLE_IDLE_Y };
+    Rect MosterPos = { posX, posY, 10, 11};
     DWORD now = GetTickCount();
 
-    if ((IsOverlap(PlayerPos, MosterPos)) == false)
+    if ((IsOverlap(PlayerPos, MosterPos)) == false)//아예 안부딪치면 반환
         return;
 
     // 무적 시간 체크
@@ -649,7 +651,12 @@ void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
         return; // 아직 무적 상태면 데미지 무시
     }
 
-    player.Health -= 1;
+    if (g_State == TURTLE_STATE_RUSHING) {//돌진 중에 부딪친다면
+        player.Health -= 4;
+    }
+    else {//돌진 중이 아닌 때에 부딪친다면
+        player.Health -= 1;
+    }
 
     g_Turtle.lastHitTime = now; // 마지막 피격 시간 갱신
 }
