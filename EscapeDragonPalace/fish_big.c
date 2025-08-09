@@ -18,7 +18,7 @@ void UpdateBigFish(unsigned long now)
 		if (!tempBigFish[idx].mon.alive) continue;
 
 		// 무적시간 지나면 피격 상태 해제
-		if (tempBigFish[idx].mon.isDamaged && now - tempBigFish[idx].mon.lastHitTime >= INVINCIBLE_TIME)
+		if (tempBigFish[idx].mon.isDamaged && now - tempBigFish[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
 		{
 			tempBigFish[idx].mon.isDamaged = false;
 		}
@@ -126,7 +126,7 @@ void PlayerHitBigFish()
 
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
-		if (now - player.lastHitTime < INVINCIBLE_TIME) continue;
+		if (now - player.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
 		tempFish->mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
 		tempFish->mon.isDamaged = true; // 무적 상태로 변경
 		player.lastHitTime = now; // 마지막 피격 시간 갱신

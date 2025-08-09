@@ -23,6 +23,8 @@
 
 #define SLOWDURATION 3000
 
+#define INVINCIBLE_TIME 1000  // 토끼 무적시간 (1초)
+
 // --------------------------------------------------
 
 typedef struct Player

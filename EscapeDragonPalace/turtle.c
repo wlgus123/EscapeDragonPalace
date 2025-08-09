@@ -667,7 +667,8 @@ void DrawTurtle(void) {
 // 자라 -> 플레이어 피격
 void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX, posY, TURTLE_WIDTH, TURTLE_HEIGHT + 2 };
+	Rect MosterPos = { posX + 5, posY, TURTLE_WIDTH - 5, TURTLE_HEIGHT + 2 };
+	// -5: 머리부분 충돌 시 피 깎이지 않게 예방
 	DWORD now = GetTickCount();
 
 	if ((IsOverlap(PlayerPos, MosterPos)) == false)
@@ -702,5 +703,3 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 }
-//자라 그려둔 부분은 헤더로 옮김
-//아마 물방울 닿으면 피가 감소되는 것도 이 코드 부분 보고 해주면 될 것 같음

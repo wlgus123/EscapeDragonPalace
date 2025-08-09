@@ -89,7 +89,7 @@ void PlayerHitSmallFish()
 			if (!IsOverlap(PlayerWeaponPos, MonsterPos))
 				continue;
 
-			if (now - player.lastHitTime < INVINCIBLE_TIME)
+			if (now - player.lastHitTime < MONSTER_INVINCIBLE_TIME)
 				continue;
 
 			pFish->mon.hp -= player.HeldWeapon->attack;	// 몬스터 체력 감소
