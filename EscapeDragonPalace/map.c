@@ -1,23 +1,51 @@
 #include "map.h"
 #include "Rabbit.h"
 
+bool MapSetting = false;	// 아이템 세팅여부 변수
+MapStatus g_MapStatus = E_Jail; // 현재 맵 정보
 float g_Plus_X = 0.f; // X좌표 이동 증가값
 
-// TODO: 맵 시작 시 E_Jail에서 시작
-// TODO: 맵 클리어 시 자동으로 넘어가기
-// 현재 맵 정보
-MapStatus g_MapStatus = E_Ground;
+// 맵 아이템, 몬스터 세팅 여부 가져오기
+bool GetMapSetting()
+{
+	return MapSetting;
+}
 
-// TODO: 코드 수정
+// 맵 아이템, 몬스터 세팅 여부 세팅하기
+void SetMapSetting(bool src)
+{
+	MapSetting = src;
+}
+
+void ItemSetting() {
+
+	for (int i = 0; i < g_ItemIdx; i++)
+	{
+		// 현재 스테이지에 들어가는 아이템 보이게 하기
+		if (g_ItemList[i].mapStatus == GetMapStatus()) {
+			g_ItemList[i].isHeld = false;
+		}
+		else {
+			g_ItemList[i].isHeld = true;
+		}
+	}
+
+	// 스테이지 아이템 세팅 완료
+	SetMapSetting(true);
+}
+
 // 맵 틀 그리기
 void DrawMap()
 {
-	_DrawText(0, 0, "==============================================================================");
-	_DrawText(0, SCREEN_HEIGHT - 1, "==============================================================================");
 	for (int y = 0; y < SCREEN_HEIGHT; y++)
 	{
-		_DrawText(0, y, "∥");
-		_DrawText(78, y, "∥");
+		for (int x = 0; x < SCREEN_WIDTH; x++)
+		{
+			if (g_Map[y][x] != ' ')
+			{
+				_DrawText(x, y, (char[]) { g_Map[y][x], 0 });
+			}
+		}
 	}
 }
 

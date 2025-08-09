@@ -19,6 +19,10 @@ typedef struct WeaponInstance {
 Weapon weaponList[NUMWEAPON];
 char buffer[50];
 
+// ÇÔ¼ö
 extern void InitWeapon(Weapon* weapons);
 extern void DrawWeapon(const Weapon* w, int i, int isSelected);
 extern void SelectWeapon();
+bool GetWeaponChosen(); 
+void SetWeaponChosen(bool src);
+int GetSelectedIndex();

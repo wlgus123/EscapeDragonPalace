@@ -1,8 +1,12 @@
 #include "init.h"
+#include "map.h"
 #include "screens.h"
+#include "weapon.h"
 
 bool GameStart = false; // 게임 시작 여부
 bool GameStartText = true; // 게임 시작 여부 텍스트
+bool IsGameOver = false; // 게임 오버 여부
+bool GameOverText = true;
 
 
 // 게임오버 화면 출력 함수
@@ -27,25 +31,24 @@ void GameOverScreen() {
 // 게임시작 화면 출력 함수
 void GameStartScreen()
 {
-	_DrawText(20, 1, "■■■    ■■   ■■■■  ■■■■  ■■■■  ■  ■");
-	_DrawText(20, 2, "■  ■  ■  ■  ■  ■  ■     ■  ■  ■■ ■");
-	_DrawText(20, 3, "■  ■  ■■■■  ■■■■  ■ ■■  ■  ■  ■ ■■");
-	_DrawText(20, 4, "■  ■  ■  ■  ■ ■   ■  ■  ■  ■  ■  ■");
-	_DrawText(20, 5, "■■■   ■  ■  ■  ■  ■■■■  ■■■■  ■  ■");
 
-	_DrawText(20, 7, "■■■■   ■■   ■      ■■   ■■■■  ■■■■");
-	_DrawText(20, 8, "■  ■  ■  ■  ■     ■  ■  ■     ■");
-	_DrawText(20, 9, "■■■■  ■■■■  ■     ■■■■  ■     ■■■■");
-	_DrawText(20, 10, "■     ■  ■  ■     ■  ■  ■     ■");
-	_DrawText(20, 11, "■     ■  ■  ■■■■  ■  ■  ■■■■  ■■■■");
+	_DrawText(20, 1, "■■■■  ■■■■  ■■■■   ■■   ■■■■  ■■■■");
+	_DrawText(20, 2, "■     ■     ■     ■  ■  ■  ■  ■");
+	_DrawText(20, 3, "■■■■  ■■■■  ■     ■■■■  ■■■■  ■■■■");
+	_DrawText(20, 4, "■        ■  ■     ■  ■  ■     ■");
+	_DrawText(20, 5, "■■■■  ■■■■  ■■■■  ■  ■  ■     ■■■■");
 
-	_DrawText(20, 13, "■■■■  ■■■■  ■■■■   ■■   ■■■■  ■■■■");
-	_DrawText(20, 14, "■     ■     ■     ■  ■  ■  ■  ■");
-	_DrawText(20, 15, "■■■■  ■■■■  ■     ■■■■  ■■■■  ■■■■");
-	_DrawText(20, 16, "■        ■  ■     ■  ■  ■     ■");
-	_DrawText(20, 17, "■■■■  ■■■■  ■■■■  ■  ■  ■     ■■■■");
+	_DrawText(20, 7, "■■■   ■■■■   ■■   ■■■■  ■■■■  ■  ■");
+	_DrawText(20, 8, "■  ■  ■  ■  ■  ■  ■     ■  ■  ■■ ■");
+	_DrawText(20, 9, "■  ■  ■■■■  ■■■■  ■ ■■  ■  ■  ■ ■■");
+	_DrawText(20, 10, "■  ■  ■ ■   ■  ■  ■  ■  ■  ■  ■  ■");
+	_DrawText(20, 11, "■■■   ■  ■  ■  ■  ■■■■  ■■■■  ■  ■");
 
-
+	_DrawText(20, 13, "■■■■   ■■   ■      ■■   ■■■■  ■■■■");
+	_DrawText(20, 14, "■  ■  ■  ■  ■     ■  ■  ■     ■");
+	_DrawText(20, 15, "■■■■  ■■■■  ■     ■■■■  ■     ■■■■");
+	_DrawText(20, 16, "■     ■  ■  ■     ■  ■  ■     ■");
+	_DrawText(20, 17, "■     ■  ■  ■■■■  ■  ■  ■■■■  ■■■■");
 }
 
 void DrawStartScreen() {
@@ -72,6 +75,9 @@ void ReturnStartScreen() {
 			IsGameOver = false; // 게임오버 변수 false 변경
 			GameStart = false;  // 게임시작 변수 false 변경
 			SetWeaponChosen(false); // 무기 선택여부 false로 변경
+			SetMapSetting(false);	// 아이템 세팅 초기화
+			SetMapStatus(E_Jail);	// 원래 맵으로 이동
+			SetPlusX(0);	// X 좌표 증가값 0으로 변경
 			_getch();	// 입력 버퍼 비우기
 		}
 		// 문구 이펙트 효과
@@ -92,4 +98,24 @@ bool GetGameStart()
 bool GetGameStartText()
 {
 	return GameStartText;
+}
+
+bool GetIsGameOver()
+{
+	return IsGameOver;
+}
+
+void SetIsGameOver(int src)
+{
+	IsGameOver = src;
+}
+
+bool GetGameOverText()
+{
+	return GameOverText;
+}
+
+void SetIsGameOverText(int src)
+{
+	GameOverText = src;
 }

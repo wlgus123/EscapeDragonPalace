@@ -127,38 +127,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="clam.c" />
-    <ClCompile Include="crab.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="fish.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="item.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="main.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <Text Include="..\..\Map\Map_DragonPalace.txt" />
+    <Text Include="..\..\Map\Map_Jail.txt" />
+    <Text Include="..\..\Map\Map_Sea1.txt" />
+    <Text Include="..\..\Map\Map_Sea2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="crab.c" />
+    <ClCompile Include="fish_big.c" />
+    <ClCompile Include="fish_small.c" />
+    <ClCompile Include="item.c" />
+    <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
     <ClCompile Include="monster.c" />
     <ClCompile Include="mtg.c" />
     <ClCompile Include="Rabbit.c" />
     <ClCompile Include="screens.c" />
-    <ClCompile Include="small_fish.c" />
-    <ClCompile Include="turtle.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="turtle.c" />
     <ClCompile Include="weapon.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="clam.h" />
     <ClInclude Include="crab.h" />
-    <ClInclude Include="fish.h" />
+    <ClInclude Include="fish_big.h" />
+    <ClInclude Include="fish_small.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="map.h" />
@@ -166,18 +157,8 @@
     <ClInclude Include="mtg.h" />
     <ClInclude Include="Rabbit.h" />
     <ClInclude Include="screens.h" />
-    <ClInclude Include="small_fish.h" />
-    <ClInclude Include="turtle.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="turtle.h" />
     <ClInclude Include="weapon.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\Map\Map_DragonPalace.txt" />
-    <Text Include="..\..\Map\Map_Jail.txt" />
-    <Text Include="..\..\Map\Map_Sea1.txt" />
-    <Text Include="..\..\Map\Map_Sea2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

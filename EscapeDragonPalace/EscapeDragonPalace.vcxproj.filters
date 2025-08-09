@@ -15,51 +15,57 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.c">
-      <Filter>소스 파일</Filter>
+    <Text Include="..\..\Map\Map_DragonPalace.txt" />
+    <Text Include="..\..\Map\Map_Jail.txt" />
+    <Text Include="..\..\Map\Map_Sea1.txt" />
+    <Text Include="..\..\Map\Map_Sea2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="crab.c">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="map.c">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="fish_big.c">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="mtg.c">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="fish_small.c">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="item.c">
-      <Filter>소스 파일</Filter>
+      <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Rabbit.c">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="main.c">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="screens.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="weapon.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="turtle.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="fish.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="crab.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="clam.c">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="map.c">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="monster.c">
-      <Filter>소스 파일</Filter>
+      <Filter>헤더 파일</Filter>
     </ClCompile>
-    <ClCompile Include="small_fish.c">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="mtg.c">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbit.c">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="screens.c">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="turtle.c">
+      <Filter>헤더 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="weapon.c">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mtg.h">
+    <ClInclude Include="crab.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="map.h">
+    <ClInclude Include="fish_big.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="fish_small.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="init.h">
@@ -68,38 +74,26 @@
     <ClInclude Include="item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="weapon.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="screens.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Rabbit.h">
+    <ClInclude Include="map.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="fish.h">
+    <ClInclude Include="mtg.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="crab.h">
+    <ClInclude Include="Rabbit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="clam.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="small_fish.h">
+    <ClInclude Include="screens.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="turtle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\Map\Map_DragonPalace.txt" />
-    <Text Include="..\..\Map\Map_Jail.txt" />
-    <Text Include="..\..\Map\Map_Sea1.txt" />
-    <Text Include="..\..\Map\Map_Sea2.txt" />
+    <ClInclude Include="weapon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
