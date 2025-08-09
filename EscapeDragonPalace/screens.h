@@ -1,5 +1,7 @@
 #pragma once
 
+#define ESC 27 // ESC Å° °ª
+
 void GameStartScreen();
 void GameOverScreen();
 void DrawStartScreen();

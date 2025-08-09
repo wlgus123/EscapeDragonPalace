@@ -23,7 +23,6 @@ void Draw() // 화면 그리기
         else
             _SetColor(E_Gray); // 문구 색 변경
         _DrawText(26, 22, "아무 키나 눌러 게임 시작하기");
-        DrawMap();
 
 
     }
@@ -40,7 +39,6 @@ void Draw() // 화면 그리기
             else
                 _SetColor(E_Gray); // 문구 색 변경
             _DrawText(21, 21, "아무 키나 눌러 시작화면으로 돌아가기");
-            DrawMap();
 
 
         }
@@ -48,7 +46,6 @@ void Draw() // 화면 그리기
         else if (StageClear())
         {
             RabbitSCAnim();  // 스테이지 클리어 화면 출력
-            DrawMap();
 
             _Delay(45);
         }
@@ -62,7 +59,6 @@ void Draw() // 화면 그리기
             else
                 _SetColor(E_Gray); // 문구 색 변경
             _DrawText(12, 21, "ESC로 게임 종료 혹은 아무 키나 눌러 시작화면으로 돌아가기");
-            DrawMap();
 
 
         }

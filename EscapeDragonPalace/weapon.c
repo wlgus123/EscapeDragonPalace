@@ -33,9 +33,9 @@ void DrawWeapon(const Weapon* w, int i, int isSelected) {
     int baseX = 5 + (i * 28);
 
     if (isSelected)
-        _SetColor(14); // 노란색 (선택된 무기)
+        _SetColor(E_Yellow); // 노란색 (현재 선택중인 무기)
     else
-        _SetColor(7); // 흰색 (기본)
+        _SetColor(E_White); // 흰색 (기본)
 
     _DrawText(baseX, 10, "종류: ");
     _DrawText(baseX + 6, 10, w->name);
@@ -50,7 +50,7 @@ void DrawWeapon(const Weapon* w, int i, int isSelected) {
     _DrawText(baseX, 13, "형태: ");
     _DrawText(baseX + 6, 13, w->sprite);
 
-    _SetColor(7); // 색상 초기화
+    _SetColor(E_White); // 색상 초기화
 }
 
 // 무기 선택 함수
@@ -63,14 +63,17 @@ void SelectWeapon() {
         if (_kbhit()) {
             char key = _getch();
 
+			// A or a 키를 누르면 왼쪽 무기 설명으로 이동
             if (key == 'a' || key == 'A') {
                 selectedIndex = (selectedIndex - 1 + NUMWEAPON) % NUMWEAPON;
             }
+			// D or d 키를 누르면 오른쪽 무기 설명으로 이동
             else if (key == 'd' || key == 'D') {
                 selectedIndex = (selectedIndex + 1) % NUMWEAPON;
             }
-            else if (key == '\r') { // Enter 키 (선택)
-                weaponChosen = true; // 무기 선택 됨 true로 변경
+			// Enter 키를 누르면 무기 선택
+            else if (key == '\r') {
+                weaponChosen = true; // 무기 선택 여부 true로 변경
             }
         }
 
