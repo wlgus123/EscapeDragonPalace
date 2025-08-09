@@ -81,15 +81,15 @@ void Draw() // 화면 그리기
                 {
                     _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 }
+
+                _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
+                DrawHealth();   // 체력바 그리기
+                DrawBuffNDebuff();
             }
 
             // 플레이어 출력
             DrawPlayer();
             _SetColor(E_White);
-
-            _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
-            DrawHealth();   // 체력바 그리기
-            DrawBuffNDebuff();
 
             // 맵 틀 그리기
             DrawMap();
@@ -115,6 +115,12 @@ void Update()
 	MonsterHitPlayer(); // 몬스터 피격 처리 함수
     PlayerHitMonster();
 
+    // 보스맵일 경우 자라 업데이트
+    unsigned long now = _GetTickCount();
+    if (GetMapStatus() == E_Ground)
+    {
+        UpdateTurtle(now);
+    }
 }
 
 // 키 입력
