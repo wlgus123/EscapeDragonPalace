@@ -214,6 +214,9 @@ void ResetCrab() {
 // 꽃게 초기화
 void InitCrab()
 {
+	for (int i = 0; i < STAGE_CNT; i++) {
+		g_CrabListIdx[i] = 0;
+	}
 	// 꽃게 공통된 속성 설정
 	g_CrabMon = (Monster)
 	{
