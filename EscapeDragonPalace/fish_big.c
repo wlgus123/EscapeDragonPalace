@@ -72,26 +72,29 @@ void DrawBigFish()
 //물고기 > 플레이어 공격하는 함수
 void BigFishHitPlayer()
 {
+	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
+	DWORD now = GetTickCount();
+	Rect PlayerPos = GetPlayerRect();
+
+
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
-		BigFish tempFish = g_BigFishList[GetMapStatus()][idx];
-		int posX = tempFish.pos.x + GetPlusX();
-		int posY = tempFish.pos.y;
-		Rect PlayerPos = { player.Pos.x + GetPlusX(), player.Pos.y, 8, 3};
-		Rect MosterPos = { posX, posY, 3, 3 };
-		DWORD now = GetTickCount();
+		BigFish* tempFish = &bigFishList[idx];
+		int posX = tempFish->pos.x - GetPlusX();
+		int posY = tempFish->pos.y;
+		Rect MosterPos = { posX, posY, 13, 3 };
 
 		if ((IsOverlap(PlayerPos, MosterPos)) == false)
-			return;
+			continue;
 
 		// 무적 시간 체크
-		if (now - tempFish.mon.lastHitTime < INVINCIBLE_TIME) {
-			return; // 아직 무적 상태면 데미지 무시
+		if (now - tempFish->mon.lastHitTime < INVINCIBLE_TIME) {
+			continue; // 아직 무적 상태면 데미지 무시
 		}
 
-		player.Health -= tempFish.attack; // 플레이어 체력 2 감소
+		player.Health -= tempFish->attack; // 플레이어 체력 2 감소
 
-		tempFish.mon.lastHitTime = now; // 마지막 피격 시간 갱신
+		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 	}
 }
 
