@@ -70,29 +70,14 @@ void PlayerHitSmallFish()
 	SmallFish* smallFishList = g_SmallFishList[GetMapStatus()];
 	int fishCount = g_SmallFishListIdx[GetMapStatus()];
 	DWORD now = GetTickCount();
-
-	int i = 0;
-
-	switch (player.HeldWeapon->attack)
-	{
-	case 2: // Àå°Ë
-		i = 8;	// Àå°ËÀº 8Ä­
-		break;
-	case 1: // ´Ü°Ë
-		i = 4;	// ´Ü°ËÀº 4Ä­
-		break;
-	case 3:	// Ã¢
-		i = 7;	// Ã¢Àº 7Ä­
-		break;
-	}
-	Rect PlayerWeaponPos = { player.Pos.x + 12 + GetPlusX(), player.Pos.y, i, 3 };
+	Rect PlayerWeaponPos = GetWeaponRect();
 
 	for (int idx = 0; idx < fishCount; idx++)
 	{
 		SmallFish* pFish = &smallFishList[idx];
-		int posX = pFish->pos.x;
+		int posX = pFish->pos.x - GetPlusX();
 		int posY = pFish->pos.y;
-		Rect MonsterPos = { posX, posY, 6, 1 };
+		Rect MonsterPos = { posX, posY, 7, 1 };
 
 		if (player.IsAttacking)
 		{
