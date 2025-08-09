@@ -86,6 +86,8 @@ void BigFishHitPlayer()
 		int posY = tempFish->pos.y;
 		Rect MosterPos = { posX, posY, 13, 3 };
 
+		if (!tempFish->mon.alive) continue;
+
 		if (!(IsOverlap(PlayerPos, MosterPos)))
 			continue;
 
