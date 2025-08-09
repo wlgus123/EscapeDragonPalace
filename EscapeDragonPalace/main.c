@@ -38,7 +38,7 @@ void Draw() // 화면 그리기
                 _SetColor(E_White); // 문구 색 변경
             else
                 _SetColor(E_Gray); // 문구 색 변경
-            _DrawText(21, 21, "아무 키나 눌러 시작화면으로 돌아가기");
+            _DrawText(23, 21, "아무 키나 눌러 시작화면으로 돌아가기");
 
 
         }
@@ -160,8 +160,8 @@ void main()
     while (true)
     {
         InitPlayer();
-        SettingBigFish();
-        SettingSmallFish();
+        SettingBigFish(true);
+        SettingSmallFish(true);
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 
