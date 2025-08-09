@@ -45,7 +45,10 @@ void Draw() // 화면 그리기
         {
             RabbitSCAnim();  // 스테이지 클리어 화면 출력
             _Delay(45);
-            // 여기 있던 거 Rabbit.c에 ISOnGoal()로 옮겼어요 _ 서영
+        }
+		else if (g_Turtle.mon.hp <= 0) // 자라 몬스터의 체력이 0 이하일 때 (보스 클리어)
+        {
+			GameClearSceen(); // 게임 클리어 화면 출력
         }
         // 플레이 중일 때
         else {
