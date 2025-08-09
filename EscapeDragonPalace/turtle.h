@@ -33,6 +33,14 @@
 static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
 {
 	{
+		"       ______",
+		"|\\   _/ \\__/ \\_ ___",
+		"| \\_/ \\ /  \\ / \\ o_)",
+		" \\__----------- __/",
+		"    \\_|_|_|_|_/",
+		"    |_|_\\  |_|_\\ ",
+	},
+	{
 		"        ______",
 		"  ___ _/ \\__/ \\_   /|",
 		" (_o / \\ /  \\ / \\_/ |",
@@ -40,14 +48,6 @@ static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
 		"      \\_|_|_|_|_/ ",
 		"     /_|_|  /_|_|"
 	},
-	{
-		"       ______",
-		"|\\   _/ \\__/ \\_ ___",
-		"| \\_/ \\ /  \\ / \\ o_)",
-		" \\__----------- __/",
-		"    \\_|_|_|_|_/",
-		"    |_|_\\  |_|_\\ ",
-	}
 };
 
 // 자라 스킬
@@ -72,8 +72,8 @@ typedef struct Turtle
 
 // 물대포 구조체
 typedef struct WaterDrop {
+	MyPoint pos;
 	bool active;
-	int x, y;
 	unsigned int lastMoveTime;
 } WaterDrop;
 

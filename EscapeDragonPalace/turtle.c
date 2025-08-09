@@ -47,7 +47,7 @@ static const int ATTACK_RANGE_Y_OFFSET = 5;
 static WaterDrop g_WaterDrops[MAX_WATER_DROPS];
 
 int GetTurtleHp() {
-	return g_Turtle.mon.hp;
+    return g_Turtle.mon.hp;
 }
 
 int SetTurtleHp() {
@@ -55,21 +55,21 @@ int SetTurtleHp() {
 }
 
 static void ClearWaterDrops(void) {
-    for (int i = 0; i < MAX_WATER_DROPS; i++) {
+    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
         g_WaterDrops[i].active = false;
         g_WaterDrops[i].lastMoveTime = 0;
-        g_WaterDrops[i].x = 0;
-        g_WaterDrops[i].y = 0;
+        g_WaterDrops[i].pos.x = 0;
+        g_WaterDrops[i].pos.y = 0;
     }
 }
 
 static void SpawnWaterDropAt(unsigned int now) {
-    for (int i = 0; i < MAX_WATER_DROPS; i++) {
+    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
         if (!g_WaterDrops[i].active) {
             g_WaterDrops[i].active = true;
             // 화면 위에서 랜덤 X에 생성
-            g_WaterDrops[i].x = randRange(0, SCREEN_WIDTH - 1);
-            g_WaterDrops[i].y = 0;
+            g_WaterDrops[i].pos.x = randRange(0, SCREEN_WIDTH - 1);
+            g_WaterDrops[i].pos.y = 0;
             g_WaterDrops[i].lastMoveTime = now;
             break;
         }
@@ -77,22 +77,22 @@ static void SpawnWaterDropAt(unsigned int now) {
 }
 
 static void UpdateWaterDrops(unsigned int now) {
-    for (int i = 0; i < MAX_WATER_DROPS; i++) {
+    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
         if (!g_WaterDrops[i].active) continue;
 
         // 이동 주기에 따라 한 칸씩 아래로 이동
         if (now - g_WaterDrops[i].lastMoveTime >= WATER_DROP_MOVE_MS) {
-            g_WaterDrops[i].y += 1;
+            g_WaterDrops[i].pos.y += 1;
             g_WaterDrops[i].lastMoveTime = now;
             // 화면 아래로 벗어나면 제거 (바닥에 떨어지면 제거)
-            if (g_WaterDrops[i].y > SCREEN_HEIGHT + 5) g_WaterDrops[i].active = false;
+            if (g_WaterDrops[i].pos.y > SCREEN_HEIGHT + 5) g_WaterDrops[i].active = false;
         }
     }
 }
 
 // 활성화된 물방울이 하나라도 있는지 체크
 static bool AnyWaterDropsActive(void) {
-    for (int i = 0; i < MAX_WATER_DROPS; i++) {
+    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
         if (g_WaterDrops[i].active) return true;
     }
     return false;
@@ -103,10 +103,10 @@ static void DrawWaterDrops(void) {
 
     // 물방울은 파란색으로 그리기
     _SetColor(E_Blue);
-    for (int i = 0; i < MAX_WATER_DROPS; i++) {
+    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
         if (!g_WaterDrops[i].active) continue;
-        int dropX = g_WaterDrops[i].x;
-        int dropY = g_WaterDrops[i].y;
+        int dropX = g_WaterDrops[i].pos.x;
+        int dropY = g_WaterDrops[i].pos.y;
 
         if (g_Turtle.mon.alive) {
             int tLeft = g_Turtle.pos.x;
@@ -128,7 +128,7 @@ static void DrawWaterDrops(void) {
     _SetColor(E_White);
 }
 
-
+// 랜덤 정수 반환 (min..max)
 static unsigned int randRange(unsigned min, unsigned max) { return min + rand() % (max - min + 1); }
 
 int g_NormalJumpY = 4;            // 점프 높이 (y 단위)
@@ -249,7 +249,7 @@ static bool IsPlayerNear(void) {
 
     // 자라의 머리 화면 X 좌표 계산
     int turtleScreenX = g_Turtle.pos.x - GetPlusX();
-    int headOffset = (g_Turtle.dir != E_Right) ? (TURTLE_WIDTH - E_Left) : 0; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
+    int headOffset = (g_Turtle.dir != E_Right) ? (TURTLE_WIDTH - E_Left) : E_Right; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
     int headScreenX = turtleScreenX + headOffset;
 
     if (playerRight < headScreenX - TURTLE_ATTACK_RANGE) return false;
@@ -259,15 +259,15 @@ static bool IsPlayerNear(void) {
 
 // 평타 올라가는거 및 내려가는거
 static int ComputeJumpYForPhase(int phase, int baseY) {
-	int ascent = g_TurtleAscentSteps;   // 올라가는 단계 수
-	int descent = g_TurtleDescentSteps; // 내려가는 단계 수
-	if (ascent < 1) ascent = 1;     // 올라가는 단계 수가 1보다 작으면 1로 설정
-	if (descent < 1) descent = 1;   // 내려가는 단계 수가 1보다 작으면 1로 설정
-	int total = ascent + descent;   // 전체 단계 수
-	if (phase < 1) phase = 1;       // phase가 1보다 작으면 1로 설정
-	if (phase > total) phase = total;   // phase가 전체 단계 수보다 크면 전체 단계 수로 설정
-	int jumpY = g_NormalJumpY;  // 점프 높이 (y 단위)
-	int peakY = baseY - jumpY;  // 최고점 Y 좌표
+    int ascent = g_TurtleAscentSteps;
+    int descent = g_TurtleDescentSteps;
+    if (ascent < 1) ascent = 1;
+    if (descent < 1) descent = 1;
+    int total = ascent + descent;
+    if (phase < 1) phase = 1;
+    if (phase > total) phase = total;
+    int jumpY = g_NormalJumpY;
+    int peakY = baseY - jumpY;
 
     if (phase <= ascent) {
         int k = phase;
@@ -282,8 +282,8 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 }
 
 void UpdateTurtle(unsigned int now) {
-	if (!g_Turtle.mon.alive) return;    // 자라가 죽으면 업데이트 중지
-	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000) // 1초 후 무적 해제
+    if (!g_Turtle.mon.alive) return;
+    if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
         g_Turtle.isDamaged = false;
 
     // 돌진 시작하는 경우 평타/웨이브 충돌 방지용
@@ -296,7 +296,7 @@ void UpdateTurtle(unsigned int now) {
     // 평상시 자라일 때
     if (g_State == TURTLE_STATE_IDLE) {
         // 평타
-		if (!g_ExclaimActive && !g_JumpActive) {
+        if (!g_ExclaimActive && !g_JumpActive) {
             // 평타 시작 조건:
             // - 돌진 임박/돌진 중 금지
             // - 스킬 락 해제 (단, 경고가 뜨면 평타를 지연시킴)
@@ -321,7 +321,7 @@ void UpdateTurtle(unsigned int now) {
             }
         }
 
-		if (g_ExclaimActive) {  // 느낌표 활성화 상태
+        if (g_ExclaimActive) {  // 느낌표 활성화 상태
             if (now >= g_ExclaimStart) {
                 // 느낌표 활성화 시간 이후에만 깜빡이게 함
                 if (now - g_LastExclaimBlink >= 300) {
@@ -427,7 +427,7 @@ void UpdateTurtle(unsigned int now) {
         }
     }
 
-	// 평타 점프 처리
+    // 평타 점프 처리
     if (g_JumpActive) {
         int ascent = (g_TurtleAscentSteps >= 1 ? g_TurtleAscentSteps : 1);
         int descent = (g_TurtleDescentSteps >= 1 ? g_TurtleDescentSteps : 1);
@@ -501,13 +501,13 @@ void UpdateTurtle(unsigned int now) {
             g_ShowPrep = false;
             g_RushCount = 0;
             g_RushDir = g_InitialDir;
-            g_Turtle.dir = (g_RushDir < E_Right ? E_Left : E_Right); // TODO: 변경하기
+            g_Turtle.dir = (g_RushDir < E_Right ? E_Left : E_Right);
             g_Turtle.pos.y = g_TargetFirstY;
-            g_Turtle.pos.x = (g_RushDir < E_Right ? g_StartX[E_Left] - 20 : g_StartX[E_Right] + 20); // TODO: 변경하기
+            g_Turtle.pos.x = (g_RushDir < E_Right ? g_StartX[E_Left] - 20 : g_StartX[E_Right] + 20);
             g_RushEndTime = now + 1000;
         }
         break;
-    case TURTLE_STATE_RUSHING: {    // 돌진 중일 경우
+    case TURTLE_STATE_RUSHING: {
         if (g_ShowTarget) {
             if (now < g_TargetPreviewEnd) {
                 break;
@@ -523,7 +523,7 @@ void UpdateTurtle(unsigned int now) {
         int step = (int)(g_Turtle.speed * 3);
         g_Turtle.pos.x += (g_RushDir < E_Right ? -step : step);
         bool passed = (g_RushDir < E_Right)
-            ? (g_Turtle.pos.x + TURTLE_WIDTH < E_Right)
+            ? (g_Turtle.pos.x + TURTLE_WIDTH < 0)
             : (g_Turtle.pos.x > SCREEN_WIDTH);
         if (passed && now >= g_RushEndTime) {
             g_RushCount++;
@@ -532,7 +532,7 @@ void UpdateTurtle(unsigned int now) {
                 g_Turtle.dir = (g_RushDir < E_Right ? E_Left : E_Right);
                 int opts = sizeof(g_TargetOptions) / sizeof(int);
                 int idx;
-                do { idx = randRange(0, opts - 1); } while (idx == g_LastRandIdx && opts > E_Left);
+                do { idx = randRange(0, opts - 1); } while (idx == g_LastRandIdx && opts > 1);
                 g_LastRandIdx = idx;
 
                 // 돌진 할 발판에 ! 표시
@@ -559,7 +559,7 @@ void UpdateTurtle(unsigned int now) {
                 g_InitialDir = -g_InitialDir;
 
                 if (g_InitialDir > E_Right) {
-                    g_Turtle.pos.x = g_StartX[E_Right] + 14;
+                    g_Turtle.pos.x = g_StartX[E_Right] + 25;
                     g_Turtle.dir = E_Right;
                 }
                 else {
@@ -585,8 +585,8 @@ void DrawTurtle(void) {
     // 물방울 경고 표시
     if (g_WaveWarnActive) {
         const char* warn = "물방울이 떨어집니다!";
-        int len = strlen(warn);
-        _DrawText(SCREEN_WIDTH / 2 - len / 2 + GetPlusX(), 2, warn);
+        int l = strlen(warn);
+        _DrawText(SCREEN_WIDTH / 2 - l / 2 + GetPlusX(), 2, warn);
     }
 
     if (g_ShowTarget) {
@@ -603,7 +603,7 @@ void DrawTurtle(void) {
         int leftScreen = leftWorld - GetPlusX();
         int rightScreen = rightWorld - GetPlusX();
 
-        if (leftScreen < E_Right) leftScreen = E_Right;
+        if (leftScreen < 0) leftScreen = 0;
         if (rightScreen >= SCREEN_WIDTH) rightScreen = SCREEN_WIDTH - 1;
         if (rightScreen < leftScreen) rightScreen = leftScreen;
 
@@ -658,10 +658,10 @@ void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
     }
 
     // 자라가 돌진 중일 때
-	if (g_State == TURTLE_STATE_RUSHING) {
+    if (g_State == TURTLE_STATE_RUSHING) {
         // 4칸 닳음
-		player.Health -= 4; // 플레이어 체력 감소
-	}
+        player.Health -= 4; // 플레이어 체력 감소
+    }
     else
     {
         player.Health -= 1;
