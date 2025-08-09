@@ -120,9 +120,9 @@ void PlayerHitBigFish()
 
 		if (!player.IsAttacking) continue;
 
-		if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
+		//if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
 
-		if (tempFish->mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
+		//if (tempFish->mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
 
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
