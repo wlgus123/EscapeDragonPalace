@@ -146,6 +146,17 @@ void ResetSmallFish() {
 	}
 }
 
+void IsNextStage(){
+
+		SmallFish* tempSmallFish = g_SmallFishList[GetMapStatus()];
+		for (int idx = 0; idx < g_SmallFishListIdx[GetMapStatus()]; idx++)
+		{
+			tempSmallFish[idx].mon.alive = false;
+			tempSmallFish[idx].isRush = false;	// 돌진 상태 해제	
+
+		}
+}
+
 void InitSmallFish()
 {
 	// 작은 물고기 공통된 속성 설정
