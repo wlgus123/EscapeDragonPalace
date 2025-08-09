@@ -5,6 +5,7 @@
 #include "weapon.h"
 #include "monster.h"
 #include "screens.h"
+#include "turtle.h"
 
 // ===============================================================
 
@@ -72,6 +73,7 @@ void Draw() // 화면 그리기
 
                 // 몬스터 출력  
                 DrawMonster();
+                if (GetMapStatus() == E_Ground) DrawTurtle();
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -130,7 +132,9 @@ void main()
     InitItem();  // 아이템 초기화
     while (true)
     {
-        InitPlayer();
+        InitPlayer();   // 몬스터 초기화
+        unsigned long startTime = _GetTickCount();
+        InitTurtle(startTime);  // 자라(보스) 초기화
 
         SetConsoleTitle("용궁탈출");
 
@@ -149,7 +153,6 @@ void main()
 
             _Invalidate(); // 화면 그리기 (Draw() 함수 자동 적용)
             _Delay(30);
-
 
             if (GetIsGameOver())
             {
