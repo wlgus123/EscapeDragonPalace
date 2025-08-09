@@ -96,6 +96,7 @@ void BigFishHitPlayer()
 			continue; // 아직 무적 상태면 데미지 무시
 		}
 
+		SetInvincibleTime(true);	// 플레이어 무적 시간 설정
 		player.Health -= tempFish->attack; // 플레이어 체력 2 감소
 		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 

@@ -93,6 +93,7 @@ void DrawHealth();
 void InitPlayer();
 void ClimbLadder();
 void DrawBuffNDebuff();
+bool SetIsNearLadder(bool src);
 
 
 
