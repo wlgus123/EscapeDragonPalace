@@ -1,6 +1,7 @@
 #include "init.h"
 #include "turtle.h"
 #include "map.h"
+#include "Rabbit.h"
 
 
 Turtle g_Turtle;
@@ -84,24 +85,7 @@ static void DrawWaterDrops(void) {
     _SetColor(E_White);
 }
 
-const char* turtleGraphic[2][TURTLE_HEIGHT] = {
-    {
-        "       ______",
-        "|\\   _/ \\__/ \\_ ___",
-        "| \\_/ \\ /  \\ / \\ o_)",
-        " \\__----------- __/",
-        "    \\_|_|_|_|_/",
-        "    |_|_\\  |_|_\\ "
-    },
-    {
-        "       ______ ",
-        " ___ _/ \\__/ \\_   /|",
-        "(_o / \\ /  \\ / \\_/ |",
-        " \\__ -----------__/",
-        "     \\_|_|_|_|_/ ",
-        "    /_|_|  /_|_|"
-    }
-};
+
 static unsigned int randRange(unsigned min, unsigned max) { return min + rand() % (max - min + 1); }
 
 void InitTurtle(unsigned int now) {
@@ -242,6 +226,7 @@ void DrawTurtle(void) {
 
     _SetColor(E_White); //자라 흰색유지
 
+
     int x = g_Turtle.pos.x - GetPlusX();
     if (g_State == TURTLE_STATE_PREPARE_RUSH) {
         const char* m = "자라가 돌진을 준비중입니다!";
@@ -251,4 +236,26 @@ void DrawTurtle(void) {
     int idx = (g_Turtle.dir == 0 ? 0 : 1);
     int lines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
     for (int r = 0; r < lines; ++r) _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[idx][r]);
+
+	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
 }
+
+void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
+    Rect PlayerPos = GetPlayerRect();
+    Rect MosterPos = { posX, posY, 58, TURTLE_IDLE_Y };
+    DWORD now = GetTickCount();
+
+    if ((IsOverlap(PlayerPos, MosterPos)) == false)
+        return;
+
+    // 무적 시간 체크
+    if (now - g_Turtle.lastHitTime < INVINCIBLE_TIME) {
+        return; // 아직 무적 상태면 데미지 무시
+    }
+
+    player.Health -= 2;
+
+    g_Turtle.lastHitTime = now; // 마지막 피격 시간 갱신
+}
+//자라 그려둔 부분은 헤더로 옮김
+//아마 물방울 닿으면 피가 감소되는 것도 이 코드 부분 보고 해주면 될 것 같음

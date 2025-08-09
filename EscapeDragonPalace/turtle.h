@@ -16,6 +16,25 @@
 
 typedef struct { int x, y; } Point;
 
+const char* turtleGraphic[2][TURTLE_HEIGHT] = {
+    {
+        "       ______",
+        "|\\   _/ \\__/ \\_ ___",
+        "| \\_/ \\ /  \\ / \\ o_)",
+        " \\__----------- __/",
+        "    \\_|_|_|_|_/",
+        "    |_|_\\  |_|_\\ "
+    },
+    {
+        "       ______ ",
+        " ___ _/ \\__/ \\_   /|",
+        "(_o / \\ /  \\ / \\_/ |",
+        " \\__ -----------__/",
+        "     \\_|_|_|_|_/ ",
+        "    /_|_|  /_|_|"
+    }
+};
+
 // 거북이 구조체
 typedef struct {
     Point pos;
@@ -45,3 +64,4 @@ extern int g_StartX[2];
 void InitTurtle(unsigned int now);
 void UpdateTurtle(unsigned int now);
 void DrawTurtle(void);
+void TurtleHitP(int posX, int posY);
