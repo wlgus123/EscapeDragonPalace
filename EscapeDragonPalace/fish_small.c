@@ -130,6 +130,17 @@ void SmallFishHitPlayer()
 	}
 }
 
+void SettingSmallFish() {
+	for (int i = 0; i < STAGE_CNT; i++)
+	{
+		SmallFish* tempSmallFish = g_SmallFishList[i];
+		for (int idx = 0; idx < g_SmallFishListIdx[i]; idx++)
+		{
+			tempSmallFish[idx].mon.alive = true;		// 생존 여부
+		}
+	}
+}
+
 void InitSmallFish()
 {
 	// 작은 물고기 공통된 속성 설정

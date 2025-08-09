@@ -2,53 +2,76 @@
 #include "map.h"
 #include "screens.h"
 #include "weapon.h"
+#include "turtle.h"
 
 bool GameStart = false; // 게임 시작 여부
 bool GameStartText = true; // 게임 시작 여부 텍스트
 bool IsGameOver = false; // 게임 오버 여부
-bool GameOverText = true;
+bool textE = true;
 
 
 // 게임오버 화면 출력 함수
 void GameOverScreen() {
-	_DrawText(20, 5, "■■■■   ■■   ■   ■  ■■■■");
-	_DrawText(20, 6, "■     ■  ■  ■■ ■■  ■      ");
-	_DrawText(20, 7, "■ ■■  ■■■■  ■ ■ ■  ■■■■");
-	_DrawText(20, 8, "■  ■  ■  ■  ■   ■  ■      ");
-	_DrawText(20, 9, "■■■■  ■  ■  ■   ■  ■■■■   ");
+	_DrawText(28, 4, "■■■■   ■■   ■   ■  ■■■■");
+	_DrawText(28, 5, "■     ■  ■  ■■ ■■  ■      ");
+	_DrawText(28, 6, "■ ■■  ■■■■  ■ ■ ■  ■■■■");
+	_DrawText(28, 7, "■  ■  ■  ■  ■   ■  ■      ");
+	_DrawText(28, 8, "■■■■  ■  ■  ■   ■  ■■■■   ");
+			   
+	_DrawText(28, 10, "■■■■  ■   ■  ■■■■  ■■■■");
+	_DrawText(28, 11, "■  ■  ■   ■  ■     ■  ■");
+	_DrawText(28, 12, "■  ■  ■   ■  ■■■■  ■■■■");
+	_DrawText(28, 13, "■  ■   ■ ■   ■     ■  ■");
+	_DrawText(28, 14, "■■■■    ■    ■■■■  ■   ■");
 
-	_DrawText(20, 11, "■■■■  ■   ■  ■■■■  ■■■■");
-	_DrawText(20, 12, "■  ■  ■   ■  ■     ■  ■");
-	_DrawText(20, 13, "■  ■  ■   ■  ■■■■  ■■■■");
-	_DrawText(20, 14, "■  ■   ■ ■   ■     ■  ■");
-	_DrawText(20, 15, "■■■■    ■    ■■■■  ■   ■");
-
-	_DrawText(28, 17, " (\\(\\ ");
-	_DrawText(28, 18, " (x-x)");
-	_DrawText(28, 19, "o(   )");
+	_DrawText(36, 16, " (\\(\\ ");
+	_DrawText(36, 17, " (x-x)");
+	_DrawText(36, 18, "o(   )");
 }
 
 // 게임시작 화면 출력 함수
 void GameStartScreen()
 {
 
-	_DrawText(20, 1, "■■■■  ■■■■  ■■■■   ■■   ■■■■  ■■■■");
-	_DrawText(20, 2, "■     ■     ■     ■  ■  ■  ■  ■");
-	_DrawText(20, 3, "■■■■  ■■■■  ■     ■■■■  ■■■■  ■■■■");
-	_DrawText(20, 4, "■        ■  ■     ■  ■  ■     ■");
-	_DrawText(20, 5, "■■■■  ■■■■  ■■■■  ■  ■  ■     ■■■■");
+	_DrawText(23, 2, "■■■■  ■■■■  ■■■■   ■■   ■■■■  ■■■■");
+	_DrawText(23, 3, "■     ■     ■     ■  ■  ■  ■  ■");
+	_DrawText(23, 4, "■■■■  ■■■■  ■     ■■■■  ■■■■  ■■■■");
+	_DrawText(23, 5, "■        ■  ■     ■  ■  ■     ■");
+	_DrawText(23, 6, "■■■■  ■■■■  ■■■■  ■  ■  ■     ■■■■");
+			   
+	_DrawText(23, 8, "■■■   ■■■■   ■■   ■■■■  ■■■■  ■  ■");
+	_DrawText(23, 9, "■  ■  ■  ■  ■  ■  ■     ■  ■  ■■ ■");
+	_DrawText(23, 10, "■  ■  ■■■■  ■■■■  ■ ■■  ■  ■  ■ ■■");
+	_DrawText(23, 11, "■  ■  ■ ■   ■  ■  ■  ■  ■  ■  ■  ■");
+	_DrawText(23, 12, "■■■   ■  ■  ■  ■  ■■■■  ■■■■  ■  ■");
+			   
+	_DrawText(23, 14, "■■■■   ■■   ■      ■■   ■■■■  ■■■■");
+	_DrawText(23, 15, "■  ■  ■  ■  ■     ■  ■  ■     ■");
+	_DrawText(23, 16, "■■■■  ■■■■  ■     ■■■■  ■     ■■■■");
+	_DrawText(23, 17, "■     ■  ■  ■     ■  ■  ■     ■");
+	_DrawText(23, 18, "■     ■  ■  ■■■■  ■  ■  ■■■■  ■■■■");
+}
 
-	_DrawText(20, 7, "■■■   ■■■■   ■■   ■■■■  ■■■■  ■  ■");
-	_DrawText(20, 8, "■  ■  ■  ■  ■  ■  ■     ■  ■  ■■ ■");
-	_DrawText(20, 9, "■  ■  ■■■■  ■■■■  ■ ■■  ■  ■  ■ ■■");
-	_DrawText(20, 10, "■  ■  ■ ■   ■  ■  ■  ■  ■  ■  ■  ■");
-	_DrawText(20, 11, "■■■   ■  ■  ■  ■  ■■■■  ■■■■  ■  ■");
+// 게임 클리어 화면 출력 함수
+void GameClearSceen()
+{
+	_DrawText(26, 3, "■■■■    ■■    ■   ■   ■■■■");
+	_DrawText(26, 4, "■      ■  ■   ■■ ■■   ■      ");
+	_DrawText(26, 5, "■ ■■   ■■■■   ■ ■ ■   ■■■■");
+	_DrawText(26, 6, "■  ■   ■  ■   ■   ■   ■      ");
+	_DrawText(26, 7, "■■■■   ■  ■   ■   ■   ■■■■   ");
 
-	_DrawText(20, 13, "■■■■   ■■   ■      ■■   ■■■■  ■■■■");
-	_DrawText(20, 14, "■  ■  ■  ■  ■     ■  ■  ■     ■");
-	_DrawText(20, 15, "■■■■  ■■■■  ■     ■■■■  ■     ■■■■");
-	_DrawText(20, 16, "■     ■  ■  ■     ■  ■  ■     ■");
-	_DrawText(20, 17, "■     ■  ■  ■■■■  ■  ■  ■■■■  ■■■■");
+	_DrawText(25, 9, "■■■■  ■     ■■■■   ■■   ■■■■");
+	_DrawText(25, 10, "■     ■     ■     ■  ■  ■  ■");
+	_DrawText(25, 11, "■     ■     ■■■■  ■■■■  ■■■■");
+	_DrawText(25, 12, "■     ■     ■     ■  ■  ■ ■");
+	_DrawText(25, 13, "■■■■  ■■■■  ■■■■  ■  ■  ■  ■");
+
+	_DrawText(29, 15, "       ______");
+	_DrawText(29, 16, " ___ _/ \\__/ \\_   /|");
+	_DrawText(29, 17, "(_x / \\ /  \\ / \\_/ |");
+	_DrawText(29, 18, " \\__ -----------__/");
+	_DrawText(29, 19, " (___\\_|_|_|_|_/___)");
 }
 
 void DrawStartScreen() {
@@ -60,7 +83,7 @@ void DrawStartScreen() {
 			_getch();   // 입력 버퍼 비우기
 		}
 		// 문구 이펙트 효과
-		GameStartText = !GameStartText;
+		textE = !textE;
 		_Invalidate();
 		Sleep(500);
 	}
@@ -81,7 +104,34 @@ void ReturnStartScreen() {
 			_getch();	// 입력 버퍼 비우기
 		}
 		// 문구 이펙트 효과
-		GameOverText = !GameOverText;
+		textE = !textE;
+		_Invalidate();
+		Sleep(500);
+	}
+
+}
+
+void DrawGameClearScreen() {
+
+	// 게임 클리어 후
+	while (GetTurtleHp() <= 0) {
+		// 키 입력이 들어오면
+		if (_kbhit()) {
+			if (GetAsyncKeyState('ESC') & 0x8000) {
+				exit(0); // ESC 키를 누르면 게임 종료
+			}
+			else {
+				GameStart = false;  // 게임시작 변수 false 변경
+				SetWeaponChosen(false); // 무기 선택여부 false로 변경
+				SetMapSetting(false);	// 아이템 세팅 초기화
+				SetMapStatus(E_Jail);	// 원래 맵으로 이동
+				SetPlusX(0);	// X 좌표 증가값 0으로 변경
+				SetTurtleHp();
+				_getch();	// 입력 버퍼 비우기
+			}
+		}
+		// 문구 이펙트 효과
+		textE = !textE;
 		_Invalidate();
 		Sleep(500);
 	}
@@ -94,12 +144,6 @@ bool GetGameStart()
 	return GameStart;
 }
 
-// 게임 시작 여부 텍스트 가져오기
-bool GetGameStartText()
-{
-	return GameStartText;
-}
-
 bool GetIsGameOver()
 {
 	return IsGameOver;
@@ -110,12 +154,12 @@ void SetIsGameOver(int src)
 	IsGameOver = src;
 }
 
-bool GetGameOverText()
+bool GetTextE()
 {
-	return GameOverText;
+	return textE;
 }
 
-void SetIsGameOverText(int src)
+void SetTextE(int src)
 {
-	GameOverText = src;
+	textE = src;
 }

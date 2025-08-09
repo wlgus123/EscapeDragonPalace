@@ -6,6 +6,8 @@
 #include "monster.h"
 #include "screens.h"
 #include "turtle.h"
+#include "fish_big.h"
+#include "fish_small.h"
 
 // ===============================================================
 
@@ -16,11 +18,13 @@ void Draw() // 화면 그리기
         _SetColor(E_White); // 문구 색 변경
         GameStartScreen();  // 게임시작 화면 출력
         // 문구 이펙트 효과
-        if (GetGameStartText())
+        if (GetTextE())
             _SetColor(E_White); // 문구 색 변경
         else
             _SetColor(E_Gray); // 문구 색 변경
-        _DrawText(23, 21, "아무 키나 눌러 게임 시작하기");
+        _DrawText(26, 22, "아무 키나 눌러 게임 시작하기");
+        DrawMap();
+
 
     }
     // 게임 시작 후
@@ -31,19 +35,36 @@ void Draw() // 화면 그리기
             _SetColor(E_White); // 문구 색 변경
             GameOverScreen();   // 게임오버 화면 출력
             // 문구 이펙트 효과
-            if (GetGameOverText())
+            if (GetTextE())
                 _SetColor(E_White); // 문구 색 변경
             else
                 _SetColor(E_Gray); // 문구 색 변경
-            _DrawText(14, 21, "아무 키나 눌러 시작화면으로 돌아가기");
+            _DrawText(21, 21, "아무 키나 눌러 시작화면으로 돌아가기");
+            DrawMap();
+
 
         }
         // 스테이지 클리어
         else if (StageClear())
         {
             RabbitSCAnim();  // 스테이지 클리어 화면 출력
+            DrawMap();
+
             _Delay(45);
-            // 여기 있던 거 Rabbit.c에 ISOnGoal()로 옮겼어요 _ 서영
+        }
+		else if (GetTurtleHp() <= 0) // 자라 몬스터의 체력이 0 이하일 때 (보스 클리어)
+        {
+            _SetColor(E_White); // 문구 색 변경
+            GameClearSceen(); // 게임 클리어 화면 출력
+            // 문구 이펙트 효과
+            if (GetTextE())
+                _SetColor(E_White); // 문구 색 변경
+            else
+                _SetColor(E_Gray); // 문구 색 변경
+            _DrawText(12, 21, "ESC로 게임 종료 혹은 아무 키나 눌러 시작화면으로 돌아가기");
+            DrawMap();
+
+
         }
         // 플레이 중일 때
         else {
@@ -101,6 +122,10 @@ void Draw() // 화면 그리기
 // 업데이트 내용
 void Update()
 {
+    if (GetAsyncKeyState('H') & 0x8000)
+    {
+        g_Turtle.mon.hp = 0;
+    }
     UpdateMapPos();
 
     UpdatePlayer();
@@ -138,7 +163,9 @@ void main()
     InitItem();  // 아이템 초기화
     while (true)
     {
-        InitPlayer();   // 몬스터 초기화
+        InitPlayer();
+        SettingBigFish();
+        SettingSmallFish();
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 
@@ -167,6 +194,12 @@ void main()
                 ReturnStartScreen();    // 게임오버 화면 출력
                 break;
             }
+			if (GetTurtleHp() <= 0) // 자라 몬스터의 체력이 0 이하일 때 (보스 클리어)
+			{
+				system("cls"); // 화면 지우기
+				DrawGameClearScreen(); // 게임 클리어 화면 출력
+				break;
+			}
         }
 
 

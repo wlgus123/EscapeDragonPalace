@@ -7,6 +7,7 @@
 
 // --------------------------------------------------
 
+#define RABBIT_WIDTH 10 // 토끼 너비
 #define RabbitX 25 // Rabbit char 가로 크기
 #define RabbitY 3 // Rabbit char 세로 크기
 #define RABBIT_SPEED 1	// Rabbit 이동 속도

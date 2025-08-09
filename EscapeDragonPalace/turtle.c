@@ -46,6 +46,14 @@ static const int ATTACK_RANGE_Y_OFFSET = 5;
 
 static WaterDrop g_WaterDrops[MAX_WATER_DROPS];
 
+int GetTurtleHp() {
+	return g_Turtle.mon.hp;
+}
+
+int SetTurtleHp() {
+    g_Turtle.mon.hp = 80;
+}
+
 static void ClearWaterDrops(void) {
     for (int i = 0; i < MAX_WATER_DROPS; i++) {
         g_WaterDrops[i].active = false;
