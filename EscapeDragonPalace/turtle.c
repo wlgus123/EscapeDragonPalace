@@ -649,7 +649,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
         return; // 아직 무적 상태면 데미지 무시
     }
 
-    player.Health -= 2;
+    player.Health -= 1;
 
     g_Turtle.lastHitTime = now; // 마지막 피격 시간 갱신
 }
