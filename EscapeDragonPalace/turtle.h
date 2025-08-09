@@ -33,7 +33,7 @@
 static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
 {
 	{
-		"        ________",
+		"        ______",
 		"  ___ _/ \\__/ \\_   /|",
 		" (_o / \\ /  \\ / \\_/ |",
 		"  \\__ -----------__/",
@@ -41,7 +41,7 @@ static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
 		"     /_|_|  /_|_|"
 	},
 	{
-		"        ________",
+		"       ______",
 		"|\\   _/ \\__/ \\_ ___",
 		"| \\_/ \\ /  \\ / \\ o_)",
 		" \\__----------- __/",

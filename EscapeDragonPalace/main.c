@@ -98,15 +98,15 @@ void Draw() // 화면 그리기
                 {
                     _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 }
+
+                _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
+                DrawHealth();   // 체력바 그리기
+                DrawBuffNDebuff();
             }
 
             // 플레이어 출력
             DrawPlayer();
             _SetColor(E_White);
-
-            _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
-            DrawHealth();   // 체력바 그리기
-            DrawBuffNDebuff();
 
             // 맵 틀 그리기
             DrawMap();
@@ -142,7 +142,6 @@ void Update()
     {
         UpdateTurtle(now);
     }
-
 }
 
 // 키 입력

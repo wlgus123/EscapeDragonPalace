@@ -33,9 +33,6 @@
     <ClCompile Include="item.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="map.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -55,6 +52,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="weapon.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
