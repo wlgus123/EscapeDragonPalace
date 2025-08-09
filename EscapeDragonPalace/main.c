@@ -46,6 +46,7 @@ void Draw() // 화면 그리기
         else if (StageClear())
         {
             RabbitSCAnim();  // 스테이지 클리어 화면 출력
+            IsNextStage();
 
             _Delay(45);
         }
