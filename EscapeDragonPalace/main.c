@@ -23,7 +23,6 @@ void Draw() // 화면 그리기
         else
             _SetColor(E_Gray); // 문구 색 변경
         _DrawText(26, 22, "아무 키나 눌러 게임 시작하기");
-        DrawMap();
 
 
     }
@@ -39,8 +38,7 @@ void Draw() // 화면 그리기
                 _SetColor(E_White); // 문구 색 변경
             else
                 _SetColor(E_Gray); // 문구 색 변경
-            _DrawText(21, 21, "아무 키나 눌러 시작화면으로 돌아가기");
-            DrawMap();
+            _DrawText(23, 21, "아무 키나 눌러 시작화면으로 돌아가기");
 
 
         }
@@ -48,7 +46,6 @@ void Draw() // 화면 그리기
         else if (StageClear())
         {
             RabbitSCAnim();  // 스테이지 클리어 화면 출력
-            DrawMap();
 
             _Delay(45);
         }
@@ -62,7 +59,6 @@ void Draw() // 화면 그리기
             else
                 _SetColor(E_Gray); // 문구 색 변경
             _DrawText(12, 21, "ESC로 게임 종료 혹은 아무 키나 눌러 시작화면으로 돌아가기");
-            DrawMap();
 
 
         }
@@ -102,15 +98,15 @@ void Draw() // 화면 그리기
                 {
                     _DrawText(player.Pos.x, player.Pos.y - 3.f, "e를 눌러 아이템 먹기");
                 }
+
+                _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
+                DrawHealth();   // 체력바 그리기
+                DrawBuffNDebuff();
             }
 
             // 플레이어 출력
             DrawPlayer();
             _SetColor(E_White);
-
-            _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
-            DrawHealth();   // 체력바 그리기
-            DrawBuffNDebuff();
 
             // 맵 틀 그리기
             DrawMap();
@@ -146,7 +142,6 @@ void Update()
     {
         UpdateTurtle(now);
     }
-
 }
 
 // 키 입력
@@ -165,8 +160,8 @@ void main()
     while (true)
     {
         InitPlayer();
-        SettingBigFish();
-        SettingSmallFish();
+        ResetBigFish();
+        ResetSmallFish();
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 

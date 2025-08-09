@@ -33,21 +33,21 @@
 static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
 {
 	{
-		"        ________",
+		"       ______",
+		"|\\   _/ \\__/ \\_ ___",
+		"| \\_/ \\ /  \\ / \\ o_)",
+		" \\__----------- __/",
+		"    \\_|_|_|_|_/",
+		"    |_|_\\  |_|_\\ ",
+	},
+	{
+		"        ______",
 		"  ___ _/ \\__/ \\_   /|",
 		" (_o / \\ /  \\ / \\_/ |",
 		"  \\__ -----------__/",
 		"      \\_|_|_|_|_/ ",
 		"     /_|_|  /_|_|"
 	},
-	{
-		"        ________",
-		"|\\   _/ \\__/ \\_ ___",
-		"| \\_/ \\ /  \\ / \\ o_)",
-		" \\__----------- __/",
-		"    \\_|_|_|_|_/",
-		"    |_|_\\  |_|_\\ ",
-	}
 };
 
 // 자라 스킬
@@ -72,8 +72,8 @@ typedef struct Turtle
 
 // 물대포 구조체
 typedef struct WaterDrop {
+	MyPoint pos;
 	bool active;
-	int x, y;
 	unsigned int lastMoveTime;
 } WaterDrop;
 
@@ -110,3 +110,4 @@ void UpdateTurtle(unsigned int now); // 자라 업데이트
 void DrawTurtle(void); // 자라 그리기
 void TurtleHitP(int posX, int posY); // 자라가 플레이어를 공격했는지 확인
 int GetTurtleHp(); // 자라 체력 가져오기
+int SetTurtleHp(); // 자라 체력 초기화

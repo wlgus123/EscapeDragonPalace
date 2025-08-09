@@ -121,6 +121,8 @@ void PlayerHitBigFish()
 
 		if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
 
+		if (tempFish->mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
+
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
 		if (now - player.lastHitTime < INVINCIBLE_TIME) continue;
@@ -135,13 +137,18 @@ void PlayerHitBigFish()
 	}
 }
 
-void SettingBigFish() {
+
+void ResetBigFish() {
 	for (int i = 0; i < STAGE_CNT; i++)
 	{
 		BigFish* tempBigFish = g_BigFishList[i];
 		for (int idx = 0; idx < g_BigFishListIdx[i]; idx++)
 		{
-			tempBigFish[idx].mon.alive = true;		// 생존 여부
+			tempBigFish[idx].mon.alive = true;
+			tempBigFish[idx].mon.hp = 4;
+			tempBigFish[idx].mon.isDamaged = false;
+			tempBigFish[idx].mon.lastHitTime = 0;
+			tempBigFish[idx].mon.speed = 0.6;
 		}
 	}
 }
