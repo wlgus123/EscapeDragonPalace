@@ -27,9 +27,7 @@ void UpdateCrab(unsigned long now)
 			tempCrab[idx].mon.isDamaged = false;
 		}
 
-		// 몬스터 이동
-		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right) ? g_CrabMon.speed : -g_CrabMon.speed;
-
+		
 		// 정해진 범위 안에서 이동
 		if (tempCrab[idx].pos.x <= tempCrab[idx].startPosX)
 		{
@@ -39,6 +37,10 @@ void UpdateCrab(unsigned long now)
 		{
 			tempCrab[idx].dir = E_Left;
 		}
+
+		// 몬스터 이동
+		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right) ? g_CrabMon.speed : -g_CrabMon.speed;
+
 	}
 }
 
@@ -109,23 +111,33 @@ void DrawCrab()
 {
 	// 현재 맵 데이터 임시로 불러오기
 	Crab* tempCrab = g_CrabList[GetMapStatus()];
+	int imageDir;
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
 		// 피격 시 노란색, 평시 빨간색
-		_SetColor(g_CrabList[GetMapStatus()][idx].mon.isDamaged ? E_Yellow : E_BrightRed);
+		_SetColor(tempCrab[idx].mon.isDamaged ? E_Yellow : E_BrightRed);
 
 		int posX = tempCrab[idx].pos.x - GetPlusX();
+
+		if(isBleeding ==true){
+			imageDir = E_Left;
+		}
+		else {
+			imageDir = E_Right;
+		}
+		
+
 		for (int y = 0; y < CRAB_HEIGHT; y++)
 		{
 			for (int x = 0; x < CRAB_WIDTH; x++)
 			{
-				if (g_CrabGraphic[tempCrab[idx].dir][y][x] != ' ')
+				if (g_CrabGraphic[imageDir][y][x] != ' ')
 				{
 					// 화면 범위 내에 있을 경우 그리기
 					if (0 <= posX + x && SCREEN_WIDTH > posX + x)
 					{
-						_DrawText(posX + x, tempCrab[idx].pos.y + y, 
-							(char[]) { g_CrabGraphic[tempCrab[idx].dir][y][x], 0 });
+						_DrawText(posX + x, tempCrab[idx].pos.y + y,
+							(char[]) {g_CrabGraphic[imageDir][y][x], 0});
 					}
 				}
 			}
