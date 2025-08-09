@@ -37,4 +37,5 @@ void HitMonster()
 	CrabHitPlayer();
 	//HitCrab(now);
 	SmallFishHitPlayer();
+	BigFishHitPlayer();
 }
