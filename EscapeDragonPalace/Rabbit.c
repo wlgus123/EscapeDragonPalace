@@ -975,7 +975,7 @@ void InitPlayer() // √ ±‚»≠
 	animRepeatCount = 0;
 	jumpFrames = 5;
 	maxRepeats = 4;
-	centerX = 30;
+	centerX = 29;
 	baseY = 20;
 	jumpHeight = 2;
 	animFramesTotal = 10;
