@@ -110,11 +110,6 @@ static void UpdateWaterDrops(unsigned int now) {
 	}
 }
 
-static bool CheckHitWaterDrop()
-{
-
-}
-
 // 활성화된 물방울이 하나라도 있는지 체크
 static bool AnyWaterDropsActive(void) {
 	for (int i = 0; i < MAX_WATER_DROPS; ++i) {
