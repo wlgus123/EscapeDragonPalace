@@ -8,19 +8,16 @@ bool weaponChosen = false;  // Enter로 선택했는지 여부
 // 무기배열 초기화
 void InitWeapon(Weapon* weapons) {
 
-    // 인덱스 0번
     strcpy(weapons[0].name, "장검");
     strcpy(weapons[0].sprite, "--|====>");
     weapons[0].attack = 2;
     weapons[0].attackSpeed = 2;
 
-    // 인덱스 1번
     strcpy(weapons[1].name, "단검");
     strcpy(weapons[1].sprite, "-|=>");
     weapons[1].attack = 1;
     weapons[1].attackSpeed = 3;
 
-    // 인덱스 2번
     strcpy(weapons[2].name, "창");
     strcpy(weapons[2].sprite, "------>");
     weapons[2].attack = 3;
@@ -39,7 +36,6 @@ void DrawWeapon(const Weapon* w, int i, int isSelected) {
 
     _DrawText(baseX, 10, "종류: ");
     _DrawText(baseX + 6, 10, w->name);
-
 
     sprintf(buffer, "공격력: %d", w->attack);
     _DrawText(baseX, 11, buffer);
