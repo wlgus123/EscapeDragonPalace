@@ -137,25 +137,11 @@ void ResetSmallFish() {
 		SmallFish* tempSmallFish = g_SmallFishList[i];
 		for (int idx = 0; idx < g_SmallFishListIdx[i]; idx++)
 		{
-			tempSmallFish[idx].mon.alive = true;
-			tempSmallFish[idx].mon.hp = 1;
-			tempSmallFish[idx].mon.isDamaged = false;
-			tempSmallFish[idx].mon.lastHitTime = 0;
-			tempSmallFish[idx].mon.speed = 1.6;
+			tempSmallFish[idx].mon.alive = false;
 		}
 	}
 }
 
-void IsNextStage(){
-
-		SmallFish* tempSmallFish = g_SmallFishList[GetMapStatus()];
-		for (int idx = 0; idx < g_SmallFishListIdx[GetMapStatus()]; idx++)
-		{
-			tempSmallFish[idx].mon.alive = false;
-			tempSmallFish[idx].isRush = false;	// 돌진 상태 해제	
-
-		}
-}
 
 void InitSmallFish()
 {
