@@ -45,6 +45,8 @@ typedef struct Player
 	int AttackFrameMax;    // 현재 무기에 맞는 공격 애니메이션 프레임 길이
 
 	unsigned int lastHitTime; // 마지막 피격 시간
+
+	bool isBleeding; // 출혈 상태 여부
 }Player;
 Player player;
 

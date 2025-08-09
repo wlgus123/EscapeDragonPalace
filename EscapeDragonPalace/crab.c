@@ -7,7 +7,10 @@ Monster g_CrabMon;	// 꽃게 몬스터 구조체 공통 설정
 Skill g_CrabSkill;	// 꽃게 스킬 구조체 공통 설정
 Crab g_CrabList[STAGE_CNT][CRAB_CNT];	// 꽃게 포인트 배열
 int g_CrabListIdx[STAGE_CNT] = { 0, };
-bool isBleeding = false; // 출혈 상태 변수
+DWORD lastBleedTick = 0; // 출혈 데미지 체크용 타이머
+int bleedCount = 0;      // 출혈 데미지 횟수
+
+
 
 // 꽃게 업데이트
 void UpdateCrab(unsigned long now)
@@ -89,37 +92,43 @@ void CheckAttacking()
 //}
 
 // 꽃게 > 플레이어 공격하는 함수
+
+
 void CrabHitPlayer() {
+	if (player.isBleeding == true) return; // 이미 출혈 상태면 충돌 체크 안 함
+
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
 		Crab* tempCrab = &g_CrabList[GetMapStatus()][idx];
 		int posX = tempCrab->pos.x - GetPlusX();
 		int posY = tempCrab->pos.y;
 		Rect PlayerPos = GetPlayerRect();
-		Rect MosterPos = { posX, posY, 1, 3 };
-		DWORD now = GetTickCount();
-		static int count = 0;
+		Rect MonsterPos = { posX, posY, 1, 3 };
 
-		if (IsOverlap(PlayerPos, MosterPos))
-			isBleeding = true; // 플레이어가 꽃게와 겹치면 출혈 상태로 변경
-
-		if (isBleeding == false)
-			return;
-
-		if(count == 3) {
-			isBleeding = false; // 3번 공격 후 출혈 상태 해제
-			count = 0;
+		if (IsOverlap(PlayerPos, MonsterPos)) {
+			// 출혈 시작
+			player.isBleeding = true;
+			bleedCount = 0; // 출혈 데미지 카운트 초기화
+			lastBleedTick = GetTickCount(); // 출혈 타이머 초기화
 		}
+	}
+}
 
-		if (now - tempCrab->mon.lastHitTime < INVINCIBLE_TIME) {
-			return; // 아직 때린지 1초가 안지났으면 안때림
+void BleedPlayer() {
+	if (!player.isBleeding) return;
+
+	DWORD now = GetTickCount();
+
+	
+	if (now - lastBleedTick >= 1000) {
+		player.Health -= 1;       // HP 감소
+		bleedCount++;             // 데미지 횟수 증가
+		lastBleedTick = now;      // 타이머 갱신
+
+		if (bleedCount >= 3) {    // 3번 맞으면 출혈 종료
+			player.isBleeding = false;
+			bleedCount = 0;
 		}
-		//출혈 
-
-		player.Health -= tempCrab->skill.attack; // 플레이어 체력 1 감소
-
-		count++;
-		tempCrab->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 	}
 }
 
@@ -136,7 +145,7 @@ void DrawCrab()
 
 		int posX = tempCrab[idx].pos.x - GetPlusX();
 
-		if(isBleeding ==true){
+		if(player.isBleeding ==true){
 			imageDir = E_Left;
 		}
 		else {
