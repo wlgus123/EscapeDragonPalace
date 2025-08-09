@@ -36,7 +36,6 @@ void MonsterHitPlayer()
 {
 	CrabHitPlayer();
 	BleedPlayer();
-	//HitCrab(now);
 	SmallFishHitPlayer();
 	BigFishHitPlayer();
 }
@@ -46,4 +45,5 @@ void MonsterHitPlayer()
 void PlayerHitMonster() {
 	PlayerHitBigFish();
 	PlayerHitSmallFish();
+	PlayerHitCrab();
 }

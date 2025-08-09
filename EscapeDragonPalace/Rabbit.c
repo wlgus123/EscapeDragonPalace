@@ -789,6 +789,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 			player.Speed = 1; // 원래대로 감소
 			speedBuffs.active = false;
 			slowDebuffs.active = false;
+			player.isBleeding = false; // 플레이어가 피격당했는지 여부 초기화	
 
 			player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
 			player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
@@ -958,6 +959,8 @@ void InitPlayer() // 초기화
 	player.IsAttacking = false;
 	player.AttackFrame = 0;
 	player.attackStartTime = 0;
+
+	player.isBleeding = false; // 플레이어가 피격당했는지 여부 초기화
 
 	// 무기
 	player.HeldWeapon = &weaponList[GetSelectedIndex()];

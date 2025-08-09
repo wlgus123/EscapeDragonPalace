@@ -41,7 +41,7 @@ typedef struct Crab
 void InitCrab();    // 초기화
 void DrawCrab();    // 그리기
 void UpdateCrab(unsigned long now);  // 업데이트
-void HitCrab();     // 꽃게 피격 처리
-void HitCrab(unsigned int now);
+void PlayerHitCrab(); // 플레이어 공격 처리
 void CrabHitPlayer(); // 플레이어 공격 처리
 void BleedPlayer(); // 플레이어 출혈 처리
+void ResetCrab();

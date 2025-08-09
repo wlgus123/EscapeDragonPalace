@@ -33,6 +33,9 @@ void UpdateCrab(unsigned long now)
 		if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) > (player.Pos.x - GetPlusX()) - 20) {	// 플레이어가 꽃게와 가까워지면 추격 상태로 변경
 			tempCrab[idx].state = true;
 		}
+		else if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) < (player.Pos.x - GetPlusX()) + 20) { // 플레이어가 꽃게와 멀어지면 추격 상태 해제
+			tempCrab[idx].state = false;
+		}
 
 		// 플레이어 인식 후
 		if (tempCrab[idx].state == true) {
@@ -44,6 +47,7 @@ void UpdateCrab(unsigned long now)
 			else if (tempCrab[idx].pos.x < player.Pos.x + GetPlusX())
 				tempCrab[idx].dir = E_Right;
 		}
+
 
 		// 플레이어 인식 전
 		if(tempCrab[idx].state == false){
@@ -64,6 +68,46 @@ void UpdateCrab(unsigned long now)
 	}
 }
 
+void DrawCrab()
+{
+	// 현재 맵 데이터 임시로 불러오기
+	Crab* tempCrab = g_CrabList[GetMapStatus()];
+	int imageDir;
+	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
+	{
+		if (!tempCrab[idx].mon.alive) continue;
+
+		// 피격 시 노란색, 평시 빨간색
+		_SetColor(tempCrab[idx].mon.isDamaged ? E_Yellow : E_BrightRed);
+
+		int posX = tempCrab[idx].pos.x - GetPlusX();
+
+		if(player.isBleeding ==true){
+			imageDir = E_Left;
+		}
+		else {
+			imageDir = E_Right;
+		}
+		
+
+		for (int y = 0; y < CRAB_HEIGHT; y++)
+		{
+			for (int x = 0; x < CRAB_WIDTH; x++)
+			{
+				if (g_CrabGraphic[imageDir][y][x] != ' ')
+				{
+					// 화면 범위 내에 있을 경우 그리기
+					if (0 <= posX + x && SCREEN_WIDTH > posX + x)
+					{
+						_DrawText(posX + x, tempCrab[idx].pos.y + y,
+							(char[]) {g_CrabGraphic[imageDir][y][x], 0});
+					}
+				}
+			}
+		}
+	}
+}//꽃게 그리기
+
 // 꽃게 공격 체크, 공격 애니메이션 처리
 void CheckAttacking()
 {
@@ -74,25 +118,8 @@ void CheckAttacking()
 	}
 }
 
-// 꽃게 피격 처리
-//void HitCrab(unsigned int now) {
-//	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
-//	{
-//		Crab tempCrab = g_CrabList[GetMapStatus()][idx];
-//		if (tempCrab.mon.alive) return;
-//
-//		tempCrab.mon.hp -= player.HeldWeapon->attack;
-//		tempCrab.mon.isDamaged = true;	// 무적 상태 진입
-//		tempCrab.mon.lastHitTime = now;	// 피격 시간 기록
-//
-//		if (tempCrab.mon.hp <= 0) {
-//			tempCrab.mon.alive = false;	// 체력이 0 이하가 되면 사망 처리
-//		}
-//	}
-//}
 
-// 꽃게 > 플레이어 공격하는 함수
-
+//꽃게 > 플레이어 공격
 
 void CrabHitPlayer() {
 	if (player.isBleeding == true) return; // 이미 출혈 상태면 충돌 체크 안 함
@@ -104,6 +131,8 @@ void CrabHitPlayer() {
 		int posY = tempCrab->pos.y;
 		Rect PlayerPos = GetPlayerRect();
 		Rect MonsterPos = { posX, posY, 1, 3 };
+
+		if (!tempCrab->mon.alive) continue;
 
 		if (IsOverlap(PlayerPos, MonsterPos)) {
 			// 출혈 시작
@@ -132,41 +161,52 @@ void BleedPlayer() {
 	}
 }
 
-// 꽃게 그리기
-void DrawCrab()
+
+void PlayerHitCrab()
 {
-	// 현재 맵 데이터 임시로 불러오기
-	Crab* tempCrab = g_CrabList[GetMapStatus()];
-	int imageDir;
+	Crab* crabList = &g_CrabList[GetMapStatus()];
+	DWORD now = GetTickCount();
+	Rect PlayerWeaponPos = GetWeaponRect();
+
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
-		// 피격 시 노란색, 평시 빨간색
-		_SetColor(tempCrab[idx].mon.isDamaged ? E_Yellow : E_BrightRed);
+		Crab* tempCrab = &g_CrabList[idx];
+		int posX = tempCrab->pos.x - GetPlusX();
+		int posY = tempCrab->pos.y;
+		Rect MosterPos = { posX, posY, 10, 3 };
 
-		int posX = tempCrab[idx].pos.x - GetPlusX();
+		if (!player.IsAttacking) continue;
 
-		if(player.isBleeding ==true){
-			imageDir = E_Left;
+		if (!tempCrab->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
+
+		if (tempCrab->mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
+
+		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
+
+		if (now - player.lastHitTime < INVINCIBLE_TIME) continue;
+		tempCrab->mon.hp -= player.HeldWeapon->attack; //
+		tempCrab->mon.isDamaged = true; // 무적 상태로 변경
+		player.lastHitTime = now; // 마지막 피격 시간 갱신
+
+
+		if (tempCrab->mon.hp <= 0) {
+			tempCrab->mon.alive = false;
 		}
-		else {
-			imageDir = E_Right;
-		}
-		
+	}
+}
 
-		for (int y = 0; y < CRAB_HEIGHT; y++)
+
+void ResetCrab() {
+	for (int i = 0; i < STAGE_CNT; i++)
+	{
+		Crab* tempCrab = g_CrabList[i];
+		for (int idx = 0; idx < g_CrabListIdx[i]; idx++)
 		{
-			for (int x = 0; x < CRAB_WIDTH; x++)
-			{
-				if (g_CrabGraphic[imageDir][y][x] != ' ')
-				{
-					// 화면 범위 내에 있을 경우 그리기
-					if (0 <= posX + x && SCREEN_WIDTH > posX + x)
-					{
-						_DrawText(posX + x, tempCrab[idx].pos.y + y,
-							(char[]) {g_CrabGraphic[imageDir][y][x], 0});
-					}
-				}
-			}
+			tempCrab[idx].mon.alive = true;
+			tempCrab[idx].mon.hp = CRAB_HP;
+			tempCrab[idx].mon.isDamaged = false;
+			tempCrab[idx].mon.lastHitTime = 0;
+			tempCrab[idx].mon.speed = 0.8;
 		}
 	}
 }
