@@ -78,6 +78,35 @@ void DrawSmallFish()
 //	}
 //}
 
+// 작은 물고기 > 플레이어 공격하는 함수
+void SmallFishHitPlayer()
+{
+	SmallFish* smallFishList = g_SmallFishList[GetMapStatus()];
+	int fishCount = g_SmallFishListIdx[GetMapStatus()];
+	DWORD now = GetTickCount();
+
+	Rect PlayerPos = { player.Pos.x + 8 + GetPlusX(), player.Pos.y, 5, 3};
+
+	for (int idx = 0; idx < fishCount; idx++)
+	{
+		SmallFish* pFish = &smallFishList[idx];
+		int posX = pFish->pos.x;
+		int posY = pFish->pos.y;
+		Rect MonsterPos = { posX, posY, 6, 1 };
+
+		if (!pFish->mon.alive) continue;
+
+		if (!IsOverlap(PlayerPos, MonsterPos))
+			continue;
+
+		if (now - pFish->mon.lastHitTime < INVINCIBLE_TIME)
+			continue;
+
+		player.Health -= pFish->attack;
+		pFish->mon.lastHitTime = now;
+	}
+}
+
 void InitSmallFish()
 {
 	// 작은 물고기 공통된 속성 설정

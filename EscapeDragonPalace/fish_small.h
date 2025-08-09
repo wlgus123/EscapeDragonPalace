@@ -22,3 +22,4 @@ typedef struct SmallFish
 void InitSmallFish();	// 초기화
 void DrawSmallFish();	// 그리기
 void UpdateSmallFish(unsigned long now);	// 업데이트
+void SmallFishHitPlayer();	// 플레이어 공격
