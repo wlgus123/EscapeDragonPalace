@@ -214,62 +214,7 @@ Rect GetWeaponRect()
 	}
 }
 
-// 플레이어가 공격당했을 때
-//void HitPlayer() {
-//	DWORD now = GetTickCount();
-//
-//	// 플레이어 충돌 범위 저장
-//	Rect playerRect = GetPlayerRect();
-//
-//	for (int i = 0; i < numMonster; i++) {
-//		if (!monsterList[i].alive) continue;
-//		// 몬스터 충돌 범위 저장
-//		Rect monsterRect = GetMonsterRect(monsterList[i]);
-//
-//		// 플레이어와 몬스터의 충돌 체크
-//		if (IsOverlap(playerRect, monsterRect)) {
-//			
-//			// 무적 시간 체크
-//			IsInvincibleTime = true; // 플레이어 무적 시간 여부s
-//			if (now - player.lastHitTime < INVINCIBLE_TIME) {
-//				return; // 아직 무적 상태면 데미지 무시
-//			}
-//
-//
-//			// 몬스터 타입에 따라 피격처리
-//			switch (monsterList[i].type)
-//			{
-//			case E_MONSTER_FISH:
-//				FishHitP();
-//				break;
-//			case E_MONSTER_CRAB:
-//				CrabHitP();
-//				break;
-//			case E_MONSTER_CLAM:
-//				ClamHitP();
-//				monsterList[i].alive = false;
-//				// 이미 조개로 인해 슬로우 적용이 된 상태일 때
-//				if (now < player.ClamHitTime) {
-//					// 이미 슬로우 중이면 끝나는 시각을 연장
-//					player.ClamHitTime += SLOWDURATION;
-//				}
-//				else {
-//					// 슬로우가 끝났거나 처음이면 새로 시작
-//					player.ClamHitTime = now + SLOWDURATION;
-//				}
-//				break;
-//			case E_MONSTER_SMALLFISH:
-//				SmallFishHitP();
-//				break;
-//			case E_MONSTER_TURTLE:
-//				break;
-//			}
-//			player.lastHitTime = now; // 마지막 피격 시각 갱신
-//			IsRetentionTime = false; // 플레이어 무적 시간 여부 false로 변경
-//		}
-//	}
-//
-//}
+
 
 // 아이템 먹었는지 체크
 void CheckItemPickup()
@@ -652,9 +597,9 @@ void AttackFN()
 		{
 			player.IsAttacking = false;
 			player.AttackFrame = 0;
+
 			// 무기 충돌 범위 받아오기
 			Rect weaponRect = GetWeaponRect();
-
 			//for (int i = 0; i < numMonster; i++)
 			//{
 			//    // 화면에 보이지 않는 몬스터(이미 죽었거나 다른 스테이지)인 경우 넘어가기
