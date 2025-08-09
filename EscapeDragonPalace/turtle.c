@@ -306,6 +306,7 @@ void UpdateTurtle(unsigned long now) {
 	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
 		g_Turtle.isDamaged = false;
 
+
 	// 돌진 시작하는 경우 평타/웨이브 충돌 방지용
 	const unsigned int PREP_MARGIN_MS = 50;
 	bool prepImminent = (g_PrepStartTime <= now + PREP_MARGIN_MS);
@@ -657,6 +658,7 @@ void DrawTurtle(void) {
 		int l = strlen(m);
 		_DrawText(SCREEN_WIDTH / 2 - l / 2, 1, m);
 	}
+
 	int idx = (g_Turtle.dir == E_Right ? E_Right : E_Left);
 	int lines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
 	for (int r = 0; r < lines; ++r) _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[idx][r]);
@@ -667,7 +669,7 @@ void DrawTurtle(void) {
 // 자라 -> 플레이어 피격
 void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX + 5, posY, TURTLE_WIDTH - 5, TURTLE_HEIGHT + 2 };
+	Rect MosterPos = { posX + 5, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT + 2 };
 	// -5: 머리부분 충돌 시 피 깎이지 않게 예방
 	DWORD now = GetTickCount();
 
@@ -702,4 +704,30 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 
 
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
+}
+
+// 플레이어 -> 자라 피격
+void PlayerHitTurtle()
+{
+	DWORD now = GetTickCount();
+	Rect PlayerWeaponPos = GetWeaponRect();
+
+	int posX = g_Turtle.pos.x;
+	int posY = g_Turtle.pos.y;
+	Rect MosterPos = { posX, posY, TURTLE_WIDTH, TURTLE_HEIGHT + 2 };
+
+	if (!player.IsAttacking) return;
+
+	if (g_Turtle.isDamaged) return; // 몬스터가 무적 상태일 경우 넘어가기
+
+	if (!(IsOverlap(PlayerWeaponPos, MosterPos))) return;
+
+	if (now - player.lastHitTime < INVINCIBLE_TIME) return;
+ 	g_Turtle.mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
+	g_Turtle.mon.isDamaged = true; // 무적 상태로 변경
+	player.lastHitTime = now; // 마지막 피격 시간 갱신
+
+	if (g_Turtle.mon.hp <= 0) {
+		g_Turtle.mon.alive = false;
+	}
 }
