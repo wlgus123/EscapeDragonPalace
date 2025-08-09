@@ -32,6 +32,7 @@ void UpdateSmallFish(unsigned long now)
 			if (tempSmallFish[idx].pos.x <= 0)
 			{
 				tempSmallFish[idx].mon.alive = false;
+				tempSmallFish[idx].isRush = false;	// 돌진 상태 해제	
 			}
 		}
 	}
@@ -130,13 +131,13 @@ void SmallFishHitPlayer()
 	}
 }
 
-void SettingSmallFish() {
+void SettingSmallFish(bool src) {
 	for (int i = 0; i < STAGE_CNT; i++)
 	{
 		SmallFish* tempSmallFish = g_SmallFishList[i];
 		for (int idx = 0; idx < g_SmallFishListIdx[i]; idx++)
 		{
-			tempSmallFish[idx].mon.alive = true;		// 생존 여부
+			tempSmallFish[idx].mon.alive = src;		// 생존 여부
 		}
 	}
 }

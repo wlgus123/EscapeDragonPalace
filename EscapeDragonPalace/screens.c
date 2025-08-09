@@ -129,7 +129,7 @@ void DrawGameClearScreen() {
 				SetMapSetting(false);	// 아이템 세팅 초기화
 				SetMapStatus(E_Jail);	// 원래 맵으로 이동
 				SetPlusX(0);			// X 좌표 증가값 0으로 변경
-				SetTurtleHp();
+				SetTurtleHp();			// 자라 몬스터 체력 초기화	
 				_getch();				// 입력 버퍼 비우기
 			}
 		}
@@ -147,21 +147,25 @@ bool GetGameStart()
 	return GameStart;
 }
 
+// 게임 오버 여부 가져오기
 bool GetIsGameOver()
 {
 	return IsGameOver;
 }
 
+// 게임 오버 여부 설정
 void SetIsGameOver(int src)
 {
 	IsGameOver = src;
 }
 
+// 문구 이펙트 효과용 변수 가져오기
 bool GetTextE()
 {
 	return textE;
 }
 
+// 문구 이펙트 효과용	변수 설정
 void SetTextE(int src)
 {
 	textE = src;

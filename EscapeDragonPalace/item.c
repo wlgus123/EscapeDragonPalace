@@ -37,8 +37,8 @@ Item g_ItemList[MAX_ITEM_COUNT];	// 아이템 배열 선언
 int g_ItemIdx = 0;		// 아이템 개수 초기화
 int g_Frame = 0;		// 아이템 모션효과용 frame 초기화
 
-clock_t g_LastFrameTime = 0;
-const int g_FrameDelay = 400;  // 400ms마다 프레임 전환
+clock_t g_LastFrameTime = 0;	// 프레임 전환용 변수
+const int g_FrameDelay = 400;	// 400ms마다 프레임 전환
 
 // 아이템 모션효과 frame 계산 함수
 void ItemFrameDelay() {
@@ -50,19 +50,21 @@ void ItemFrameDelay() {
 		g_LastFrameTime = now;
 	}
 
-	_Invalidate();  // 매 프레임 그리기는 계속!
+	_Invalidate();  // 매 프레임 그리기는 계속
 }
 
 // 아이템 그리는 함수
 void DrawItem() {
 
+	// 아이템 배열인덱스 만큼	반복
 	for (int i = 0; i < g_ItemIdx; i++)
 	{
+		// 아이템이 바닥에 있을 때만 그리기 ( 현재 스테이지에 플레이어가 먹지 않은 아이템만 그리기 )
 		if (!g_ItemList[i].isHeld) {
 
 			SpriteType* sprite = 0;
 
-			// 아이템 타입에 따라 해초 or 공기방울 sprite 선택
+			// 아이템 타입에 따라 해초 or 공기방울 or 조개 sprite 선택
 			switch (g_ItemList[i].type) {
 			case E_ITEM_LIFE:	// 체력증가(해초)일 때
 				sprite = &g_SeaweedSprite;
@@ -72,7 +74,7 @@ void DrawItem() {
 				sprite = &g_BubblesSprite;
 				_SetColor(E_BrightTeal);
 				break;
-			case E_ITEM_DEBUFF:
+			case E_ITEM_DEBUFF:	// 속도감소(조개)일 때
 				_SetColor(E_White);
 				break;
 			}
