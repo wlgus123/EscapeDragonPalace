@@ -23,6 +23,7 @@ const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     } // 공격
 };
 
+
 // 꽃게 구조체
 typedef struct Crab
 {
@@ -31,8 +32,10 @@ typedef struct Crab
     MyPoint pos;		// 위치
     float startPosX;	// 시작 x 위치
     int moveNum;		// 이동 범위
-    Direction dir;      // 몬스터 방향
+    Direction dir;    // 몬스터 방향
+	bool state;  // 꽃게 상태 (추격 여부)
 } Crab;
+
 
 // 함수
 void InitCrab();    // 초기화
@@ -40,3 +43,4 @@ void DrawCrab();    // 그리기
 void UpdateCrab(unsigned long now);  // 업데이트
 void HitCrab();     // 꽃게 피격 처리
 void HitCrab(unsigned int now);
+void CrabHitPlayer(); // 플레이어 공격 처리
