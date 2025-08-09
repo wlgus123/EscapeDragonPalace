@@ -17,7 +17,7 @@ static int g_LastRandIdx;  // 돌진 중복발판 금지용
 
 static bool g_ShowTarget = false;            //미리보기 표시 여부
 static unsigned int g_TargetPreviewEnd = 0;  //미리보기 종료 
-static int g_PendingTargetY = 0;
+static int g_PendingTargetY = 0; // 돌진할 발판 Y 좌표 (미리보기용)
 
 int g_TargetFirstY = TURTLE_IDLE_Y + 1;             // 다리 없애기때문에 Y좌표 +1
 int g_TargetOptions[] = { 4, 9, 14 };               // 자라가 돌진할때 발판 좌표
@@ -32,7 +32,7 @@ static char g_WaterChar = '@';
 
 static bool g_WaveWarnActive = false;         // 물방울 시작 2초 전 경고 활성여부
 static unsigned int g_WaveWarnStart = 0;      // 경고가 켜진 시각
-static unsigned int g_WaveWarnDelayUntil = 0;
+static unsigned int g_WaveWarnDelayUntil = 0; // 경고가 꺼지는 시각
 
 // 물방울이 모두 바닥에 닿을 때까지 스킬 사용 막기
 static bool g_WaveDropsBlocking = false;
@@ -42,17 +42,12 @@ static const int ATTACK_HALF = 7;           // 범위 반폭
 static const int ATTACK_CENTER_RIGHT = 58;  // 오른쪽 기준 중심 X (월드 좌표)
 static const int ATTACK_CENTER_LEFT = 22;   // 왼쪽 기준 중심 X (월드 좌표)
 // 범위 표시 Y 위치
-static const int ATTACK_RANGE_Y_OFFSET = +5;
+static const int ATTACK_RANGE_Y_OFFSET = 5;
 
-typedef struct {
-    bool active;
-    int x, y;
-    unsigned int lastMoveTime;
-} WaterDrop;
 static WaterDrop g_WaterDrops[MAX_WATER_DROPS];
 
 static void ClearWaterDrops(void) {
-    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
+    for (int i = 0; i < MAX_WATER_DROPS; i++) {
         g_WaterDrops[i].active = false;
         g_WaterDrops[i].lastMoveTime = 0;
         g_WaterDrops[i].x = 0;
@@ -61,7 +56,7 @@ static void ClearWaterDrops(void) {
 }
 
 static void SpawnWaterDropAt(unsigned int now) {
-    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
+    for (int i = 0; i < MAX_WATER_DROPS; i++) {
         if (!g_WaterDrops[i].active) {
             g_WaterDrops[i].active = true;
             // 화면 위에서 랜덤 X에 생성
@@ -74,7 +69,7 @@ static void SpawnWaterDropAt(unsigned int now) {
 }
 
 static void UpdateWaterDrops(unsigned int now) {
-    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
+    for (int i = 0; i < MAX_WATER_DROPS; i++) {
         if (!g_WaterDrops[i].active) continue;
 
         // 이동 주기에 따라 한 칸씩 아래로 이동
@@ -89,7 +84,7 @@ static void UpdateWaterDrops(unsigned int now) {
 
 // 활성화된 물방울이 하나라도 있는지 체크
 static bool AnyWaterDropsActive(void) {
-    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
+    for (int i = 0; i < MAX_WATER_DROPS; i++) {
         if (g_WaterDrops[i].active) return true;
     }
     return false;
@@ -100,7 +95,7 @@ static void DrawWaterDrops(void) {
 
     // 물방울은 파란색으로 그리기
     _SetColor(E_Blue);
-    for (int i = 0; i < MAX_WATER_DROPS; ++i) {
+    for (int i = 0; i < MAX_WATER_DROPS; i++) {
         if (!g_WaterDrops[i].active) continue;
         int dropX = g_WaterDrops[i].x;
         int dropY = g_WaterDrops[i].y;
@@ -191,7 +186,7 @@ void InitTurtle(unsigned int now) {
     g_Turtle.pos.x = 58;
     g_Turtle.pos.y = TURTLE_IDLE_Y;
     g_Turtle.speed = 1.0f;
-    g_Turtle.dir = 1;
+    g_Turtle.dir = 0;
     g_Turtle.mon.hp = TURTLE_HP;
     g_Turtle.attack = 2;
     g_Turtle.mon.alive = true;
@@ -279,8 +274,8 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 }
 
 void UpdateTurtle(unsigned int now) {
-    if (!g_Turtle.mon.alive) return;
-    if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
+	if (!g_Turtle.mon.alive) return;    // 자라가 죽으면 업데이트 중지
+	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000) // 1초 후 무적 해제
         g_Turtle.isDamaged = false;
 
     // 돌진 시작하는 경우 평타/웨이브 충돌 방지용
@@ -290,8 +285,10 @@ void UpdateTurtle(unsigned int now) {
     // 스킬 락 확인: 물방울이 다 사라질 때까지 스킬 금지
     bool skillLocked = (now < g_SkillLockUntil) || g_WaveDropsBlocking;
 
+    // 평상시 자라일 때
     if (g_State == TURTLE_STATE_IDLE) {
-        if (!g_ExclaimActive && !g_JumpActive) {
+        // 평타
+		if (!g_ExclaimActive && !g_JumpActive) {
             // 평타 시작 조건:
             // - 돌진 임박/돌진 중 금지
             // - 스킬 락 해제 (단, 경고가 뜨면 평타를 지연시킴)
@@ -316,7 +313,7 @@ void UpdateTurtle(unsigned int now) {
             }
         }
 
-        if (g_ExclaimActive) {
+		if (g_ExclaimActive) {  // 느낌표 활성화 상태
             if (now >= g_ExclaimStart) {
                 // 느낌표 활성화 시간 이후에만 깜빡이게 함
                 if (now - g_LastExclaimBlink >= 300) {
@@ -343,6 +340,7 @@ void UpdateTurtle(unsigned int now) {
         }
     }
 
+    // 물방울
     if (g_WaterActive) {
         if (!g_WaveActive) {
             // 물방울 시작 예정인지 체크
@@ -421,6 +419,7 @@ void UpdateTurtle(unsigned int now) {
         }
     }
 
+	// 평타 점프 처리
     if (g_JumpActive) {
         int ascent = (g_TurtleAscentSteps >= 1 ? g_TurtleAscentSteps : 1);
         int descent = (g_TurtleDescentSteps >= 1 ? g_TurtleDescentSteps : 1);
@@ -458,8 +457,9 @@ void UpdateTurtle(unsigned int now) {
         }
     }
 
+    // 돌진
     switch (g_State) {
-    case TURTLE_STATE_IDLE:
+    case TURTLE_STATE_IDLE: // 평상시일 경우
         // 돌진 준비 시작 조건:
         // 물방울 비활성
         // 경고 비활성
@@ -479,7 +479,7 @@ void UpdateTurtle(unsigned int now) {
             g_ShowPrep = true;
         }
         break;
-    case TURTLE_STATE_PREPARE_RUSH:
+    case TURTLE_STATE_PREPARE_RUSH: // 돌진 준비 중일 경우
         if (now - g_PrepStartTime >= 2000) {
             // 돌진 준비 -> 돌진중 전환 시에도 평타/느낌표/경고 초기화
             g_ExclaimActive = false;
@@ -499,7 +499,7 @@ void UpdateTurtle(unsigned int now) {
             g_RushEndTime = now + 1000;
         }
         break;
-    case TURTLE_STATE_RUSHING: {
+    case TURTLE_STATE_RUSHING: {    // 돌진 중일 경우
         if (g_ShowTarget) {
             if (now < g_TargetPreviewEnd) {
                 break;
