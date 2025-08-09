@@ -640,7 +640,7 @@ void DrawTurtle(void) {
 		_DrawText(rightScreen, rangeY, "]");
 	}
 
-	// 평타 준비 ( ! )
+	// 돌진 준비 ( ! )
 	if (g_State == TURTLE_STATE_IDLE && g_ExclaimActive && g_ExclaimVisible) {
 		int exX = (g_Turtle.pos.x) + (TURTLE_WIDTH / 2);
 		int exY = g_Turtle.pos.y - 1;
@@ -665,9 +665,10 @@ void DrawTurtle(void) {
 	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
 }
 
+// 자라 -> 플레이어 피격
 void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX, posY, 58, TURTLE_IDLE_Y };
+	Rect MosterPos = { posX, posY, TURTLE_WIDTH, TURTLE_HEIGHT };
 	DWORD now = GetTickCount();
 
 	if ((IsOverlap(PlayerPos, MosterPos)) == false)
