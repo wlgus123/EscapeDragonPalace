@@ -25,7 +25,7 @@ void UpdateCrab(unsigned long now)
 		if (!tempCrab[idx].mon.alive) continue;
 
 		// 무적시간 지나면 피격 상태 해제
-		if (tempCrab[idx].mon.isDamaged && now - tempCrab[idx].mon.lastHitTime >= INVINCIBLE_TIME)
+		if (tempCrab[idx].mon.isDamaged && now - tempCrab[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
 		{
 			tempCrab[idx].mon.isDamaged = false;
 		}
@@ -161,7 +161,7 @@ void BleedPlayer() {
 	}
 }
 
-
+// 플레이어 -> 꽃게 공격
 void PlayerHitCrab()
 {
 	Crab* crabList = &g_CrabList[GetMapStatus()];
@@ -183,7 +183,7 @@ void PlayerHitCrab()
 
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
-		if (now - player.lastHitTime < INVINCIBLE_TIME) continue;
+		if (now - player.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
 		tempCrab->mon.hp -= player.HeldWeapon->attack; //
 		tempCrab->mon.isDamaged = true; // 무적 상태로 변경
 		player.lastHitTime = now; // 마지막 피격 시간 갱신

@@ -301,8 +301,7 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 }
 
 // 자라 업데이트
-void UpdateTurtle() {
-	unsigned long now = GetTickCount();
+void UpdateTurtle(unsigned long now) {
 	if (!g_Turtle.mon.alive) return;
 	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
 		g_Turtle.isDamaged = false;
@@ -666,9 +665,10 @@ void DrawTurtle(void) {
 }
 
 // 자라 -> 플레이어 피격
-void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
+void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX, posY, TURTLE_WIDTH, TURTLE_HEIGHT };
+	Rect MosterPos = { posX + 5, posY, TURTLE_WIDTH - 5, TURTLE_HEIGHT + 2 };
+	// -5: 머리부분 충돌 시 피 깎이지 않게 예방
 	DWORD now = GetTickCount();
 
 	if ((IsOverlap(PlayerPos, MosterPos)) == false)
@@ -685,7 +685,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
 		// 4칸 닳음
 		player.Health -= 4; // 플레이어 체력 감소
 	}
-	else if (g_State == TURTLE_STATE_IDLE)// 자라가 돌진 중이 아닐 때 (기본 상태일 때)
+	else
 	{
 		player.Health -= 1;
 	}
@@ -703,5 +703,3 @@ void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
 
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 }
-//자라 그려둔 부분은 헤더로 옮김
-//아마 물방울 닿으면 피가 감소되는 것도 이 코드 부분 보고 해주면 될 것 같음
