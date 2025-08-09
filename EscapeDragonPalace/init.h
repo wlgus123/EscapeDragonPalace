@@ -8,10 +8,10 @@
 #include <Windows.h>
 #include <conio.h>
 #include <stdbool.h>
-#include <string.h>
 #include "mtg.h" // mtg 파일 불러오기
 
 // 메크로
+#define STAGE_CNT 5 // 스테이지 갯수
 #define SCREEN_WIDTH 80 // 화면 너비
 #define SCREEN_HEIGHT 25 // 화면 높이
 #define STR_MAX 256 // 문자열 최대 크기
@@ -23,11 +23,15 @@ typedef struct MyPoint
     float y;
 } MyPoint;
 
+typedef struct Rect {
+	float x, y, w, h;
+} Rect;
+
 // 열거형
 // 방향
 typedef enum {
-    E_RIGHT,
-    E_LEFT,
+    E_Right,
+    E_Left,
 } Direction;
 
 // CMD 색깔
@@ -51,5 +55,15 @@ typedef enum CMDColor
 	E_BrightWhite,
 } CMDColor;
 
+// 맵
+typedef enum MapStatus
+{
+	E_Jail, // 감옥
+	E_DragonPalace, // 용궁
+	E_Sea1, // 바다1
+	E_Sea2, // 바다2
+	E_Ground, // 육지(보스)
+} MapStatus;
+
 // 전역 변수
-int g_Key;
+int g_Key;	// 입력 키

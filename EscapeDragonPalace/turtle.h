@@ -1,8 +1,9 @@
 #pragma once
+#include "monster.h"
 
-#define TURTLE_HEIGHT      6
-#define TURTLE_WIDTH       12
-#define TURTLE_HP          80
+#define TURTLE_HEIGHT 6     // 자라 높이
+#define TURTLE_WIDTH 24     // 자라 너비
+#define TURTLE_HP 80        // 자라 체력
 
 // 돌진 횟수
 #define TURTLE_RUSH_COUNT  3
@@ -29,44 +30,63 @@
 // 평타 쿨타임 (5초)
 #define TURTLE_ATTACK_COOLDOWN_MS 5000
 
-typedef struct { int x, y; } Point;
-
-const char* turtleGraphic[2][TURTLE_HEIGHT] = {
-    {
-        "       ______",
-        "|\\   _/ \\__/ \\_ ___",
-        "| \\_/ \\ /  \\ / \\ o_)",
-        " \\__----------- __/",
-        "    \\_|_|_|_|_/",
-        "    |_|_\\  |_|_\\ "
-    },
-    {
-        "       ______ ",
-        " ___ _/ \\__/ \\_   /|",
-        "(_o / \\ /  \\ / \\_/ |",
-        " \\__ -----------__/",
-        "     \\_|_|_|_|_/ ",
-        "    /_|_|  /_|_|"
-    }
+static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
+{
+	{
+		"        ________",
+		"  ___ _/ \\__/ \\_   /|",
+		" (_o / \\ /  \\ / \\_/ |",
+		"  \\__ -----------__/",
+		"      \\_|_|_|_|_/ ",
+		"     /_|_|  /_|_|"
+	},
+	{
+		"        ________",
+		"|\\   _/ \\__/ \\_ ___",
+		"| \\_/ \\ /  \\ / \\ o_)",
+		" \\__----------- __/",
+		"    \\_|_|_|_|_/",
+		"    |_|_\\  |_|_\\ ",
+	}
 };
 
-// 거북이 구조체
-typedef struct {
-    Point pos;
-    float speed;
-    int dir;
-    int hp;
-    int attack;
-    bool alive;
-    bool isDamaged;
-    unsigned int lastHitTime;
+// 자라 스킬
+typedef enum TurtleSkill
+{
+	E_Basic,		// 평타
+	E_Rush,			// 돌진
+	E_WaterCannon,	// 물대포
+	E_SkillCnt,		// 스킬 갯수
+} TurtleSkill;
+
+// 자라 구조체
+typedef struct Turtle
+{
+	Monster mon;	// 몬스터 구조체 중첩
+	MyPoint pos;	// 위치
+	float speed;	// 이동 속도
+	int attack;		// 공격력
+	bool isDamaged;	// 피격 상태 (무적 여부)
+	Direction dir;	// 바라보는 방향
 } Turtle;
 
-typedef enum {
-    TURTLE_STATE_IDLE,          // 평상시 자라
-    TURTLE_STATE_PREPARE_RUSH,  // 돌진 준비
-    TURTLE_STATE_RUSHING,       // 돌진 중
-    TURTLE_STATE_ATTACK
+// 자라 구조체
+//typedef struct {
+//	MyPoint pos;
+//	float speed;
+//	int dir;
+//	int hp;
+//	int attack;
+//	bool alive;
+//	bool isDamaged;
+//	unsigned int lastHitTime;
+//} Turtle;
+
+typedef enum TurtleState {
+	TURTLE_STATE_IDLE,          // 평상시 자라
+	TURTLE_STATE_PREPARE_RUSH,  // 돌진 준비
+	TURTLE_STATE_RUSHING,       // 돌진 중
+	TURTLE_STATE_ATTACK
 } TurtleState;
 
 extern Turtle g_Turtle;

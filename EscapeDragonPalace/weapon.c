@@ -5,7 +5,6 @@
 int selectedIndex = 0;   // 현재 선택 중인 무기 인덱스
 bool weaponChosen = false;  // Enter로 선택했는지 여부
 
-
 // 무기배열 초기화
 void InitWeapon(Weapon* weapons) {
 

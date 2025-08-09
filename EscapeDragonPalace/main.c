@@ -1,46 +1,10 @@
-#include "map.h"
+#include "init.h"
+#include "item.h"
 #include "Rabbit.h"
-// ===============================================================
-
-bool MapSetting = false;	// 아이템 세팅여부 변수
-
-// 맵 아이템, 몬스터 세팅 여부 가져오기
-bool GetMapSetting()
-{
-    return MapSetting;
-}
-
-// 맵 아이템, 몬스터 세팅 여부 세팅하기
-void SetMapSetting(bool src)
-{
-    MapSetting = src;
-}
-
-void FMapSetting() {
-    for (int i = 0; i < numItem; i++)
-    {
-        // 현재 스테이지에 들어가는 아이템 보이게 하기
-        if (itemList[i].mapStatus == GetMapStatus()) {
-            itemList[i].isHeld = false;
-        }
-        else {
-            itemList[i].isHeld = true;
-        }
-    }
-    for (int i = 0; i < numMonster; i++)
-    {
-        // 현재 스테이지에 들어가는 몬스터 보이게 하기
-        if (monsterList[i].mapStatus == GetMapStatus()) {
-            monsterList[i].alive = true;
-        }
-        else {
-            monsterList[i].alive = false;
-        }
-    }
-    // 스테이지 아이템 세팅 완료
-    SetMapSetting(true);
-}
-
+#include "map.h"
+#include "weapon.h"
+#include "monster.h"
+#include "screens.h"
 
 // ===============================================================
 
@@ -48,24 +12,30 @@ void Draw() // 화면 그리기
 {
     // 게임 시작 전
     if (!GetGameStart()) {
+        _SetColor(E_White); // 문구 색 변경
         GameStartScreen();  // 게임시작 화면 출력
         // 문구 이펙트 효과
         if (GetGameStartText()) 
-            _DrawText(23, 21, "아무 키나 눌러 게임 시작하기");
+            _SetColor(E_White); // 문구 색 변경
         else 
-            _DrawText(21, 21, "                               ");
+            _SetColor(E_Gray); // 문구 색 변경
+        _DrawText(23, 21, "아무 키나 눌러 게임 시작하기");
+
     }
     // 게임 시작 후
     else {
         // 게임오버했을 때
-        if (IsGameOver)
+        if (GetIsGameOver())
         {
+            _SetColor(E_White); // 문구 색 변경
             GameOverScreen();   // 게임오버 화면 출력
             // 문구 이펙트 효과
-            if (GameOverText)
-                _DrawText(14, 21, "아무 키나 눌러 시작화면으로 돌아가기");
+            if (GetGameOverText())
+                _SetColor(E_White); // 문구 색 변경
             else
-                _DrawText(14, 21, "                                     ");
+                _SetColor(E_Gray); // 문구 색 변경
+            _DrawText(14, 21, "아무 키나 눌러 시작화면으로 돌아가기");
+
         }
         // 스테이지 클리어
         else if (StageClear())
@@ -88,14 +58,11 @@ void Draw() // 화면 그리기
             }
             else
             {
-                DrawMapBG(); // 맵 틀 그리기
-                _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
-                DrawHealth();   // 체력바 그리기
-
+                DrawMapBG(); // 맵 배경 그리기
 
                 // 스테이지 시작후 아이템 세팅이 안 되어있을 때
                 if (!GetMapSetting()) {
-                    FMapSetting();
+                    ItemSetting();
                 }
                 
                 // 아이템 출력
@@ -103,10 +70,8 @@ void Draw() // 화면 그리기
                 _SetColor(E_White); // 아이템 외 색상 초기화
 
 
-                // 몬스터 출력
-
+                // 몬스터 출력  
                 DrawMonster();
-                if (GetMapStatus() == E_Ground) DrawTurtle();
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -118,6 +83,10 @@ void Draw() // 화면 그리기
 
             // 플레이어 출력
             DrawPlayer();
+
+            _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
+            DrawHealth();   // 체력바 그리기
+            DrawBuffNDebuff();
 
             // 맵 틀 그리기
             DrawMap();
@@ -136,21 +105,13 @@ void Update()
 	SetIsNearItem(false); // 플레이어가 아이템 근처에 있는지 여부 초기화
 
     CheckItemPickup();  // 아이템 먹었는지 체크
-    UpdateSpeedBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
+    UpdateBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
     
 
     UpdateMonster();
-    unsigned int now = _GetTickCount();
-    static int s_prevMap = -1;
-    int curMap = GetMapStatus();
-    if (s_prevMap != curMap) {
-        if (curMap == E_Ground) {
-            // 보스맵으로 진입하면 한 번만 초기화 ( 타이머를 쓰다보니 초기화 해줘야함 (스킬) )
-            InitTurtle(now);
-        }
-        s_prevMap = curMap;
-    }
-    if (curMap == E_Ground) UpdateTurtle(now);
+
+    //HitPlayer();  // 플레이어 피격 처리 함수
+
 }
 
 // 키 입력
@@ -161,45 +122,42 @@ void Input()
 
 void main()
 {
-    // init
+    // 초기화
     _BeginWindow();
-
-    SetConsoleTitle("용궁탈출");
-    
-   
     InitMonster();  // 몬스터 초기화
-    InitItem();  // 아이템 초기화
     InitWeapon(weaponList); // 무기 초기화
-    InitPlayer();
-    DrawStartScreen();  // 시작화면 작동 함수 출력
-    SelectWeapon(); // 무기 선택
-    player.HeldWeapon = &weaponList[GetSelectedIndex()];    // 플레이어 무기 세팅
-
-    unsigned int startTime = _GetTickCount();
-    InitTurtle(startTime);
-
-
-    //로직
-    while (true)
+    InitItem();  // 아이템 초기화
+    while(true)
     {
-        GetInput();
-        ItemFrameDelay();   // 아이템 모션 효과
-        Input(); // 키 입력
+        InitPlayer();
 
-        Update(); // 업데이트
+        SetConsoleTitle("용궁탈출");
 
-        _Invalidate(); // 화면 그리기 (Draw() 함수 자동 적용)
-        _Delay(30);
+        DrawStartScreen();  // 시작화면 작동 함수 출력
+        SelectWeapon(); // 무기 선택
+        player.HeldWeapon = &weaponList[GetSelectedIndex()];    // 플레이어 무기 세팅
 
-
-        if (IsGameOver)
+        //로직
+        while (true)
         {
-            ReturnStartScreen();    // 게임오버 화면 출력
-            main(); // 메인 재호출
+            GetInput();
+            ItemFrameDelay();   // 아이템 모션 효과
+            Input(); // 키 입력
 
+            Update(); // 업데이트
+
+            _Invalidate(); // 화면 그리기 (Draw() 함수 자동 적용)
+            _Delay(30);
+
+
+            if (GetIsGameOver())
+            {
+                ReturnStartScreen();    // 게임오버 화면 출력
+                break;
+            }
         }
+
+
+        _EndWindow();
     }
-
-
-    _EndWindow();
 }

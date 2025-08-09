@@ -105,7 +105,7 @@ static void DrawWaterDrops(void) {
         int dropX = g_WaterDrops[i].x;
         int dropY = g_WaterDrops[i].y;
 
-        if (g_Turtle.alive) {
+        if (g_Turtle.mon.alive) {
             int tLeft = g_Turtle.pos.x;
             int tTop = g_Turtle.pos.y;
             int tLines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
@@ -121,7 +121,7 @@ static void DrawWaterDrops(void) {
         int dy = dropY;
         _DrawText(dx, dy, s);
     }
-     //자라가 물방울 맞으면 색이 변하니 흰색으로 초기화
+    //자라가 물방울 맞으면 색이 변하니 흰색으로 초기화
     _SetColor(E_White);
 }
 
@@ -192,11 +192,11 @@ void InitTurtle(unsigned int now) {
     g_Turtle.pos.y = TURTLE_IDLE_Y;
     g_Turtle.speed = 1.0f;
     g_Turtle.dir = 1;
-    g_Turtle.hp = TURTLE_HP;
+    g_Turtle.mon.hp = TURTLE_HP;
     g_Turtle.attack = 2;
-    g_Turtle.alive = true;
+    g_Turtle.mon.alive = true;
     g_Turtle.isDamaged = false;
-    g_Turtle.lastHitTime = now;
+    g_Turtle.mon.lastHitTime = now;
     g_State = TURTLE_STATE_IDLE;
     g_NextRushTime = now + randRange(10000, 15000);
     g_PrepStartTime = g_NextRushTime - 2000;
@@ -279,8 +279,8 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 }
 
 void UpdateTurtle(unsigned int now) {
-    if (!g_Turtle.alive) return;
-    if (g_Turtle.isDamaged && now - g_Turtle.lastHitTime >= 1000)
+    if (!g_Turtle.mon.alive) return;
+    if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
         g_Turtle.isDamaged = false;
 
     // 돌진 시작하는 경우 평타/웨이브 충돌 방지용
@@ -569,7 +569,7 @@ void UpdateTurtle(unsigned int now) {
 }
 
 void DrawTurtle(void) {
-    if (!g_Turtle.alive) return;
+    if (!g_Turtle.mon.alive) return;
 
     // 물방울 그리기
     if (g_WaterActive) DrawWaterDrops();
@@ -633,32 +633,25 @@ void DrawTurtle(void) {
     int lines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
     for (int r = 0; r < lines; ++r) _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[idx][r]);
 
-    
     TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
-	
 }
 
 void TurtleHitP(int posX, int posY) { //닿으면 2씩 닳음
     Rect PlayerPos = GetPlayerRect();
-    Rect MosterPos = { posX, posY, 10, 11};
+    Rect MosterPos = { posX, posY, 58, TURTLE_IDLE_Y };
     DWORD now = GetTickCount();
 
-    if ((IsOverlap(PlayerPos, MosterPos)) == false)//아예 안부딪치면 반환
+    if ((IsOverlap(PlayerPos, MosterPos)) == false)
         return;
 
     // 무적 시간 체크
-    if (now - g_Turtle.lastHitTime < INVINCIBLE_TIME) {
+    if (now - g_Turtle.mon.lastHitTime < INVINCIBLE_TIME) {
         return; // 아직 무적 상태면 데미지 무시
     }
 
-    if (g_State == TURTLE_STATE_RUSHING) {//돌진 중에 부딪친다면
-        player.Health -= 4;
-    }
-    else {//돌진 중이 아닌 때에 부딪친다면
-        player.Health -= 1;
-    }
+    player.Health -= 1;
 
-    g_Turtle.lastHitTime = now; // 마지막 피격 시간 갱신
+    g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 }
 //자라 그려둔 부분은 헤더로 옮김
 //아마 물방울 닿으면 피가 감소되는 것도 이 코드 부분 보고 해주면 될 것 같음

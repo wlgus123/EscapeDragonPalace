@@ -75,11 +75,6 @@ extern "C" {
     API History
 
 	For XP,Vista,Windows 7
-	2010.6.15 by clccclcc
-
-    - double buffering 지원
-	- 텍스트 컬러(배경,글자색) 출력함수 지원 _DrawTextColor()
-	- 전체 콘솔의 컬러 지정 : _SetColor(0xf1)
-	
+	2010.6.15 by clccclcc	
 */
 

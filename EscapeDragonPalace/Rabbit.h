@@ -3,15 +3,13 @@
 #include "init.h"
 #include "weapon.h"
 #include "item.h"
-#include "screens.h"
 #include "monster.h"
-
-
 
 // --------------------------------------------------
 
 #define RabbitX 25 // Rabbit char 가로 크기
 #define RabbitY 3 // Rabbit char 세로 크기
+#define RABBIT_SPEED 1	// Rabbit 이동 속도
 
 #define JUMP_POWER -2.5f // 점프 높이 (음수로 갈 수록 점프 높아짐)
 #define GRAVITY 0.5f // 중력 가속도
@@ -21,6 +19,8 @@
 #define RabbitYPos 21.0f
 
 #define DURATION 5000
+
+#define SLOWDURATION 3000
 
 // --------------------------------------------------
 
@@ -53,12 +53,6 @@ typedef struct SpeedBuff {
 	bool active;
 } SpeedBuff;
 
-
-typedef struct Rect {
-	float x, y, w, h;
-} Rect;
-
-
 // --------------------------------------------------
 
 bool SetMapEnd(bool src);
@@ -74,9 +68,9 @@ Rect GetPlayerRect();
 Rect GetItemRect(Item item);
 Rect GetMonsterRect(Monster monster);
 Rect GetWeaponRect();
-void HitPlayer(Monster monster);
+void HitPlayer();
 void CheckItemPickup();
-void UpdateSpeedBuffs();
+void UpdateBuffs();
 void ClearRabbitAt(int x, int y);
 void DrawRabbitAt(int x, int y, int idx);
 void RabbitCAnim();
@@ -93,6 +87,8 @@ void UpdatePlayer();
 void DrawPlayer();
 void DrawHealth();
 void InitPlayer();
+void ClimbLadder();
+void DrawBuffNDebuff();
 
 
 
