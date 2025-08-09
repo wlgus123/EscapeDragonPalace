@@ -5,7 +5,7 @@
 
 // 메크로
 #define MONSTER_CNT 3	// 몬스더 종류 수
-#define INVINCIBLE_TIME 10000  // 무적시간 (1초)
+#define INVINCIBLE_TIME 2000  // 무적시간 (2초)
 
 // 몬스터 구조체
 typedef struct Monster
