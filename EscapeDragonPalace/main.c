@@ -160,8 +160,8 @@ void main()
     while (true)
     {
         InitPlayer();
-        SettingBigFish(true);
-        SettingSmallFish(true);
+        ResetBigFish();
+        ResetSmallFish();
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 
