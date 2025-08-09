@@ -36,3 +36,5 @@ typedef struct BigFish
 void InitBigFish();		// 초기화
 void DrawBigFish();		// 그리기
 void UpdateBigFish(unsigned long now);	// 업데이트
+void BigFishHitPlayer();
+void PlayerHitBigFish();

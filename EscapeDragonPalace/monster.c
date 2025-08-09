@@ -32,8 +32,16 @@ void DrawMonster()
 }
 
 // 몬스터 피격 처리 함수
-void HitMonster()
+void MonsterHitPlayer()
 {
 	CrabHitPlayer();
 	//HitCrab(now);
+	SmallFishHitPlayer();
+	BigFishHitPlayer();
+}
+
+
+void PlayerHitMonster() {
+	PlayerHitBigFish();
+	PlayerHitSmallFish();
 }

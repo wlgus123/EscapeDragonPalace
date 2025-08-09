@@ -22,7 +22,7 @@ void UpdateSmallFish(unsigned long now)
 			if (tempSmallFish[idx].pos.y == player.Pos.y + 2) {
 				tempSmallFish[idx].isRush = true;	// 돌진 상태로 변경
 			}
-			
+
 		}
 		if (tempSmallFish[idx].isRush) {
 			// 몬스터 이동
@@ -46,7 +46,6 @@ void DrawSmallFish()
 	SmallFish* tempSmallFish = g_SmallFishList[GetMapStatus()];
 	for (int idx = 0; idx < g_SmallFishListIdx[GetMapStatus()]; idx++)
 	{
-
 		// 몬스터가 죽었을 경우 넘어가기
 		if (!tempSmallFish[idx].mon.alive) continue;
 
@@ -65,18 +64,71 @@ void DrawSmallFish()
 	}
 }
 
-// 작은 물고기 피격 처리
-//void HitMonster(Weapon* weapon, unsigned int now) {
-//	if (g_SmallFishList[GetMapStatus()]) return;
-//
-//	monster->hp -= weapon->attack;
-//	monster->isDamaged = true;	// 무적 상태 진입
-//	monster->lastHitTime = now;	// 피격 시간 기록
-//
-//	if (monster->hp <= 0) {
-//		monster->alive = false;         // 체력이 0 이하가 되면 사망 처리
-//	}
-//}
+// 플레이어 > 작은 물고기 공격하는 함수
+void PlayerHitSmallFish()
+{
+	SmallFish* smallFishList = g_SmallFishList[GetMapStatus()];
+	int fishCount = g_SmallFishListIdx[GetMapStatus()];
+	DWORD now = GetTickCount();
+	Rect PlayerWeaponPos = GetWeaponRect();
+
+	for (int idx = 0; idx < fishCount; idx++)
+	{
+		SmallFish* pFish = &smallFishList[idx];
+		int posX = pFish->pos.x - GetPlusX();
+		int posY = pFish->pos.y;
+		Rect MonsterPos = { posX, posY, 7, 1 };
+
+		if (player.IsAttacking)
+		{
+			if (!pFish->mon.alive) continue;
+
+			if (!IsOverlap(PlayerWeaponPos, MonsterPos))
+				continue;
+
+			if (now - player.lastHitTime < INVINCIBLE_TIME)
+				continue;
+
+			pFish->mon.hp -= player.HeldWeapon->attack;	// 몬스터 체력 감소
+			pFish->mon.isDamaged = true;	// 피격 상태로 변경
+			player.lastHitTime = now;
+
+			if (pFish->mon.hp <= 0) {
+				pFish->mon.alive = false;	// 체력이 0 이하가 되면 사망 처리
+			}
+		}
+	}
+}
+
+// 작은 물고기 > 플레이어 공격하는 함수
+void SmallFishHitPlayer()
+{
+	SmallFish* smallFishList = g_SmallFishList[GetMapStatus()];
+	int fishCount = g_SmallFishListIdx[GetMapStatus()];
+	DWORD now = GetTickCount();
+
+	Rect PlayerPos = { player.Pos.x + 8 + GetPlusX(), player.Pos.y, 5, 3 };
+
+	for (int idx = 0; idx < fishCount; idx++)
+	{
+		SmallFish* pFish = &smallFishList[idx];
+		int posX = pFish->pos.x;
+		int posY = pFish->pos.y;
+		Rect MonsterPos = { posX, posY, 6, 1 };
+
+		if (!pFish->mon.alive) continue;
+
+		if (!IsOverlap(PlayerPos, MonsterPos))
+			continue;
+
+		if (now - pFish->mon.lastHitTime < INVINCIBLE_TIME)
+			continue;
+
+		SetInvincibleTime(true);	// 플레이어 무적 시간 설정
+		player.Health -= pFish->attack;
+		pFish->mon.lastHitTime = now;
+	}
+}
 
 void InitSmallFish()
 {
@@ -128,7 +180,7 @@ void InitSmallFish()
 		.attack = SMALLFISH_ATTACK,
 		.isRush = false
 	};
-	
+
 	g_SmallFishList[E_Sea1][g_SmallFishListIdx[E_Sea1]++] = (SmallFish)
 	{
 		.mon = g_SmallFishMon,
