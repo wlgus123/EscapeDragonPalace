@@ -41,3 +41,5 @@ typedef enum MonsterType
 void InitMonster();		// 초기화
 void UpdateMonster();	// 업데이트
 void DrawMonster();		// 그리기
+void MonsterHitPlayer(); 	// 피격 처리
+void PlayerHitMonster();	// 플레이어 공격 처리

@@ -15,9 +15,9 @@ void Draw() // 화면 그리기
         _SetColor(E_White); // 문구 색 변경
         GameStartScreen();  // 게임시작 화면 출력
         // 문구 이펙트 효과
-        if (GetGameStartText()) 
+        if (GetGameStartText())
             _SetColor(E_White); // 문구 색 변경
-        else 
+        else
             _SetColor(E_Gray); // 문구 색 변경
         _DrawText(23, 21, "아무 키나 눌러 게임 시작하기");
 
@@ -64,7 +64,7 @@ void Draw() // 화면 그리기
                 if (!GetMapSetting()) {
                     ItemSetting();
                 }
-                
+
                 // 아이템 출력
                 DrawItem();
                 _SetColor(E_White); // 아이템 외 색상 초기화
@@ -83,6 +83,7 @@ void Draw() // 화면 그리기
 
             // 플레이어 출력
             DrawPlayer();
+            _SetColor(E_White);
 
             _DrawText(3, 3, player.HeldWeapon->sprite); // 무기 그림그리기
             DrawHealth();   // 체력바 그리기
@@ -99,18 +100,18 @@ void Draw() // 화면 그리기
 void Update()
 {
     UpdateMapPos();
-    
+
     UpdatePlayer();
 
-	SetIsNearItem(false); // 플레이어가 아이템 근처에 있는지 여부 초기화
+    SetIsNearItem(false); // 플레이어가 아이템 근처에 있는지 여부 초기화
 
     CheckItemPickup();  // 아이템 먹었는지 체크
     UpdateBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
-    
+
 
     UpdateMonster();
-
-    //HitPlayer();  // 플레이어 피격 처리 함수
+	MonsterHitPlayer(); // 몬스터 피격 처리 함수
+    PlayerHitMonster();
 
 }
 
@@ -127,7 +128,7 @@ void main()
     InitMonster();  // 몬스터 초기화
     InitWeapon(weaponList); // 무기 초기화
     InitItem();  // 아이템 초기화
-    while(true)
+    while (true)
     {
         InitPlayer();
 
@@ -152,6 +153,8 @@ void main()
 
             if (GetIsGameOver())
             {
+                system("cls"); // 화면 지우기
+
                 ReturnStartScreen();    // 게임오버 화면 출력
                 break;
             }
