@@ -76,6 +76,12 @@ void Draw() // 화면 그리기
             }
             else
             {
+
+                strcpy(weaponList[0].name, "장검");
+                strcpy(weaponList[0].sprite, "--|====>");
+                weaponList[0].attack = 2;
+                weaponList[0].attackSpeed = 2;
+
                 DrawMapBG(); // 맵 배경 그리기
 
                 // 스테이지 시작후 아이템 세팅이 안 되어있을 때
@@ -108,6 +114,7 @@ void Draw() // 화면 그리기
             DrawPlayer();
             _SetColor(E_White);
 
+
             // 맵 틀 그리기
             DrawMap();
         }
@@ -132,8 +139,8 @@ void Update()
     UpdateBuffs(); // 속도 버프 지속시간 체크 및 종료 처리
 
 
-    UpdateMonster();
-	MonsterHitPlayer(); // 몬스터 피격 처리 함수
+    //UpdateMonster();
+	//MonsterHitPlayer(); // 몬스터 피격 처리 함수
     PlayerHitMonster();
 
     // 보스맵일 경우 자라 업데이트
