@@ -7,7 +7,6 @@ Turtle g_Turtle;
 
 static TurtleState g_State;
 
-
 static unsigned int g_NextRushTime, g_PrepStartTime, g_RushEndTime; // 다음 돌진,준비,종료
 static bool g_ShowPrep;    // 돌진 준비 메시지 화면출력 여부
 static int g_RushCount;    // 돌진 3번 카운트
@@ -95,19 +94,25 @@ static void UpdateWaterDrops(unsigned int now) {
 		}
 
 		// 플레이어가 물방울에 맞았는지 체크
-		if (g_WaterDrops[i].pos.y >= (player.Pos.y - 1) &&
-			g_WaterDrops[i].pos.x >= (player.Pos.x + 8) &&
-			g_WaterDrops[i].pos.x <= (player.Pos.x + 12))
+		if (g_WaterDrops[i].pos.y >= player.Pos.y && g_WaterDrops[i].pos.y <= player.Pos.y + RabbitY)
 		{
-			player.Health -= 1;	// 플레이어 체력 감소
-			g_WaterDrops[i].active = false; // 물방울 제거
-			g_HitWaveDrops = true; // 물방울 맞음 상태 활성
+			if (g_WaterDrops[i].pos.x >= (player.Pos.x + 7) && g_WaterDrops[i].pos.x <= (player.Pos.x + 12))
+			{
+				player.Health -= 1;	// 플레이어 체력 감소
+				g_WaterDrops[i].active = false; // 물방울 제거
+				g_HitWaveDrops = true; // 물방울 맞음 상태 활성
+			}
 		}
 		else
 		{
 			g_HitWaveDrops = false; // 물방울 맞음 상태 초기화
 		}
 	}
+}
+
+static bool CheckHitWaterDrop()
+{
+
 }
 
 // 활성화된 물방울이 하나라도 있는지 체크
@@ -118,6 +123,7 @@ static bool AnyWaterDropsActive(void) {
 	return false;
 }
 
+// 물대포 그리기
 static void DrawWaterDrops(void) {
 	char s[2] = { g_WaterChar, '\0' };
 
@@ -299,7 +305,9 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 	}
 }
 
-void UpdateTurtle(unsigned int now) {
+// 자라 업데이트
+void UpdateTurtle() {
+	unsigned long now = GetTickCount();
 	if (!g_Turtle.mon.alive) return;
 	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
 		g_Turtle.isDamaged = false;
