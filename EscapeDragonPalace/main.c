@@ -142,6 +142,7 @@ void Update()
     UpdateMonster();
 	MonsterHitPlayer(); // 몬스터 피격 처리 함수
     PlayerHitMonster();
+	PlayerHitTurtle(); // 플레이어가 자라를 공격했는지 체크
 
     // 보스맵일 경우 자라 업데이트
     unsigned long now = _GetTickCount();
