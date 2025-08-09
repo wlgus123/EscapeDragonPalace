@@ -5,6 +5,9 @@
 #include "weapon.h"
 #include "monster.h"
 #include "screens.h"
+#include "turtle.h"
+#include "fish_big.h"
+#include "fish_small.h"
 
 // ===============================================================
 
@@ -40,9 +43,12 @@ void Draw() // 화면 그리기
         // 스테이지 클리어
         else if (StageClear())
         {
-            RabbitCAnim();  // 스테이지 클리어 화면 출력
+            RabbitSCAnim();  // 스테이지 클리어 화면 출력
             _Delay(45);
-            // 여기 있던 거 Rabbit.c에 ISOnGoal()로 옮겼어요 _ 서영
+        }
+		else if (g_Turtle.mon.hp <= 0) // 자라 몬스터의 체력이 0 이하일 때 (보스 클리어)
+        {
+			GameClearSceen(); // 게임 클리어 화면 출력
         }
         // 플레이 중일 때
         else {
@@ -72,6 +78,7 @@ void Draw() // 화면 그리기
 
                 // 몬스터 출력  
                 DrawMonster();
+                if (GetMapStatus() == E_Ground) DrawTurtle();
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -131,6 +138,10 @@ void main()
     while (true)
     {
         InitPlayer();
+        SettingBigFish();
+        SettingSmallFish();
+        unsigned long startTime = _GetTickCount();
+        InitTurtle(startTime);  // 자라(보스) 초기화
 
         SetConsoleTitle("용궁탈출");
 
@@ -149,7 +160,6 @@ void main()
 
             _Invalidate(); // 화면 그리기 (Draw() 함수 자동 적용)
             _Delay(30);
-
 
             if (GetIsGameOver())
             {

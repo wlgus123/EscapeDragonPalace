@@ -70,17 +70,12 @@ typedef struct Turtle
 	Direction dir;	// 바라보는 방향
 } Turtle;
 
-// 자라 구조체
-//typedef struct {
-//	MyPoint pos;
-//	float speed;
-//	int dir;
-//	int hp;
-//	int attack;
-//	bool alive;
-//	bool isDamaged;
-//	unsigned int lastHitTime;
-//} Turtle;
+// 물대포 구조체
+typedef struct WaterDrop {
+	bool active;
+	int x, y;
+	unsigned int lastMoveTime;
+} WaterDrop;
 
 typedef enum TurtleState {
 	TURTLE_STATE_IDLE,          // 평상시 자라
@@ -103,14 +98,14 @@ extern unsigned int g_TurtleDescentFrameMs;
 // 평타 시 공중에서 멈추는 시간
 extern unsigned int g_TurtlePeakHoldMs;
 
-void SetTurtleJumpY(int y);
-void SetTurtleAscentSteps(int steps);
-void SetTurtleDescentSteps(int steps);
-void SetTurtleAscentFrameMs(unsigned int ms);
-void SetTurtleDescentFrameMs(unsigned int ms);
-void SetTurtlePeakHoldMs(unsigned int ms);
+void SetTurtleJumpY(int y); // 점프 높이 설정
+void SetTurtleAscentSteps(int steps); // 점프 올라갈 때 단계 수 설정
+void SetTurtleDescentSteps(int steps); // 점프 내려갈 때 단계 수 설정
+void SetTurtleAscentFrameMs(unsigned int ms); // 점프 올라갈 때 프레임(ms) 설정
+void SetTurtleDescentFrameMs(unsigned int ms); // 점프 내려갈 때 프레임(ms) 설정
+void SetTurtlePeakHoldMs(unsigned int ms); // 평타 시 공중에서 멈추는 시간 설정
 
-void InitTurtle(unsigned int now);
-void UpdateTurtle(unsigned int now);
-void DrawTurtle(void);
-void TurtleHitP(int posX, int posY);
+void InitTurtle(unsigned int now); // 자라 초기화
+void UpdateTurtle(unsigned int now); // 자라 업데이트
+void DrawTurtle(void); // 자라 그리기
+void TurtleHitP(int posX, int posY); // 자라가 플레이어를 공격했는지 확인

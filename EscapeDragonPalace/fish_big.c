@@ -86,6 +86,8 @@ void BigFishHitPlayer()
 		int posY = tempFish->pos.y;
 		Rect MosterPos = { posX, posY, 13, 3 };
 
+		if (!tempFish->mon.alive) continue;
+
 		if (!(IsOverlap(PlayerPos, MosterPos)))
 			continue;
 
@@ -101,6 +103,7 @@ void BigFishHitPlayer()
 	}
 }
 
+// 플레이어 > 큰 물고기 공격하는 함수
 void PlayerHitBigFish()
 {
 	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
@@ -116,10 +119,11 @@ void PlayerHitBigFish()
 
 		if (!player.IsAttacking) continue;
 
+		if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
+
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
-		// 무적 시간 체크
-		if (tempFish->mon.isDamaged && now - player.lastHitTime < INVINCIBLE_TIME) continue;
+		if (now - player.lastHitTime < INVINCIBLE_TIME) continue;
 		tempFish->mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
 		tempFish->mon.isDamaged = true; // 무적 상태로 변경
 		player.lastHitTime = now; // 마지막 피격 시간 갱신
@@ -130,6 +134,18 @@ void PlayerHitBigFish()
 		}
 	}
 }
+
+void SettingBigFish() {
+	for (int i = 0; i < STAGE_CNT; i++)
+	{
+		BigFish* tempBigFish = g_BigFishList[i];
+		for (int idx = 0; idx < g_BigFishListIdx[i]; idx++)
+		{
+			tempBigFish[idx].mon.alive = true;		// 생존 여부
+		}
+	}
+}
+
 
 // 큰 물고기 초기화
 void InitBigFish()

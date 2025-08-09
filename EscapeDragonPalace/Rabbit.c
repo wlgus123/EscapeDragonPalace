@@ -80,7 +80,6 @@ char Rabbit[14][RabbitY][RabbitX] =
 };
 
 
-
 //애니메이션 상태 관리
 int animFrame;         // 0 ~ jumpFrames*2-1 (up + down)
 int animRepeatCount;   // 애니메이션 반복 횟수
@@ -110,12 +109,12 @@ bool g_KeyW = false;
 bool g_KeyA = false;
 bool g_KeyD = false;
 bool g_KeyS = false;
+bool g_KeySpace = false;
 
 bool IsMapEnd = false;
 
 bool halfHealth = false; // 체력 반칸
 
-bool g_MouseClick = false;  // 마우스 클릭 여부
 
 bool IsDamaged = false; // 플레이어가 피격당했는지 여부
 
@@ -124,6 +123,11 @@ bool IsNearLadder = false; // 플레이어가 사다리 근처에 있는지 여부
 bool IsInvincibleTime = false; // 플레이어 무적 시간 여부
 
 // --------------------------------------------------
+
+bool SetInvincibleTime(bool src)
+{
+	IsInvincibleTime = src;
+}
 
 bool SetMapEnd(bool src)
 {
@@ -193,11 +197,11 @@ Rect GetWeaponRect()
 		switch (GetSelectedIndex())
 		{
 		case 0: // 장검
-			return (Rect) { tempX + 14, player.Pos.y + 2, 8, 0 };
+			return (Rect) { tempX + 14, player.Pos.y + 2, 8, 1 };
 		case 1: // 단검
-			return (Rect) { tempX + 14, player.Pos.y + 2, 4, 0 };
+			return (Rect) { tempX + 14, player.Pos.y + 2, 4, 1 };
 		case 2: // 창
-			return (Rect) { tempX + 14, player.Pos.y + 2, 7, 0 };
+			return (Rect) { tempX + 14, player.Pos.y + 2, 7, 1 };
 		}
 	}
 	// 플레이어가 왼쪽 보고 있을 때
@@ -205,11 +209,11 @@ Rect GetWeaponRect()
 		switch (GetSelectedIndex())
 		{
 		case 0: // 장검
-			return (Rect) { tempX, player.Pos.y + 2, 8, 0 };
+			return (Rect) { tempX, player.Pos.y + 2, 8, 1 };
 		case 1: // 단검
-			return (Rect) { tempX + 4, player.Pos.y + 2, 4, 0 };
+			return (Rect) { tempX + 4, player.Pos.y + 2, 4, 1 };
 		case 2: // 창
-			return (Rect) { tempX + 1, player.Pos.y + 2, 7, 0 };
+			return (Rect) { tempX + 1, player.Pos.y + 2, 7, 1 };
 		}
 	}
 }
@@ -352,7 +356,7 @@ void DrawRabbitAt(int x, int y, int idx)
 	}
 }
 
-void RabbitCAnim() // Rabbit clear 애니메이션
+void RabbitSCAnim() // Rabbit stage clear 애니메이션
 {
 	_DrawText(20, 10, "아무 키나 눌러 다음 스테이지로 넘어가기");
 
@@ -418,8 +422,7 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 	g_KeyD = (GetAsyncKeyState('D') & 0x8000);
 	g_KeyS = (GetAsyncKeyState('S') & 0x8000);
 
-	// 마우스 오른쪽 버튼 클릭 여부
-	g_MouseClick = (GetAsyncKeyState(VK_RBUTTON) & 0x8000);
+	g_KeySpace = (GetAsyncKeyState(' ') & 0x8000);
 
 }
 
@@ -578,7 +581,7 @@ void JumpFN()
 void AttackFN()
 {
 	// 공격 시작: 마우스 클릭했을 때 공격 중이 아니면
-	if (g_MouseClick && !player.IsAttacking)
+	if (g_KeySpace && !player.IsAttacking)
 	{
 		// 공격중으로 변경
 		player.IsAttacking = true;
@@ -750,6 +753,10 @@ void ClearInputBuffer()
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
+	if (IsInvincibleTime && (GetTickCount() - player.lastHitTime >= INVINCIBLE_TIME)) {
+		SetInvincibleTime(false);
+	}
+
 	ISOnGoal(); // 플레이어가 목표에 도달했는지 체크
 
 	if (!stageClear)

@@ -43,4 +43,5 @@ void MonsterHitPlayer()
 
 void PlayerHitMonster() {
 	PlayerHitBigFish();
+	PlayerHitSmallFish();
 }

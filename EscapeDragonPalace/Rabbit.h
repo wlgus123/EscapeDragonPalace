@@ -56,6 +56,7 @@ typedef struct SpeedBuff {
 
 // --------------------------------------------------
 
+bool SetInvincibleTime(bool src);
 bool SetMapEnd(bool src);
 bool GetKeyW();
 bool GetKeyA();
@@ -74,7 +75,7 @@ void CheckItemPickup();
 void UpdateBuffs();
 void ClearRabbitAt(int x, int y);
 void DrawRabbitAt(int x, int y, int idx);
-void RabbitCAnim();
+void RabbitSCAnim();
 void GetInput();
 bool CheckGround();
 void ApplyGravity();

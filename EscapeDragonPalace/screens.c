@@ -51,6 +51,28 @@ void GameStartScreen()
 	_DrawText(20, 17, "■     ■  ■  ■■■■  ■  ■  ■■■■  ■■■■");
 }
 
+// 게임 클리어 화면 출력 함수
+void GameClearSceen()
+{
+	_DrawText(26, 5, "■■■■    ■■    ■   ■   ■■■■");
+	_DrawText(26, 6, "■      ■  ■   ■■ ■■   ■      ");
+	_DrawText(26, 7, "■ ■■   ■■■■   ■ ■ ■   ■■■■");
+	_DrawText(26, 8, "■  ■   ■  ■   ■   ■   ■      ");
+	_DrawText(26, 9, "■■■■   ■  ■   ■   ■   ■■■■   ");
+
+	_DrawText(25, 11, "■■■■  ■     ■■■■   ■■   ■■■■");
+	_DrawText(25, 12, "■     ■     ■     ■  ■  ■  ■");
+	_DrawText(25, 13, "■     ■     ■■■■  ■■■■  ■■■■");
+	_DrawText(25, 14, "■     ■     ■     ■  ■  ■ ■");
+	_DrawText(25, 15, "■■■■  ■■■■  ■■■■  ■  ■  ■  ■");
+
+	_DrawText(29, 17, "       ______");
+	_DrawText(29, 18, " ___ _/ \\__/ \\_   /|");
+	_DrawText(29, 19, "(_x / \\ /  \\ / \\_/ |");
+	_DrawText(29, 20, " \\__ -----------__/");
+	_DrawText(29, 21, " (___\\_|_|_|_|_/___)");
+}
+
 void DrawStartScreen() {
 	// 게임 시작 전일 때
 	while (!GameStart) {
