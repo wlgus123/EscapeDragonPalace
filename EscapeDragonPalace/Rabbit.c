@@ -110,12 +110,12 @@ bool g_KeyW = false;
 bool g_KeyA = false;
 bool g_KeyD = false;
 bool g_KeyS = false;
+bool g_KeySpace = false;
 
 bool IsMapEnd = false;
 
 bool halfHealth = false; // 체력 반칸
 
-bool g_MouseClick = false;  // 마우스 클릭 여부
 
 bool IsDamaged = false; // 플레이어가 피격당했는지 여부
 
@@ -124,6 +124,11 @@ bool IsNearLadder = false; // 플레이어가 사다리 근처에 있는지 여부
 bool IsInvincibleTime = false; // 플레이어 무적 시간 여부
 
 // --------------------------------------------------
+
+bool SetInvincibleTime(bool src)
+{
+	IsInvincibleTime = src;
+}
 
 bool SetMapEnd(bool src)
 {
@@ -418,8 +423,7 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 	g_KeyD = (GetAsyncKeyState('D') & 0x8000);
 	g_KeyS = (GetAsyncKeyState('S') & 0x8000);
 
-	// 마우스 오른쪽 버튼 클릭 여부
-	g_MouseClick = (GetAsyncKeyState(VK_RBUTTON) & 0x8000);
+	g_KeySpace = (GetAsyncKeyState(' ') & 0x8000);
 
 }
 
@@ -578,7 +582,7 @@ void JumpFN()
 void AttackFN()
 {
 	// 공격 시작: 마우스 클릭했을 때 공격 중이 아니면
-	if (g_MouseClick && !player.IsAttacking)
+	if (g_KeySpace && !player.IsAttacking)
 	{
 		// 공격중으로 변경
 		player.IsAttacking = true;
@@ -750,6 +754,10 @@ void ClearInputBuffer()
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
+	if (IsInvincibleTime && (GetTickCount() - player.lastHitTime >= INVINCIBLE_TIME)) {
+		SetInvincibleTime(false);
+	}
+
 	ISOnGoal(); // 플레이어가 목표에 도달했는지 체크
 
 	if (!stageClear)

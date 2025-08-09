@@ -55,6 +55,7 @@ typedef struct SpeedBuff {
 
 // --------------------------------------------------
 
+bool SetInvincibleTime(bool src);
 bool SetMapEnd(bool src);
 bool GetKeyW();
 bool GetKeyA();
