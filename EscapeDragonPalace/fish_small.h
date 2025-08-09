@@ -25,4 +25,3 @@ void UpdateSmallFish(unsigned long now);	// 업데이트
 void SmallFishHitPlayer();	// 플레이어 공격
 void PlayerHitSmallFish();	// 작은 물고기 피격 처리
 void ResetSmallFish();
-void IsNextStage();

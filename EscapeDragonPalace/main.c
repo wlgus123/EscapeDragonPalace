@@ -46,7 +46,6 @@ void Draw() // 화면 그리기
         else if (StageClear())
         {
             RabbitSCAnim();  // 스테이지 클리어 화면 출력
-            IsNextStage();
 
             _Delay(45);
         }
@@ -155,7 +154,6 @@ void main()
 {
     // 초기화
     _BeginWindow();
-    InitMonster();  // 몬스터 초기화
     InitWeapon(weaponList); // 무기 초기화
     InitItem();  // 아이템 초기화
     while (true)
@@ -163,6 +161,7 @@ void main()
         InitPlayer();
         ResetBigFish();
         ResetSmallFish();
+        InitMonster();  // 몬스터 초기화
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 

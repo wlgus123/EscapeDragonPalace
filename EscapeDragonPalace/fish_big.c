@@ -144,11 +144,7 @@ void ResetBigFish() {
 		BigFish* tempBigFish = g_BigFishList[i];
 		for (int idx = 0; idx < g_BigFishListIdx[i]; idx++)
 		{
-			tempBigFish[idx].mon.alive = true;
-			tempBigFish[idx].mon.hp = 4;
-			tempBigFish[idx].mon.isDamaged = false;
-			tempBigFish[idx].mon.lastHitTime = 0;
-			tempBigFish[idx].mon.speed = 0.6;
+			tempBigFish[idx].mon.alive = false;
 		}
 	}
 }
