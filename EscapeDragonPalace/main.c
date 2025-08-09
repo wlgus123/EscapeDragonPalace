@@ -6,6 +6,8 @@
 #include "monster.h"
 #include "screens.h"
 #include "turtle.h"
+#include "fish_big.h"
+#include "fish_small.h"
 
 // ===============================================================
 
@@ -132,7 +134,9 @@ void main()
     InitItem();  // 아이템 초기화
     while (true)
     {
-        InitPlayer();   // 몬스터 초기화
+        InitPlayer();
+        SettingBigFish();
+        SettingSmallFish();
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 
