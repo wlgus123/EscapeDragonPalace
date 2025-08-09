@@ -40,7 +40,7 @@ void Draw() // 화면 그리기
         // 스테이지 클리어
         else if (StageClear())
         {
-            RabbitCAnim();  // 스테이지 클리어 화면 출력
+            RabbitSCAnim();  // 스테이지 클리어 화면 출력
             _Delay(45);
             // 여기 있던 거 Rabbit.c에 ISOnGoal()로 옮겼어요 _ 서영
         }

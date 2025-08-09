@@ -80,7 +80,6 @@ char Rabbit[14][RabbitY][RabbitX] =
 };
 
 
-
 //애니메이션 상태 관리
 int animFrame;         // 0 ~ jumpFrames*2-1 (up + down)
 int animRepeatCount;   // 애니메이션 반복 횟수
@@ -198,11 +197,11 @@ Rect GetWeaponRect()
 		switch (GetSelectedIndex())
 		{
 		case 0: // 장검
-			return (Rect) { tempX + 14, player.Pos.y + 2, 8, 0 };
+			return (Rect) { tempX + 14, player.Pos.y + 2, 8, 1 };
 		case 1: // 단검
-			return (Rect) { tempX + 14, player.Pos.y + 2, 4, 0 };
+			return (Rect) { tempX + 14, player.Pos.y + 2, 4, 1 };
 		case 2: // 창
-			return (Rect) { tempX + 14, player.Pos.y + 2, 7, 0 };
+			return (Rect) { tempX + 14, player.Pos.y + 2, 7, 1 };
 		}
 	}
 	// 플레이어가 왼쪽 보고 있을 때
@@ -210,11 +209,11 @@ Rect GetWeaponRect()
 		switch (GetSelectedIndex())
 		{
 		case 0: // 장검
-			return (Rect) { tempX, player.Pos.y + 2, 8, 0 };
+			return (Rect) { tempX, player.Pos.y + 2, 8, 1 };
 		case 1: // 단검
-			return (Rect) { tempX + 4, player.Pos.y + 2, 4, 0 };
+			return (Rect) { tempX + 4, player.Pos.y + 2, 4, 1 };
 		case 2: // 창
-			return (Rect) { tempX + 1, player.Pos.y + 2, 7, 0 };
+			return (Rect) { tempX + 1, player.Pos.y + 2, 7, 1 };
 		}
 	}
 }
@@ -357,7 +356,7 @@ void DrawRabbitAt(int x, int y, int idx)
 	}
 }
 
-void RabbitCAnim() // Rabbit clear 애니메이션
+void RabbitSCAnim() // Rabbit stage clear 애니메이션
 {
 	_DrawText(20, 10, "아무 키나 눌러 다음 스테이지로 넘어가기");
 
