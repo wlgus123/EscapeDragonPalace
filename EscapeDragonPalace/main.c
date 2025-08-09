@@ -111,15 +111,8 @@ void Update()
     
 
     UpdateMonster();
-
-    // 보스맵일 경우 자라 업데이트
-    unsigned long now = _GetTickCount();
-    if (GetMapStatus() == E_Ground)
-    {
-        UpdateTurtle(now);
-    }
-
-    //HitPlayer();  // 플레이어 피격 처리 함수
+    MonsterHitPlayer(); // 몬스터 피격 처리 함수
+    PlayerHitMonster();
 
 }
 
