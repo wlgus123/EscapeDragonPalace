@@ -90,11 +90,15 @@ int centerX;
 int baseY;
 int jumpHeight;
 int animFramesTotal; // 전체 애니메이션 길이 (up+down)
+int PrevPlayerHealth;
+
 
 float amount;
 
 SpeedBuff speedBuffs;
 SpeedBuff slowDebuffs;
+
+DWORD g_SKeyLastTime = 0;
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
@@ -116,6 +120,8 @@ bool g_MouseClick = false;  // 마우스 클릭 여부
 bool IsDamaged = false; // 플레이어가 피격당했는지 여부
 
 bool IsNearLadder = false; // 플레이어가 사다리 근처에 있는지 여부
+
+bool IsInvincibleTime = false; // 플레이어 무적 시간 여부
 
 // --------------------------------------------------
 
@@ -174,8 +180,8 @@ Rect GetPlayerRect()
 // 아이템의 충돌 범위 반환
 Rect GetItemRect(Item item)
 {
-	if (item.type == E_ITEM_DEBUFF) { return (Rect) { item.x +1 - GetPlusX(), item.y, item.width -3, item.height }; }
-	return (Rect) { item.x -4 - GetPlusX(), item.y, item.width +6, item.height };
+	if (item.type == E_ITEM_DEBUFF) { return (Rect) { item.x + 1 - GetPlusX(), item.y, item.width - 3, item.height }; }
+	return (Rect) { item.x - 4 - GetPlusX(), item.y, item.width + 6, item.height };
 }
 
 // 무기 충돌 범위 반환
@@ -222,7 +228,9 @@ Rect GetWeaponRect()
 //
 //		// 플레이어와 몬스터의 충돌 체크
 //		if (IsOverlap(playerRect, monsterRect)) {
+//			
 //			// 무적 시간 체크
+//			IsInvincibleTime = true; // 플레이어 무적 시간 여부s
 //			if (now - player.lastHitTime < INVINCIBLE_TIME) {
 //				return; // 아직 무적 상태면 데미지 무시
 //			}
@@ -257,6 +265,7 @@ Rect GetWeaponRect()
 //				break;
 //			}
 //			player.lastHitTime = now; // 마지막 피격 시각 갱신
+//			IsRetentionTime = false; // 플레이어 무적 시간 여부 false로 변경
 //		}
 //	}
 //
@@ -290,6 +299,9 @@ void CheckItemPickup()
 				{
 					g_ItemList[i].isHeld = true;  // 화면에 안 보이게 처리
 					player.Health += LIFEUP;	// 체력 증가
+
+					PrevPlayerHealth = player.Health; //체력 저장
+
 				}
 				break;
 			case E_ITEM_SPEED: // 이동속도 증가 (공기방울)
@@ -701,18 +713,18 @@ void moveFN()
 		player.Pos.x += move;
 		player.Direction = 0;
 	}
+
 	if (g_KeyS)
 	{
 		if ((player.Pos.y + RabbitY) > 21) return; // 화면 밖으로 내려가지 않도록
-		DWORD now = GetTickCount();
-		int StartTime = 0;
-		int KeyignoreTime = 50; // 키 입력 무시 시간 (ms)
+		DWORD now = GetTickCount64();
+		int KeyignoreTime = 250; // 키 입력 무시 시간 (ms)
 
-		if (now - StartTime < KeyignoreTime) {
+		if (now - g_SKeyLastTime < KeyignoreTime) {
 			return; // 키 입력 무시
 		}
 
-		StartTime = now;
+		g_SKeyLastTime = now;
 
 		player.Pos.y++;
 
@@ -722,8 +734,6 @@ void moveFN()
 		{
 			ApplyGravity();
 		}
-
-		Sleep(30);
 	}
 }
 
@@ -752,8 +762,8 @@ void ClimbLadder()
 
 				if (!player.IsJumping && CheckGround())
 				{
-					if (GetAsyncKeyState('R') & 0x8000)
-					{// 사다리 근처에서 R키를 누르면 사다리 올라가기
+					if (GetAsyncKeyState('Q') & 0x8000)
+					{// 사다리 근처에서 Q키를 누르면 사다리 올라가기
 						IsNearLadder = false;
 						player.Pos.y -= 8.0f; // 사다리 위로 올라가기
 					}
@@ -869,12 +879,23 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 	ClimbLadder(); // 플레이어가 사다리 근처에 있는지 체크
 }
 
+char Color = E_White; // 플레이어 색상
+
 void DrawPlayer()
 {
-
 	if (IsNearLadder)
 	{
-		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'R' 키를 눌러 위로 올라가기");
+		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'Q' 키를 눌러 위로 올라가기");
+	}
+
+	if (player.Health < PrevPlayerHealth)
+	{
+		Color = E_Gray;
+		PrevPlayerHealth = player.Health; // 이전 체력 갱신
+	}
+	else if (!IsInvincibleTime)
+	{
+		Color = E_White;
 	}
 
 	int idx;
@@ -921,7 +942,7 @@ void DrawPlayer()
 		{
 			if (line[x] != ' ')
 			{
-				_DrawText((int)player.Pos.x + x, (int)player.Pos.y + y, (char[]) { line[x], '\0' });
+				_DrawTextColor((int)player.Pos.x + x, (int)player.Pos.y + y, (char[]) { line[x], '\0' }, Color);
 			}
 		}
 	}
@@ -970,6 +991,8 @@ void InitPlayer() // 초기화
 	player.IsJumping = false;
 	player.Direction = 0;
 
+	PrevPlayerHealth = player.Health; // 이전 체력 초기화
+
 	player.IsAttacking = false;
 	player.AttackFrame = 0;
 	player.attackStartTime = 0;
@@ -1008,5 +1031,11 @@ void InitPlayer() // 초기화
 	isNearItem = false;
 
 	player.lastHitTime = 0;
+
+	speedBuffs.endTime = 0;
+	slowDebuffs.endTime = 0;
+
+	speedBuffs.active = false;
+	slowDebuffs.active = false;
 }
 
