@@ -170,7 +170,7 @@ void PlayerHitCrab()
 
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
-		Crab* tempCrab = &g_CrabList[idx];
+		Crab* tempCrab = &g_CrabList[GetMapStatus()][idx];
 		int posX = tempCrab->pos.x - GetPlusX();
 		int posY = tempCrab->pos.y;
 		Rect MosterPos = { posX, posY, 10, 3 };
