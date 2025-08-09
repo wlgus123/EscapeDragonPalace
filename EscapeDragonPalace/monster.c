@@ -24,7 +24,7 @@ void UpdateMonster()
 }
 
 // 몬스터 그리는 함수
-void DrawMonster() 
+void DrawMonster()
 {
 	DrawBigFish();		// 큰 물고기 그리기
 	DrawSmallFish();	// 작은 물고기 그리기

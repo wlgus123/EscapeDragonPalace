@@ -96,6 +96,7 @@ void BigFishHitPlayer()
 			continue; // 아직 무적 상태면 데미지 무시
 		}
 
+		SetInvincibleTime(true);	// 플레이어 무적 시간 설정
 		player.Health -= tempFish->attack; // 플레이어 체력 2 감소
 		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
@@ -144,11 +145,7 @@ void ResetBigFish() {
 		BigFish* tempBigFish = g_BigFishList[i];
 		for (int idx = 0; idx < g_BigFishListIdx[i]; idx++)
 		{
-			tempBigFish[idx].mon.alive = true;
-			tempBigFish[idx].mon.hp = 4;
-			tempBigFish[idx].mon.isDamaged = false;
-			tempBigFish[idx].mon.lastHitTime = 0;
-			tempBigFish[idx].mon.speed = 0.6;
+			tempBigFish[idx].mon.alive = false;
 		}
 	}
 }

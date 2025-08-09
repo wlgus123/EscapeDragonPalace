@@ -20,7 +20,9 @@ void UpdateSmallFish(unsigned long now)
 		if (tempSmallFish[idx].pos.x - GetPlusX() > 0 && tempSmallFish[idx].pos.x - GetPlusX() < SCREEN_WIDTH) {
 			// 플레이어와 몬스터의 Y 좌표가 같을 때
 			if (tempSmallFish[idx].pos.y == player.Pos.y + 2) {
-				tempSmallFish[idx].isRush = true;	// 돌진 상태로 변경
+				if(tempSmallFish[idx].pos.x - GetPlusX() + 8 >= player.Pos.x + 12) {
+					tempSmallFish[idx].isRush = true;	// 돌진 상태로 변경
+				}
 			}
 
 		}
@@ -137,14 +139,11 @@ void ResetSmallFish() {
 		SmallFish* tempSmallFish = g_SmallFishList[i];
 		for (int idx = 0; idx < g_SmallFishListIdx[i]; idx++)
 		{
-			tempSmallFish[idx].mon.alive = true;
-			tempSmallFish[idx].mon.hp = 1;
-			tempSmallFish[idx].mon.isDamaged = false;
-			tempSmallFish[idx].mon.lastHitTime = 0;
-			tempSmallFish[idx].mon.speed = 1.6;
+			tempSmallFish[idx].mon.alive = false;
 		}
 	}
 }
+
 
 void InitSmallFish()
 {

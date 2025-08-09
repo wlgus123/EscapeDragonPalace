@@ -124,6 +124,12 @@ bool IsInvincibleTime = false; // 플레이어 무적 시간 여부
 
 // --------------------------------------------------
 
+
+bool SetIsNearLadder(bool src)
+{
+	IsNearLadder = src;
+}
+
 bool SetInvincibleTime(bool src)
 {
 	IsInvincibleTime = src;
@@ -841,14 +847,18 @@ void DrawPlayer()
 		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'Q' 키를 눌러 위로 올라가기");
 	}
 
-	if (player.Health < PrevPlayerHealth)
+	if (IsInvincibleTime)
 	{
 		Color = E_Gray;
-		PrevPlayerHealth = player.Health; // 이전 체력 갱신
 	}
-	else if (!IsInvincibleTime)
+	else
 	{
 		Color = E_White;
+	}
+
+	if (player.Health < PrevPlayerHealth)
+	{
+		PrevPlayerHealth = player.Health;
 	}
 
 	int idx;
