@@ -45,9 +45,12 @@ void DrawBigFish()
 	BigFish* tempBigFish = g_BigFishList[GetMapStatus()];
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
-		// 피격 시 빨간색, 평시 파란색
-		_SetColor(g_BigFishList[GetMapStatus()][g_BigFishListIdx[GetMapStatus()]].mon.isDamaged ? E_BrightRed : E_BrightBlue);
 
+		// 몬스터가 죽었을 경우 넘어가기
+		if (!tempBigFish[idx].mon.alive) continue;
+
+		// 피격 시 빨간색, 평시 파란색
+		_SetColor(tempBigFish[idx].mon.isDamaged ? E_BrightRed : E_BrightBlue);
 		int posX = tempBigFish[idx].pos.x - GetPlusX();
 		for (int y = 0; y < BIGFISH_HEIGHT; y++)
 		{
@@ -76,7 +79,6 @@ void BigFishHitPlayer()
 	DWORD now = GetTickCount();
 	Rect PlayerPos = GetPlayerRect();
 
-
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
 		BigFish* tempFish = &bigFishList[idx];
@@ -84,7 +86,7 @@ void BigFishHitPlayer()
 		int posY = tempFish->pos.y;
 		Rect MosterPos = { posX, posY, 13, 3 };
 
-		if ((IsOverlap(PlayerPos, MosterPos)) == false)
+		if (!(IsOverlap(PlayerPos, MosterPos)))
 			continue;
 
 		// 무적 시간 체크
@@ -93,8 +95,39 @@ void BigFishHitPlayer()
 		}
 
 		player.Health -= tempFish->attack; // 플레이어 체력 2 감소
-
 		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
+
+
+	}
+}
+
+void PlayerHitBigFish()
+{
+	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
+	DWORD now = GetTickCount();
+	Rect PlayerWeaponPos = GetWeaponRect();
+
+	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
+	{
+		BigFish* tempFish = &bigFishList[idx];
+		int posX = tempFish->pos.x - GetPlusX();
+		int posY = tempFish->pos.y;
+		Rect MosterPos = { posX, posY, 13, 3 };
+
+		if (!player.IsAttacking) continue;
+
+		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
+
+		// 무적 시간 체크
+		if (tempFish->mon.isDamaged && now - player.lastHitTime < INVINCIBLE_TIME) continue;
+		tempFish->mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
+		tempFish->mon.isDamaged = true; // 무적 상태로 변경
+		player.lastHitTime = now; // 마지막 피격 시간 갱신
+
+
+		if (tempFish->mon.hp <= 0) {
+			tempFish->mon.alive = false;
+		}
 	}
 }
 

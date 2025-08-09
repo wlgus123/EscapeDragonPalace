@@ -110,8 +110,8 @@ void Update()
 
 
     UpdateMonster();
-	HitMonster(); // 몬스터 피격 처리 함수
-    //HitPlayer();  // 플레이어 피격 처리 함수
+	MonsterHitPlayer(); // 몬스터 피격 처리 함수
+    PlayerHitMonster();
 
 }
 
