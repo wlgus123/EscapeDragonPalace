@@ -67,3 +67,4 @@ typedef enum MapStatus
 
 // 전역 변수
 int g_Key;	// 입력 키
+static bool isInit = false; // 초기화 여부
