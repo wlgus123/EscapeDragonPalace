@@ -35,10 +35,12 @@ void DrawMonster()
 void MonsterHitPlayer()
 {
 	CrabHitPlayer();
+	BleedPlayer();
 	//HitCrab(now);
 	SmallFishHitPlayer();
 	BigFishHitPlayer();
 }
+
 
 
 void PlayerHitMonster() {
