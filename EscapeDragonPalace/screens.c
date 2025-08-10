@@ -131,7 +131,6 @@ void DrawGameClearScreen() {
 				SetMapStatus(E_Jail);	// 원래 맵으로 이동
 				SetPlusX(0);			// X 좌표 증가값 0으로 변경
 				ResetTurtleHp();		// 자라 몬스터 체력 초기화	
-				_getch();				// 입력 버퍼 비우기
 			}
 		}
 		// 문구 이펙트 효과
