@@ -84,13 +84,6 @@ void Draw() // 화면 그리기
 				DrawItem();         // 아이템 그리기
                 _SetColor(E_White); // 아이템 외 색상 초기화
 
-                  
-				
-				// 보스맵일 경우 자라 그리기
-                if (GetMapStatus() == E_Ground) DrawTurtle();
-                // 보스맵이 아닐 경우(일반 맵) 몬스터 그리기
-                else DrawMonster();
-
                 _SetColor(E_White); // 몬스터 외 색상 초기화
 
                 // 플레이어 주변에 아이템이 있을 때 알림문구 출력
@@ -105,6 +98,14 @@ void Draw() // 화면 그리기
             // 이 아래로는 무기 선택 안 했을 때, 무기 선택 완료 후 게임 진행시 모두 실행됨
 
 			DrawPlayer();   // 플레이어 그리기
+            // 플레이어보다 위에 그리기
+            if (GetWeaponChosen())
+            {
+                // 보스맵일 경우 자라 그리기
+                if (GetMapStatus() == E_Ground) DrawTurtle();
+                // 보스맵이 아닐 경우(일반 맵) 몬스터 그리기
+                else DrawMonster();
+            }
 			_SetColor(E_White); // 플레이어 외 색상 초기화
 
             // 맵 틀 그리기
