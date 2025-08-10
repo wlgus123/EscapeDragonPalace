@@ -30,7 +30,7 @@
 // 평타 쿨타임 (5초)
 #define TURTLE_ATTACK_COOLDOWN_MS 5000
 
-static const char turtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
+static const char g_TurtleGraphic[2][TURTLE_HEIGHT][TURTLE_WIDTH] =
 {
 	{
 		"       ______",
