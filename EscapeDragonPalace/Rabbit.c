@@ -827,15 +827,16 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 	// 경계 체크
 	if (player.Pos.x < 0 - iL) player.Pos.x = 0 - iL;
 	if (player.Pos.x > SCREEN_WIDTH - iR) player.Pos.x = SCREEN_WIDTH - iR;
-	if (player.Pos.y < 0) {
-		player.Pos.y = 0;
-		// 높은 곳 올라갔을 때 무기 배열값이 쓰레기값으로 바뀌는 에러 방지
+	if (player.Pos.y < 0) player.Pos.y = 0;
+	if (player.Pos.y > SCREEN_HEIGHT - RabbitY) player.Pos.y = SCREEN_HEIGHT - RabbitY - 1;
+
+	// 높은 곳 올라갔을 때 무기 배열값이 쓰레기값으로 바뀌는 에러 방지
+	if (player.Pos.y < 2) {
 		strcpy(weaponList[0].name, "장검");
 		strcpy(weaponList[0].sprite, "--|====>");
 		weaponList[0].attack = 2;
 		weaponList[0].attackSpeed = 2;
 	}
-	if (player.Pos.y > SCREEN_HEIGHT - RabbitY) player.Pos.y = SCREEN_HEIGHT - RabbitY - 1;
 
 	JumpFN();
 
