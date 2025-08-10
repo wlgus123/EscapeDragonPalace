@@ -111,6 +111,13 @@ void DrawItem() {
 	}
 }
 
+void ResetItem() {
+	g_ItemIdx = 0;
+	for (int i = 0; i < MAX_ITEM_COUNT; i++) {
+		g_ItemList[i].isHeld = false;
+	}
+}
+
 
 
 void InitItem() {
