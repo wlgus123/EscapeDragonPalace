@@ -53,6 +53,7 @@ void DrawSmallFish()
 		if (!tempSmallFish[idx].mon.alive) continue;
 
 		int tempX = tempSmallFish[idx].pos.x - GetPlusX();
+
 		for (int x = 0; x < SMALLFISH_WIDTH; x++)
 		{
 			if (g_SmallFishGraphic[x] != ' ')

@@ -113,7 +113,7 @@ void PlayerHitBigFish()
 
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
-		BigFish* tempFish = &bigFishList[idx];
+		BigFish* tempFish = &g_BigFishList[GetMapStatus()][idx];
 		int posX = tempFish->pos.x - GetPlusX();
 		int posY = tempFish->pos.y;
 		Rect MosterPos = { posX, posY, 13, 3 };
