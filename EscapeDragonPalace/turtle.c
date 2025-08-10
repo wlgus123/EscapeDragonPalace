@@ -38,11 +38,13 @@ static bool g_WaveDropsBlocking = false;
 static bool g_HitWaveDrops = false; // 물방울에 맞았는지 여부
 
 // === 평타 범위 표시 설정 (사용자가 쉽게 조정할 수 있도록 전역 변수로 분리) ===
-static const int ATTACK_HALF = 7;           // 범위 반폭
-static const int ATTACK_CENTER_RIGHT = 58;  // 오른쪽 기준 중심 X (월드 좌표)
-static const int ATTACK_CENTER_LEFT = 22;   // 왼쪽 기준 중심 X (월드 좌표)
+static const int g_AttackPower = 2;        // 평타 공격력
+static const int g_AttackHalf = 10;        // 범위 반폭
+static const int g_AttackHeight = 4;		// 평타 높이
+static const int g_AttackCenterRight = 22;  // 오른쪽 기준 중심 X (월드 좌표)
+static const int g_AttackCenterLeft = 58;   // 왼쪽 기준 중심 X (월드 좌표)
 // 범위 표시 Y 위치
-static const int ATTACK_RANGE_Y_OFFSET = 5;
+static const int g_AttackRangeOffesetY= 5;
 
 static WaterDrop g_WaterDrops[MAX_WATER_DROPS];
 
@@ -268,9 +270,10 @@ static bool IsPlayerNear(void) {
 
 	// 자라의 머리 화면 X 좌표 계산
 	int turtleScreenX = g_Turtle.pos.x;
-	int headOffset = (g_Turtle.dir != E_Right) ? (TURTLE_WIDTH - E_Left) : E_Right; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
+	int headOffset = (g_Turtle.dir != E_Right) ? E_Left : TURTLE_WIDTH - 3; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
 	int headScreenX = turtleScreenX + headOffset;
 
+	if (player.Pos.y < g_Turtle.pos.y) return false;	// Y좌표도 계산
 	if (playerRight < headScreenX - TURTLE_ATTACK_RANGE) return false;
 	if (playerLeft > headScreenX + TURTLE_ATTACK_RANGE) return false;
 	return true;
@@ -424,10 +427,12 @@ void UpdateTurtle(unsigned long now) {
 				g_WaveActive = false;
 				g_WaveWarnActive = false;
 				g_WaveWarnDelayUntil = 0;
-				if (AnyWaterDropsActive()) {
+				if (AnyWaterDropsActive()) 
+				{
 					g_WaveDropsBlocking = true;
 				}
-				else {
+				else 
+				{
 					if (g_SkillLockUntil < now + g_SkillLockMs) g_SkillLockUntil = now + g_SkillLockMs;
 					g_WaveDropsBlocking = false;
 				}
@@ -484,6 +489,22 @@ void UpdateTurtle(unsigned long now) {
 				}
 			}
 		}
+
+		g_State = TURTLE_STATE_ATTACK; // 평타 상태로 변경
+	}
+
+	// 평타 쾅 했을 때
+	if (g_State == TURTLE_STATE_ATTACK && !g_JumpActive) {
+		// 플레이어랑 평타 범위 충돌 체크 후 데미지 변경
+		int centerWorld = (g_Turtle.dir == E_Right) ? 0 : g_AttackCenterLeft - g_AttackHalf;
+		Rect attackArea = { centerWorld, g_Turtle.pos.y, g_AttackHalf + TURTLE_WIDTH, TURTLE_HEIGHT };
+
+		if (IsOverlap(GetPlayerRect(), attackArea)) {
+			// 플레이어가 평타 범위에 있을 때
+			player.Health -= g_AttackPower;// 플레이어 체력 감소
+		}
+
+		g_State = TURTLE_STATE_IDLE; // 평타 상태에서 다시 평상시로 돌아감
 	}
 
 	// 돌진
@@ -610,41 +631,39 @@ void DrawTurtle(void) {
 		_DrawText(SCREEN_WIDTH / 2 - len / 2, 2, warn);
 	}
 
+	// 자라 돌진 위치 표시
 	if (g_ShowTarget) {
 		int mx = SCREEN_WIDTH / 2 - 3;
-		_DrawText(mx + 3, g_PendingTargetY + 1, "!");
+		_DrawTextColor(mx + 3, g_PendingTargetY + 1, "!", E_BrightYellow);
 	}
 
 	// 느낌표 깜빡일때만 범위 표시
 	if (g_ExclaimActive && g_ExclaimVisible && !g_JumpActive) {
-		int centerWorld = (g_Turtle.dir == E_Right) ? ATTACK_CENTER_RIGHT : ATTACK_CENTER_LEFT;
-		int leftWorld = centerWorld - ATTACK_HALF;
-		int rightWorld = centerWorld + ATTACK_HALF;
-
-		int leftScreen = leftWorld;
-		int rightScreen = rightWorld;
+		int centerWorld = (g_Turtle.dir == E_Right) ? g_AttackCenterRight : g_AttackCenterLeft;
+		int leftScreen = centerWorld - g_AttackHalf;
+		int rightScreen = centerWorld + g_AttackHalf;
 
 		if (leftScreen < 0) leftScreen = 0;
 		if (rightScreen >= SCREEN_WIDTH) rightScreen = SCREEN_WIDTH - 1;
 		if (rightScreen < leftScreen) rightScreen = leftScreen;
 
-		int rangeY = g_Turtle.pos.y + ATTACK_RANGE_Y_OFFSET;
+		int rangeY = g_Turtle.pos.y + g_AttackRangeOffesetY;
 		if (rangeY < 0) rangeY = 0;
 		if (rangeY >= SCREEN_HEIGHT) rangeY = g_Turtle.pos.y;
 
 		char sRange[2] = { '-', '\0' };
 		for (int sx = leftScreen; sx <= rightScreen; ++sx) {
-			_DrawText(sx, rangeY, sRange);
+			_DrawTextColor(sx, rangeY, sRange, E_BrightYellow);
 		}
-		_DrawText(leftScreen, rangeY, "[");
-		_DrawText(rightScreen, rangeY, "]");
+ 		_DrawTextColor(leftScreen, rangeY, "[", E_BrightYellow);
+		_DrawTextColor(rightScreen, rangeY, "]", E_BrightYellow);
 	}
 
-	// 돌진 준비 ( ! )
+	// 평타 준비 ( ! )
 	if (g_State == TURTLE_STATE_IDLE && g_ExclaimActive && g_ExclaimVisible) {
 		int exX = (g_Turtle.pos.x) + (TURTLE_WIDTH / 2);
 		int exY = g_Turtle.pos.y - 1;
-		_DrawText(exX, exY, "!");
+		_DrawTextColor(exX, exY, "!", E_BrightWhite);
 	}
 
 	// 돌진 중에 자라가 화면 밖으로 완전히 나가면 그리지 않음
@@ -669,7 +688,7 @@ void DrawTurtle(void) {
 // 자라 -> 플레이어 피격
 void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX + 5, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT + 2 };
+	Rect MosterPos = { posX + 4, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT + 2 };
 	// -5: 머리부분 충돌 시 피 깎이지 않게 예방
 	DWORD now = GetTickCount();
 
@@ -702,7 +721,6 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 		}
 	}
 
-
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 }
 
@@ -722,10 +740,10 @@ void PlayerHitTurtle()
 
 	if (!(IsOverlap(PlayerWeaponPos, MosterPos))) return;
 
-	if (now - player.lastHitTime < INVINCIBLE_TIME) return;
+	if (now - g_Turtle.mon.lastHitTime < INVINCIBLE_TIME) return;
  	g_Turtle.mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
 	g_Turtle.mon.isDamaged = true; // 무적 상태로 변경
-	player.lastHitTime = now; // 마지막 피격 시간 갱신
+	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 	if (g_Turtle.mon.hp <= 0) {
 		g_Turtle.mon.alive = false;

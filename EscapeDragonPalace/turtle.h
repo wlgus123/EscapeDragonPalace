@@ -81,7 +81,7 @@ typedef enum TurtleState {
 	TURTLE_STATE_IDLE,          // 평상시 자라
 	TURTLE_STATE_PREPARE_RUSH,  // 돌진 준비
 	TURTLE_STATE_RUSHING,       // 돌진 중
-	TURTLE_STATE_ATTACK
+	TURTLE_STATE_ATTACK,        // 평타 공격 중
 } TurtleState;
 
 extern Turtle g_Turtle;
