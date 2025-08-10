@@ -39,4 +39,5 @@ extern int g_ItemIdx;   // 아이템 개수
 // 함수
 void InitItem();
 void DrawItem();
+void ResetItem();
 void ItemFrameDelay();
