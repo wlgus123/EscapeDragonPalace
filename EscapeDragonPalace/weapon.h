@@ -11,20 +11,13 @@ typedef struct Weapon {
     int attackSpeed;                    // 공격속도
 } Weapon;
 
-// 무기 인스턴스 구조체
-typedef struct WeaponInstance {
-    Weapon* weapon; // 무기 종류
-    int x, y;       // 맵 위치
-    int isHeld;     // 0: 바닥에 있음, 1: 플레이어가 소지
-} WeaponInstance;
-
 Weapon weaponList[NUMWEAPON];   // 무기 리스트
-char buffer[50];
+char buffer[50];				// 무기 정보 출력용 버퍼
 
 // 함수
-extern void InitWeapon(Weapon* weapons);
-extern void DrawWeapon(const Weapon* w, int i, int isSelected);
-extern void SelectWeapon();
-bool GetWeaponChosen(); 
-void SetWeaponChosen(bool src);
-int GetSelectedIndex();
+void SelectWeapon();		// 무기 선택 함수
+int GetSelectedIndex();		// 선택된 무기 인덱스 반환 함수
+bool GetWeaponChosen();		// 무기 선택 여부 반환 함수
+void SetWeaponChosen(bool src);		// 무기 선택 여부 설정 함수
+void InitWeapon(Weapon* weapons);	// 무기 초기화 함수
+void DrawWeapon(const Weapon* w, int i, int isSelected); // 무기 정보 출력 함수
