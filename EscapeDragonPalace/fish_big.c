@@ -92,13 +92,13 @@ void BigFishHitPlayer()
 			continue;
 
 		// 무적 시간 체크
-		if (now - tempFish->mon.lastHitTime < INVINCIBLE_TIME) {
+		if (now - player.lastHitTime < INVINCIBLE_TIME) {
 			continue; // 아직 무적 상태면 데미지 무시
 		}
 
 		SetInvincibleTime(true);	// 플레이어 무적 시간 설정
 		player.Health -= tempFish->attack; // 플레이어 체력 2 감소
-		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
+		player.lastHitTime = now; // 마지막 피격 시간 갱신
 
 
 	}
@@ -126,10 +126,10 @@ void PlayerHitBigFish()
 
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
-		if (now - player.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
+		if (now - tempFish->mon.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
 		tempFish->mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
 		tempFish->mon.isDamaged = true; // 무적 상태로 변경
-		player.lastHitTime = now; // 마지막 피격 시간 갱신
+		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 
 		if (tempFish->mon.hp <= 0) {

@@ -174,6 +174,7 @@ void CrabHitPlayer() {
 
 		if (IsOverlap(PlayerPos, MonsterPos)) {
 			// 출혈 시작
+			SetInvincibleTime(true);	// 플레이어 무적 시간 설정
 			player.isBleeding = true;
 			bleedCount = 0; // 출혈 데미지 카운트 초기화
 			lastBleedTick = GetTickCount(); // 출혈 타이머 초기화
@@ -193,6 +194,7 @@ void BleedPlayer() {
 		lastBleedTick = now;      // 타이머 갱신
 
 		if (bleedCount >= 3) {    // 3번 맞으면 출혈 종료
+			SetInvincibleTime(false);	// 플레이어 무적 시간 설정
 			player.isBleeding = false;
 			bleedCount = 0;
 		}
@@ -221,10 +223,10 @@ void PlayerHitCrab()
 
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
 
-		if (now - player.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
+		if (now - tempCrab->mon.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
 		tempCrab->mon.hp -= player.HeldWeapon->attack; //
 		tempCrab->mon.isDamaged = true; // 무적 상태로 변경
-		player.lastHitTime = now; // 마지막 피격 시간 갱신
+		tempCrab->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 
 		if (tempCrab->mon.hp <= 0) {

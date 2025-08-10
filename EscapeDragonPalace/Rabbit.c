@@ -139,6 +139,7 @@ bool SetMapEnd(bool src)
 {
 	IsMapEnd = src;
 }
+
 bool GetKeyW()
 {
 	return g_KeyW;
