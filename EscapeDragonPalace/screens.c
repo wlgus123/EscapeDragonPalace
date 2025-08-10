@@ -4,10 +4,9 @@
 #include "weapon.h"
 #include "turtle.h"
 
-bool GameStart = false; // 게임 시작 여부
-bool GameStartText = true; // 게임 시작 여부 텍스트
-bool IsGameOver = false; // 게임 오버 여부
-bool textE = true; // 문구 이펙트 효과
+bool GameStart = false;		// 게임 시작 여부
+bool IsGameOver = false;	// 게임 오버 여부
+bool textE = true;			// 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 
 
 // 게임오버 화면
@@ -81,10 +80,9 @@ void DrawStartScreen() {
 		// 키 입력이 들어오면
 		if (_kbhit()) {
 			GameStart = true;   // 게임 시작
-			_getch();   // 입력 버퍼 비우기
+			_getch();			// 입력 버퍼 비우기
 		}
-		// 문구 이펙트 효과
-		textE = !textE;
+		textE = !textE; // 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 		_Invalidate();
 		Sleep(500);
 	}
@@ -105,8 +103,7 @@ void ReturnStartScreen() {
 			SetPlusX(0);			// X 좌표 증가값 0으로 변경
 			_getch();				// 입력 버퍼 비우기
 		}
-		// 문구 이펙트 효과
-		textE = !textE;
+		textE = !textE; // 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 		_Invalidate();
 		Sleep(500);
 	}
@@ -133,8 +130,7 @@ void DrawGameClearScreen() {
 				ResetTurtleHp();		// 자라 몬스터 체력 초기화	
 			}
 		}
-		// 문구 이펙트 효과
-		textE = !textE;
+		textE = !textE; // 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 		_Invalidate();
 		Sleep(500);
 	}

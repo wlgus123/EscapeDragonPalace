@@ -105,7 +105,7 @@ void Draw() // 화면 그리기
 			DrawPlayer();   // 플레이어 그리기
 			_SetColor(E_White); // 플레이어 외 색상 초기화
 
-			// 보스맵일 경우 맵 불러온 후 자라 체력 그리기
+			// 무기 선택 완료 후 보스맵일 경우 자라 체력 그리기
 			if (GetWeaponChosen() && GetMapStatus() == E_Ground)
 				DrawTurtleHP();
 
