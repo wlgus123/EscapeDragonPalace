@@ -45,7 +45,7 @@ void DrawSmallFish()
 {
 	_SetColor(E_Teal);	// 항상 파란색
 
-	// 현재 맵 데이터 임시로 불러오기
+	// 현재 맵 데이터에서 물고기 위치 받아오기
 	SmallFish* tempSmallFish = g_SmallFishList[GetMapStatus()];
 	for (int idx = 0; idx < g_SmallFishListIdx[GetMapStatus()]; idx++)
 	{
