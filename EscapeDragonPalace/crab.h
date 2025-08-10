@@ -8,6 +8,7 @@
 #define CRAB_ATTACK 1   // 꽃게 공격력
 #define CRAB_CNT 17     // 꽃게 배열 수
 #define TILE_SIZE 1 //바닥 크기
+#define CRAB_EYE 15 //꽃게 인식 범위
 
 // 전역 변수
 const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
