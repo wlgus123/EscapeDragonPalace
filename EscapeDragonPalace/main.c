@@ -76,7 +76,7 @@ void Draw() // 화면 그리기
             }
             else
             {
-
+				// 높은 곳 올라갔을 때 무기 배열값이 바뀌는 현상 방지
                 strcpy(weaponList[0].name, "장검");
                 strcpy(weaponList[0].sprite, "--|====>");
                 weaponList[0].attack = 2;
@@ -163,13 +163,14 @@ void main()
     // 초기화
     _BeginWindow();
     InitWeapon(weaponList); // 무기 초기화
-    InitItem();  // 아이템 초기화
     while (true)
     {
         InitPlayer();
         ResetBigFish();
         ResetSmallFish();
         InitMonster();  // 몬스터 초기화
+		ResetItem();
+        InitItem();  // 아이템 초기화
         unsigned long startTime = _GetTickCount();
         InitTurtle(startTime);  // 자라(보스) 초기화
 

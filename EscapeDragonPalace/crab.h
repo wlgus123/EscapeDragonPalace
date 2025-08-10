@@ -7,6 +7,7 @@
 #define CRAB_HP 5		// 꽃게 체력
 #define CRAB_ATTACK 1   // 꽃게 공격력
 #define CRAB_CNT 17     // 꽃게 배열 수
+#define TILE_SIZE 1 //바닥 크기
 
 // 전역 변수
 const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
@@ -45,3 +46,7 @@ void PlayerHitCrab(); // 플레이어 공격 처리
 void CrabHitPlayer(); // 플레이어 공격 처리
 void BleedPlayer(); // 플레이어 출혈 처리
 void ResetCrab();
+
+//중력 부분
+static bool Crab_IsOnGround(Crab* crab); // 꽃게가 발판 위에 있는지 확인
+static void Crab_ApplyGravity(Crab* crab); // 중력 적용
