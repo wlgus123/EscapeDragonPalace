@@ -79,7 +79,6 @@ void DrawItem() {
 				break;
 			}
 
-
 			int tempX = g_ItemList[i].x - GetPlusX();
 
 			switch (g_ItemList[i].type)
@@ -111,6 +110,7 @@ void DrawItem() {
 	}
 }
 
+// 아이템 isHeld false로 초기화 함수
 void ResetItem() {
 	g_ItemIdx = 0;
 	for (int i = 0; i < MAX_ITEM_COUNT; i++) {
