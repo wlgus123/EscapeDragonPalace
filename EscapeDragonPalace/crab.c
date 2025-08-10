@@ -79,9 +79,9 @@ void UpdateCrab(unsigned long now)
 
 
 		// 플레이어가 범위에 들어왔는지 확인
-		if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) > (player.Pos.x - GetPlusX()) - 20)// 플레이어가 꽃게보다 오른쪽에 있을 때
+		if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) > (player.Pos.x - GetPlusX()) - CRAB_EYE)// 플레이어가 꽃게보다 오른쪽에 있을 때
 			tempCrab[idx].state = true;
-		else if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) < (player.Pos.x - GetPlusX()) + 20)// 플레이어가 꽃게보다 왼쪽에 있을 때
+		else if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) < (player.Pos.x - GetPlusX()) + CRAB_EYE)// 플레이어가 꽃게보다 왼쪽에 있을 때
 			tempCrab[idx].state = false;
 
 		
