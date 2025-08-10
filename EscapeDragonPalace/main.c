@@ -37,7 +37,7 @@ void Draw() // 화면 그리기
 				_SetColor(E_White); // 문구 색 변경
 			else
 				_SetColor(E_Gray); // 문구 색 변경
-			_DrawText(23, 21, "아무 키나 눌러 시작화면으로 돌아가기");
+			_DrawText(12, 21, "ESC로 게임 종료 혹은 아무 키나 눌러 시작화면으로 돌아가기");
 		}
 		// 스테이지 클리어했을 때
 		else if (StageClear())

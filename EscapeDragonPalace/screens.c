@@ -94,14 +94,20 @@ void ReturnStartScreen() {
 	while (IsGameOver) {
 		// 키 입력이 들어오면
 		if (_kbhit()) {
-			IsGameOver = false;		// 게임오버 변수 false 변경
-			GameStart = false;		// 게임시작 변수 false 변경
-			SetWeaponChosen(false);	// 무기 선택여부 false로 변경
-			SetMapSetting(false);	// 아이템 세팅 초기화
-			SetIsNearLadder(false); // 사다리 근처 여부 false로 변경
-			SetMapStatus(E_Jail);	// 원래 맵으로 이동
-			SetPlusX(0);			// X 좌표 증가값 0으로 변경
-			_getch();				// 입력 버퍼 비우기
+			if (_getch() == ESC) {	// ESC 키 입력시
+				// ESC 키를 누르면 게임 종료
+				system("cls"); // 화면 지우기
+				exit(0); // 프로그램 종료
+			}
+			else {
+				IsGameOver = false;		// 게임오버 변수 false 변경
+				GameStart = false;		// 게임시작 변수 false 변경
+				SetWeaponChosen(false);	// 무기 선택여부 false로 변경
+				SetMapSetting(false);	// 아이템 세팅 초기화
+				SetIsNearLadder(false); // 사다리 근처 여부 false로 변경
+				SetMapStatus(E_Jail);	// 원래 맵으로 이동
+				SetPlusX(0);			// X 좌표 증가값 0으로 변경
+			}
 		}
 		textE = !textE; // 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 		_Invalidate();
