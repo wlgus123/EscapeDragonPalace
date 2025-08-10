@@ -153,6 +153,7 @@ void main()
 {
 	// 초기화
 	_BeginWindow();
+	
 	InitWeapon(weaponList); // 무기 초기화
 
 	while (true)
@@ -172,7 +173,7 @@ void main()
 		SelectWeapon();     // 무기 선택
 		player.HeldWeapon = &weaponList[GetSelectedIndex()];    // 플레이어 무기 세팅
 
-		//로직
+		// 게임 로직
 		while (true)
 		{
 			GetInput();
