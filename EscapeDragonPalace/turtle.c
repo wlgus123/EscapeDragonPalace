@@ -38,11 +38,13 @@ static bool g_WaveDropsBlocking = false;
 static bool g_HitWaveDrops = false; // 물방울에 맞았는지 여부
 
 // === 평타 범위 표시 설정 (사용자가 쉽게 조정할 수 있도록 전역 변수로 분리) ===
-static const int ATTACK_HALF = 7;           // 범위 반폭
-static const int ATTACK_CENTER_RIGHT = 22;  // 오른쪽 기준 중심 X (월드 좌표)
-static const int ATTACK_CENTER_LEFT = 58;   // 왼쪽 기준 중심 X (월드 좌표)
+static const int g_AttackPower = 2;        // 평타 공격력
+static const int g_AttackHalf = 10;        // 범위 반폭
+static const int g_AttackHeight = 4;		// 평타 높이
+static const int g_AttackCenterRight = 22;  // 오른쪽 기준 중심 X (월드 좌표)
+static const int g_AttackCenterLeft = 58;   // 왼쪽 기준 중심 X (월드 좌표)
 // 범위 표시 Y 위치
-static const int ATTACK_RANGE_Y_OFFSET = 5;
+static const int g_AttackRangeOffesetY= 5;
 
 static WaterDrop g_WaterDrops[MAX_WATER_DROPS];
 
@@ -485,6 +487,22 @@ void UpdateTurtle(unsigned long now) {
 				}
 			}
 		}
+
+		g_State = TURTLE_STATE_ATTACK; // 평타 상태로 변경
+	}
+
+	// 평타 쾅 했을 때
+	if (g_State == TURTLE_STATE_ATTACK && !g_JumpActive) {
+		// 플레이어랑 평타 범위 충돌 체크 후 데미지 변경
+		int centerWorld = (g_Turtle.dir == E_Right) ? g_AttackCenterRight : g_AttackCenterLeft - g_AttackHalf;
+		Rect attackArea = { centerWorld, g_Turtle.pos.y, g_AttackHalf, TURTLE_HEIGHT };
+
+		if (IsOverlap(GetPlayerRect(), attackArea)) {
+			// 플레이어가 평타 범위에 있을 때
+			player.Health -= g_AttackPower;// 플레이어 체력 감소
+		}
+
+		g_State = TURTLE_STATE_IDLE; // 평타 상태에서 다시 평상시로 돌아감
 	}
 
 	// 돌진
@@ -619,18 +637,15 @@ void DrawTurtle(void) {
 
 	// 느낌표 깜빡일때만 범위 표시
 	if (g_ExclaimActive && g_ExclaimVisible && !g_JumpActive) {
-		int centerWorld = (g_Turtle.dir == E_Right) ? ATTACK_CENTER_RIGHT : ATTACK_CENTER_LEFT;
-		int leftWorld = centerWorld - ATTACK_HALF;
-		int rightWorld = centerWorld + ATTACK_HALF;
-
-		int leftScreen = leftWorld;
-		int rightScreen = rightWorld;
+		int centerWorld = (g_Turtle.dir == E_Right) ? g_AttackCenterRight : g_AttackCenterLeft;
+		int leftScreen = centerWorld - g_AttackHalf;
+		int rightScreen = centerWorld + g_AttackHalf;
 
 		if (leftScreen < 0) leftScreen = 0;
 		if (rightScreen >= SCREEN_WIDTH) rightScreen = SCREEN_WIDTH - 1;
 		if (rightScreen < leftScreen) rightScreen = leftScreen;
 
-		int rangeY = g_Turtle.pos.y + ATTACK_RANGE_Y_OFFSET;
+		int rangeY = g_Turtle.pos.y + g_AttackRangeOffesetY;
 		if (rangeY < 0) rangeY = 0;
 		if (rangeY >= SCREEN_HEIGHT) rangeY = g_Turtle.pos.y;
 
@@ -703,7 +718,6 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 			--player.Health; // 플레이어 체력 감소
 		}
 	}
-
 
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 }
