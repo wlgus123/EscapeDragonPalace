@@ -502,6 +502,8 @@ void UpdateTurtle(unsigned long now) {
 		if (IsOverlap(GetPlayerRect(), attackArea)) {
 			// 플레이어가 평타 범위에 있을 때
 			player.Health -= g_AttackPower;// 플레이어 체력 감소
+			SetInvincibleTime(true); // 플레이어 무적 시간 설정
+			player.lastHitTime = now; // 플레이어가 맞은 시간 기록
 		}
 
 		g_State = TURTLE_STATE_IDLE; // 평타 상태에서 다시 평상시로 돌아감
@@ -752,6 +754,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 		}
 	}
 
+	SetInvincibleTime(true); // 플레이어 무적 시간 설정
 	player.lastHitTime = now; // 마지막 피격 시간 갱신
 }
 
