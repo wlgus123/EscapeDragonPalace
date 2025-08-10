@@ -12,61 +12,99 @@ int bleedCount = 0;      // 출혈 데미지 횟수
 
 
 
-// 꽃게 업데이트
+static bool Crab_IsOnGround(Crab* crab)// 꽃게가 발판 위에 있는지 확인
+{
+	// 발 중앙 X좌표
+	int tileX = (crab->pos.x + (CRAB_WIDTH / 2)) / TILE_SIZE;
+	// 발밑 Y타일 좌표
+	int tileY = (crab->pos.y + CRAB_HEIGHT) / TILE_SIZE;
+
+	// 맵 범위 체크
+	if (tileY < 0 || tileY >= MAP_HEIGHT || tileX < 0 || tileX >= MAP_WIDTH)
+		return false;
+
+	// 현재 맵 받아오기
+	int mapStatus = GetMapStatus();
+
+	// 스테이지 전용 발판 체크
+	if (mapStatus >= 0 && mapStatus < STAGE_CNT)
+	{
+		if (g_StagePlatform[mapStatus][tileY][tileX] == '=')
+			return true;
+	}
+
+	// 기본 맵 발판 체크
+	if (g_Map[tileY][tileX] == '=')
+		return true;
+
+	return false;
+}
+
+static void Crab_ApplyGravity(Crab* crab) //중력을 적용
+{
+	if (!Crab_IsOnGround(crab))
+	{
+		// 발판 없으면 낙하
+		crab->pos.y += 1.0f;
+
+		// 화면 하단 범위 제한
+		if (crab->pos.y > SCREEN_HEIGHT - CRAB_HEIGHT -1) //-1 안하면 안에 들어감
+			crab->pos.y = SCREEN_HEIGHT - CRAB_HEIGHT -1;
+	}
+	else
+	{
+		// 발판 위에 고정
+		int tileY = (crab->pos.y + CRAB_HEIGHT) / TILE_SIZE;
+		crab->pos.y = (tileY * TILE_SIZE) - CRAB_HEIGHT;
+	}
+}
+
 void UpdateCrab(unsigned long now)
 {
-	// 현재 맵의 몬스터 데이터 불러오기
 	Crab* tempCrab = g_CrabList[GetMapStatus()];
 
-	// 현재 맵에 있는 몬스터 수만큼 반복하기
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
-		// 몬스터가 죽었을 경우 넘어가기
-		if (!tempCrab[idx].mon.alive) continue;
+
+		//만약 뒤졌을 경우, 안함
+		if (tempCrab[idx].mon.alive == false) continue;
 
 		// 무적시간 지나면 피격 상태 해제
 		if (tempCrab[idx].mon.isDamaged && now - tempCrab[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
-		{
 			tempCrab[idx].mon.isDamaged = false;
-		}
 
-		if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) > (player.Pos.x - GetPlusX()) - 20) {	// 플레이어가 꽃게와 가까워지면 추격 상태로 변경
+
+		// 중력 적용
+		Crab_ApplyGravity(&tempCrab[idx]);
+
+
+		// 플레이어가 범위에 들어왔는지 확인
+		if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) > (player.Pos.x - GetPlusX()) - 20)// 플레이어가 꽃게보다 오른쪽에 있을 때
 			tempCrab[idx].state = true;
-		}
-		else if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) < (player.Pos.x - GetPlusX()) + 20) { // 플레이어가 꽃게와 멀어지면 추격 상태 해제
+		else if (player.Pos.x - (tempCrab[idx].pos.x - GetPlusX()) < (player.Pos.x - GetPlusX()) + 20)// 플레이어가 꽃게보다 왼쪽에 있을 때
 			tempCrab[idx].state = false;
-		}
 
-		// 플레이어 인식 후
-		if (tempCrab[idx].state == true) {
-			// 플레이어가 꽃게보다 오른쪽에 있을 때
-			if(tempCrab[idx].pos.x > player.Pos.x + GetPlusX() + RABBIT_WIDTH) {
+		
+		if (tempCrab[idx].state) {// 꽃게가 플레이어를 추격하는 상태
+			if (tempCrab[idx].pos.x > player.Pos.x + GetPlusX() + RABBIT_WIDTH)
 				tempCrab[idx].dir = E_Left;
-			}
-			// 플레이어가 꽃게보다 왼쪽에 있을 때
 			else if (tempCrab[idx].pos.x < player.Pos.x + GetPlusX())
 				tempCrab[idx].dir = E_Right;
 		}
-
-
-		// 플레이어 인식 전
-		if(tempCrab[idx].state == false){
+		else {// 꽃게가 플레이어를 추격하지 않는 상태
 			if (tempCrab[idx].pos.x <= tempCrab[idx].startPosX)
-			{
 				tempCrab[idx].dir = E_Right;
-			}
 			if (tempCrab[idx].pos.x + CRAB_WIDTH >= tempCrab[idx].startPosX + tempCrab[idx].moveNum)
-			{
 				tempCrab[idx].dir = E_Left;
-			}
 		}
-		
 
-		// 몬스터 이동
+		// 이동
 		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right) ? g_CrabMon.speed : -g_CrabMon.speed;
-
 	}
 }
+
+	
+
 
 void DrawCrab()
 {
