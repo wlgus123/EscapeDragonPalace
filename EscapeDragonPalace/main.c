@@ -98,6 +98,28 @@ void Draw() // 화면 그리기
 				_DrawText(3, 3, player.HeldWeapon->sprite); // 좌측 상단에 현재 사용중인 무기 스프라이트 그리기
 				DrawHealth();       // 체력바 그리기
 				DrawBuffNDebuff();  // 속도 버프 및 디버프 남은 시간 표시
+
+				// 현재 맵 정보 그리기
+				char mapTxt[STR_MAX] = "";	// 현재 맵 정보 문자열
+				switch (GetMapStatus())
+				{
+				case E_Jail:
+					strcpy(mapTxt, "감옥");
+					break;
+				case E_DragonPalace:
+					strcpy(mapTxt, "용궁");
+					break;
+				case E_Sea1:
+					strcpy(mapTxt, "바다1");
+					break;
+				case E_Sea2:
+					strcpy(mapTxt, "바다2");
+					break;
+				case E_Ground:
+					strcpy(mapTxt, "육지(보스)");
+					break;
+				}
+				_DrawText(3, 5, mapTxt);
 			}
 
 			// 이 아래로는 무기 선택 안 했을 때, 무기 선택 완료 후 게임 진행시 모두 실행됨
