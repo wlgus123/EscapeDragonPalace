@@ -427,10 +427,12 @@ void UpdateTurtle(unsigned long now) {
 				g_WaveActive = false;
 				g_WaveWarnActive = false;
 				g_WaveWarnDelayUntil = 0;
-				if (AnyWaterDropsActive()) {
+				if (AnyWaterDropsActive()) 
+				{
 					g_WaveDropsBlocking = true;
 				}
-				else {
+				else 
+				{
 					if (g_SkillLockUntil < now + g_SkillLockMs) g_SkillLockUntil = now + g_SkillLockMs;
 					g_WaveDropsBlocking = false;
 				}
@@ -494,8 +496,8 @@ void UpdateTurtle(unsigned long now) {
 	// 평타 쾅 했을 때
 	if (g_State == TURTLE_STATE_ATTACK && !g_JumpActive) {
 		// 플레이어랑 평타 범위 충돌 체크 후 데미지 변경
-		int centerWorld = (g_Turtle.dir == E_Right) ? g_AttackCenterRight : g_AttackCenterLeft - g_AttackHalf;
-		Rect attackArea = { centerWorld, g_Turtle.pos.y, g_AttackHalf, TURTLE_HEIGHT };
+		int centerWorld = (g_Turtle.dir == E_Right) ? 0 : g_AttackCenterLeft - g_AttackHalf;
+		Rect attackArea = { centerWorld, g_Turtle.pos.y, g_AttackHalf + TURTLE_WIDTH, TURTLE_HEIGHT };
 
 		if (IsOverlap(GetPlayerRect(), attackArea)) {
 			// 플레이어가 평타 범위에 있을 때
@@ -738,10 +740,10 @@ void PlayerHitTurtle()
 
 	if (!(IsOverlap(PlayerWeaponPos, MosterPos))) return;
 
-	if (now - player.lastHitTime < INVINCIBLE_TIME) return;
+	if (now - g_Turtle.mon.lastHitTime < INVINCIBLE_TIME) return;
  	g_Turtle.mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
 	g_Turtle.mon.isDamaged = true; // 무적 상태로 변경
-	player.lastHitTime = now; // 마지막 피격 시간 갱신
+	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 	if (g_Turtle.mon.hp <= 0) {
 		g_Turtle.mon.alive = false;
