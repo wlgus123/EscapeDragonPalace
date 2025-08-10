@@ -680,6 +680,10 @@ void DrawTurtle(void) {
 
 	int idx = (g_Turtle.dir == E_Right ? E_Right : E_Left);
 	int lines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
+
+	// 피격 상태이고 무적시간(1초) 이내면 빨간색
+	_SetColor(g_Turtle.isDamaged ? E_Red : E_White);
+
 	for (int r = 0; r < lines; ++r) _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[idx][r]);
 
 	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
@@ -696,7 +700,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 		return;
 
 	// 무적 시간 체크
-	if (now - g_Turtle.mon.lastHitTime < INVINCIBLE_TIME) {
+	if (now - player.lastHitTime < INVINCIBLE_TIME) {
 		return; // 아직 무적 상태면 데미지 무시
 	}
 
@@ -721,7 +725,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 		}
 	}
 
-	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
+	player.lastHitTime = now; // 마지막 피격 시간 갱신
 }
 
 // 플레이어 -> 자라 피격
@@ -740,9 +744,9 @@ void PlayerHitTurtle()
 
 	if (!(IsOverlap(PlayerWeaponPos, MosterPos))) return;
 
-	if (now - g_Turtle.mon.lastHitTime < INVINCIBLE_TIME) return;
+	if (now - g_Turtle.mon.lastHitTime < MONSTER_INVINCIBLE_TIME) return;
  	g_Turtle.mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
-	g_Turtle.mon.isDamaged = true; // 무적 상태로 변경
+	g_Turtle.isDamaged = true; // 무적 상태로 변경
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 	if (g_Turtle.mon.hp <= 0) {
