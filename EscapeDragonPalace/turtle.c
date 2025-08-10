@@ -701,12 +701,15 @@ void DrawTurtle(void) {
 	}
 
 	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
+}
 
-	// 자라 현재 체력 그리기
+// 자라 현재 체력 그리기
+void DrawTurtleHP()
+{
 	_DrawTextColor(38, 2, "자라", E_BrightWhite);
 	for (int i = 0; i < (int)(TURTLE_HP * 0.5); i++)
 	{
-		if (i <= (int)(g_Turtle.mon.hp * 0.5))
+		if (i <= (int)(g_Turtle.mon.hp * 0.5) - 1)
 			_DrawTextColor(i + 20, 3, "|", E_BrightRed);
 		else
 			_DrawTextColor(i + 20, 3, "|", E_Gray);
