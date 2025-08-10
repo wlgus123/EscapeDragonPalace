@@ -76,19 +76,19 @@ void DrawBigFish()
 void BigFishHitPlayer()
 {
 	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
-	DWORD now = GetTickCount();
-	Rect PlayerPos = GetPlayerRect();
+	DWORD now = GetTickCount(); //피격 시간 측정을 위한 현재 시간 가져오기
+	Rect PlayerPos = GetPlayerRect(); //플레이어 위치
 
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
 		BigFish* tempFish = &bigFishList[idx];
-		int posX = tempFish->pos.x - GetPlusX();
-		int posY = tempFish->pos.y;
+		int posX = tempFish->pos.x - GetPlusX(); //물고기 x좌표
+		int posY = tempFish->pos.y; //물고기 y좌표
 		Rect MosterPos = { posX, posY, 13, 3 };
 
-		if (!tempFish->mon.alive) continue;
+		if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
 
-		if (!(IsOverlap(PlayerPos, MosterPos)))
+		if (!(IsOverlap(PlayerPos, MosterPos)))	//충돌하지 않을 경우 넘기기
 			continue;
 
 		// 무적 시간 체크
@@ -114,17 +114,17 @@ void PlayerHitBigFish()
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
 		BigFish* tempFish = &g_BigFishList[GetMapStatus()][idx];
-		int posX = tempFish->pos.x - GetPlusX();
-		int posY = tempFish->pos.y;
+		int posX = tempFish->pos.x - GetPlusX();// 물고기 x좌표
+		int posY = tempFish->pos.y;// 물고기 y좌표
 		Rect MosterPos = { posX, posY, 13, 3 };
 
-		if (!player.IsAttacking) continue;
+		if (!player.IsAttacking) continue;// 플레이어가 공격 중이 아닐 경우 넘어가기
 
 		//if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
 
 		//if (tempFish->mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
 
-		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;
+		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;//충돌이 없을시 넘기기
 
 		if (now - tempFish->mon.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
 		tempFish->mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
@@ -132,14 +132,14 @@ void PlayerHitBigFish()
 		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 
-		if (tempFish->mon.hp <= 0) {
+		if (tempFish->mon.hp <= 0) {//죽으면 처리 안함
 			tempFish->mon.alive = false;
 		}
 	}
 }
 
 
-void ResetBigFish() {
+void ResetBigFish() {// 큰 물고기 초기화
 	for (int i = 0; i < STAGE_CNT; i++)
 	{
 		BigFish* tempBigFish = g_BigFishList[i];
@@ -151,7 +151,7 @@ void ResetBigFish() {
 }
 
 
-// 큰 물고기 초기화
+
 void InitBigFish()
 {
 	// 큰 물고기 공통된 속성 설정

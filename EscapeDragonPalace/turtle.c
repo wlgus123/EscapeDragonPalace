@@ -372,7 +372,7 @@ void UpdateTurtle(unsigned long now) {
 		}
 	}
 
-	// 물방울
+	// 물대포
 	if (g_WaterActive) {
 		if (!g_WaveActive) {
 			// 물방울 시작 예정인지 체크
@@ -628,7 +628,7 @@ void DrawTurtle(void) {
 	if (g_WaveWarnActive) {
 		const char* warn = "물방울이 떨어집니다!";
 		int len = strlen(warn);
-		_DrawText(SCREEN_WIDTH / 2 - len / 2, 2, warn);
+		_DrawText(SCREEN_WIDTH / 2 - len / 2, 5, warn);
 	}
 
 	// 자라 돌진 위치 표시
@@ -675,7 +675,7 @@ void DrawTurtle(void) {
 	if (g_State == TURTLE_STATE_PREPARE_RUSH) {
 		const char* m = "자라가 돌진을 준비중입니다!";
 		int l = strlen(m);
-		_DrawText(SCREEN_WIDTH / 2 - l / 2, 1, m);
+		_DrawText(SCREEN_WIDTH / 2 - l / 2, 5, m);
 	}
 
 	int idx = (g_Turtle.dir == E_Right ? E_Right : E_Left);
@@ -701,6 +701,19 @@ void DrawTurtle(void) {
 	}
 
 	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
+}
+
+// 자라 현재 체력 그리기
+void DrawTurtleHP()
+{
+	_DrawTextColor(38, 2, "자라", E_BrightWhite);
+	for (int i = 0; i < (int)(TURTLE_HP * 0.5); i++)
+	{
+		if (i <= (int)(g_Turtle.mon.hp * 0.5) - 1)
+			_DrawTextColor(i + 20, 3, "|", E_BrightRed);
+		else
+			_DrawTextColor(i + 20, 3, "|", E_Gray);
+	}
 }
 
 // 자라 -> 플레이어 피격

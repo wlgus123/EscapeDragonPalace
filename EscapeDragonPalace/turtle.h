@@ -10,15 +10,15 @@
 // 평상시 Y좌표
 #define TURTLE_IDLE_Y      18
 
-// 물방울 생성 간격 (500~700ms)
-#define WATER_DROP_INTERVAL_MIN_MS 500
-#define WATER_DROP_INTERVAL_MAX_MS 700
+// 물방울 생성 간격 (200~400ms)
+#define WATER_DROP_INTERVAL_MIN_MS 200
+#define WATER_DROP_INTERVAL_MAX_MS 400
 #define MAX_WATER_DROPS 64
 #define WATER_DROP_MOVE_MS 150
 
-// 물방울 지속시간 (3~5초)
-#define WATER_WAVE_DURATION_MIN_MS 3000
-#define WATER_WAVE_DURATION_MAX_MS 5000
+// 물방울 지속시간 (4~7초)
+#define WATER_WAVE_DURATION_MIN_MS 4000
+#define WATER_WAVE_DURATION_MAX_MS 7000
 
 // 물방울 쿨타임 (8~12초)
 #define WATER_WAVE_COOLDOWN_MIN_MS 8000
@@ -108,6 +108,7 @@ void SetTurtlePeakHoldMs(unsigned int ms); // 평타 시 공중에서 멈추는 시간 설정
 void InitTurtle(unsigned int now); // 자라 초기화
 void UpdateTurtle(unsigned long now); // 자라 업데이트
 void DrawTurtle(void); // 자라 그리기
+void DrawTurtleHP();	// 자라 체력 그리기
 void TurtleHitP(int posX, int posY); // 자라가 플레이어를 공격했는지 확인
 int GetTurtleHp(); // 자라 체력 가져오기
 int ResetTurtleHp(); // 자라 체력 초기화
