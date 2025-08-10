@@ -39,8 +39,8 @@ static bool g_HitWaveDrops = false; // 물방울에 맞았는지 여부
 
 // === 평타 범위 표시 설정 (사용자가 쉽게 조정할 수 있도록 전역 변수로 분리) ===
 static const int ATTACK_HALF = 7;           // 범위 반폭
-static const int ATTACK_CENTER_RIGHT = 58;  // 오른쪽 기준 중심 X (월드 좌표)
-static const int ATTACK_CENTER_LEFT = 22;   // 왼쪽 기준 중심 X (월드 좌표)
+static const int ATTACK_CENTER_RIGHT = 22;  // 오른쪽 기준 중심 X (월드 좌표)
+static const int ATTACK_CENTER_LEFT = 58;   // 왼쪽 기준 중심 X (월드 좌표)
 // 범위 표시 Y 위치
 static const int ATTACK_RANGE_Y_OFFSET = 5;
 
@@ -611,9 +611,10 @@ void DrawTurtle(void) {
 		_DrawText(SCREEN_WIDTH / 2 - len / 2, 2, warn);
 	}
 
+	// 자라 돌진 위치 표시
 	if (g_ShowTarget) {
 		int mx = SCREEN_WIDTH / 2 - 3;
-		_DrawText(mx + 3, g_PendingTargetY + 1, "!");
+		_DrawTextColor(mx + 3, g_PendingTargetY + 1, "!", E_BrightYellow);
 	}
 
 	// 느낌표 깜빡일때만 범위 표시
@@ -635,17 +636,17 @@ void DrawTurtle(void) {
 
 		char sRange[2] = { '-', '\0' };
 		for (int sx = leftScreen; sx <= rightScreen; ++sx) {
-			_DrawText(sx, rangeY, sRange);
+			_DrawTextColor(sx, rangeY, sRange, E_BrightYellow);
 		}
-		_DrawText(leftScreen, rangeY, "[");
-		_DrawText(rightScreen, rangeY, "]");
+ 		_DrawTextColor(leftScreen, rangeY, "[", E_BrightYellow);
+		_DrawTextColor(rightScreen, rangeY, "]", E_BrightYellow);
 	}
 
-	// 돌진 준비 ( ! )
+	// 평타 준비 ( ! )
 	if (g_State == TURTLE_STATE_IDLE && g_ExclaimActive && g_ExclaimVisible) {
 		int exX = (g_Turtle.pos.x) + (TURTLE_WIDTH / 2);
 		int exY = g_Turtle.pos.y - 1;
-		_DrawText(exX, exY, "!");
+		_DrawTextColor(exX, exY, "!", E_BrightWhite);
 	}
 
 	// 돌진 중에 자라가 화면 밖으로 완전히 나가면 그리지 않음
@@ -670,7 +671,7 @@ void DrawTurtle(void) {
 // 자라 -> 플레이어 피격
 void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX + 5, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT + 2 };
+	Rect MosterPos = { posX + 4, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT + 2 };
 	// -5: 머리부분 충돌 시 피 깎이지 않게 예방
 	DWORD now = GetTickCount();
 
