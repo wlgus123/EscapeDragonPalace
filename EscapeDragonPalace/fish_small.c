@@ -89,12 +89,12 @@ void PlayerHitSmallFish()
 			if (!IsOverlap(PlayerWeaponPos, MonsterPos))
 				continue;
 
-			if (now - player.lastHitTime < MONSTER_INVINCIBLE_TIME)
+			if (now - pFish->mon.lastHitTime < MONSTER_INVINCIBLE_TIME)
 				continue;
 
 			pFish->mon.hp -= player.HeldWeapon->attack;	// 몬스터 체력 감소
 			pFish->mon.isDamaged = true;	// 피격 상태로 변경
-			player.lastHitTime = now;
+			pFish->mon.lastHitTime = now;
 
 			if (pFish->mon.hp <= 0) {
 				pFish->mon.alive = false;	// 체력이 0 이하가 되면 사망 처리
@@ -124,12 +124,12 @@ void SmallFishHitPlayer()
 		if (!IsOverlap(PlayerPos, MonsterPos))
 			continue;
 
-		if (now - pFish->mon.lastHitTime < INVINCIBLE_TIME)
+		if (now - player.lastHitTime < INVINCIBLE_TIME)
 			continue;
 
 		SetInvincibleTime(true);	// 플레이어 무적 시간 설정
 		player.Health -= pFish->attack;
-		pFish->mon.lastHitTime = now;
+		player.lastHitTime = now;
 	}
 }
 
