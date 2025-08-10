@@ -2,7 +2,6 @@
 #include "map.h"
 #include "screens.h"
 
-
 //--------------------------------------------------
 
 char Rabbit[14][RabbitY][RabbitX] =
@@ -79,25 +78,22 @@ char Rabbit[14][RabbitY][RabbitX] =
 	}, // 플레이어 왼쪽
 };
 
-
 //애니메이션 상태 관리
 int animFrame;         // 0 ~ jumpFrames*2-1 (up + down)
 int animRepeatCount;   // 애니메이션 반복 횟수
 int jumpFrames;  // 올라가는 프레임 개수
 int maxRepeats;  // 최대 반복 횟수
-int centerX;
-int baseY;
-int jumpHeight;
+int centerX;	// 애니메이션 중심 X 좌표
+int baseY;	// 애니메이션 기준 Y 좌표 (점프 시작 위치)
+int jumpHeight; // 점프 높이 (y 단위)
 int animFramesTotal; // 전체 애니메이션 길이 (up+down)
-int PrevPlayerHealth;
 
+int PrevPlayerHealth; // 이전 플레이어 체력 (피격 여부 판단용)
 
-float amount;
+SpeedBuff speedBuffs; // 속도 버프
+SpeedBuff slowDebuffs; // 속도 디버프
 
-SpeedBuff speedBuffs;
-SpeedBuff slowDebuffs;
-
-DWORD g_SKeyLastTime = 0;
+DWORD g_SKeyLastTime = 0; // S키 마지막 입력 시간
 
 bool animGoingUp = true;  // 점프 중 올라가는지 여부
 
@@ -105,13 +101,13 @@ bool isNearItem = false;    // 플레이어 주변에 아이템이 있으면 true
 
 bool stageClear = false; // 스테이지 클리어 여부
 
-bool g_KeyW = false;
-bool g_KeyA = false;
-bool g_KeyD = false;
-bool g_KeyS = false;
-bool g_KeySpace = false;
+bool g_KeyW = false; // W키 입력 여부
+bool g_KeyA = false; // A키 입력 여부
+bool g_KeyD = false; // D키 입력 여부
+bool g_KeyS = false; // S키 입력 여부
+bool g_KeySpace = false; // 스페이스바 입력 여부
 
-bool IsMapEnd = false;
+bool IsMapEnd = false; // 맵 끝에 도달했는지 여부
 
 bool halfHealth = false; // 체력 반칸
 
@@ -123,7 +119,6 @@ bool IsNearLadder = false; // 플레이어가 사다리 근처에 있는지 여부
 bool IsInvincibleTime = false; // 플레이어 무적 시간 여부
 
 // --------------------------------------------------
-
 
 bool SetIsNearLadder(bool src)
 {
@@ -225,8 +220,6 @@ Rect GetWeaponRect()
 	}
 }
 
-
-
 // 아이템 먹었는지 체크
 void CheckItemPickup()
 {
@@ -314,6 +307,7 @@ void UpdateBuffs()
 	}
 }
 
+// 버프, 디버프 아이템 잔여 시간 출력
 void DrawBuffNDebuff() {
 	char buf[32];
 	if (speedBuffs.active) {
@@ -342,6 +336,7 @@ void DrawBuffNDebuff() {
 
 }
 
+// 토끼 애니메이션 관련 변수 초기화
 void ClearRabbitAt(int x, int y)
 {
 	for (int row = 0; row < RabbitY; row++)
@@ -355,6 +350,7 @@ void ClearRabbitAt(int x, int y)
 	}
 }
 
+// 토끼 애니메이션 그리기 함수
 void DrawRabbitAt(int x, int y, int idx)
 {
 	for (int row = 0; row < RabbitY; row++)
@@ -367,9 +363,10 @@ void RabbitSCAnim() // Rabbit stage clear 애니메이션
 {
 	_DrawText(20, 10, "아무 키나 눌러 다음 스테이지로 넘어가기");
 
-	player.Pos.x = RabbitXPos;
-	player.Pos.y = RabbitYPos;
+	player.Pos.x = RabbitXPos; // 플레이어 x값 위치 초기화
+	player.Pos.y = RabbitYPos; // 플레이어 y값 위치 초기화
 
+	// RabbitSCAnim에서 이전 프레임의 토끼 위치를 저장하여, 다음 프레임에서 해당 위치를 지우는 데 사용
 	static int prevX = -1, prevY = -1;
 
 	// 이전 위치 지우기
@@ -424,12 +421,12 @@ void RabbitSCAnim() // Rabbit stage clear 애니메이션
 
 void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 {
-	g_KeyW = (GetAsyncKeyState('W') & 0x8000);
-	g_KeyA = (GetAsyncKeyState('A') & 0x8000);
-	g_KeyD = (GetAsyncKeyState('D') & 0x8000);
-	g_KeyS = (GetAsyncKeyState('S') & 0x8000);
+	g_KeyW = (GetAsyncKeyState('W') & 0x8000); // W키(점프/위 이동) 입력 감지
+	g_KeyA = (GetAsyncKeyState('A') & 0x8000); // A키(왼쪽 이동) 입력 감지
+	g_KeyD = (GetAsyncKeyState('D') & 0x8000); // D키(오른쪽 이동) 입력 감지
+	g_KeyS = (GetAsyncKeyState('S') & 0x8000); // S키(아래 이동) 입력 감지
 
-	g_KeySpace = (GetAsyncKeyState(' ') & 0x8000);
+	g_KeySpace = (GetAsyncKeyState(' ') & 0x8000); // 스페이스바(공격) 입력 감지
 
 }
 
@@ -452,7 +449,7 @@ bool CheckGround()
 	{
 		int mapStatus = GetMapStatus();
 
-		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25)
+		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
 			return false;
 
 		if (g_StagePlatform[mapStatus][py][x] == '=')
@@ -460,7 +457,7 @@ bool CheckGround()
 	}
 	for (int x = MpxL; x <= MpxR; x++)
 	{
-		if (py < 0 || py >= 25)
+		if (py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
 			return false;
 
 		if (g_Map[py][x] == '=')
@@ -501,7 +498,7 @@ int GetGroundY()
 	{
 		int mapStatus = GetMapStatus();
 
-		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25)
+		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
 			return false;
 
 		if (g_StagePlatform[mapStatus][py][x] == '=')
@@ -509,7 +506,7 @@ int GetGroundY()
 	}
 	for (int x = MpxL; x <= MpxR; x++)
 	{
-		if (py < 0 || py >= 25)
+		if (py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
 			return false;
 
 		if (g_Map[py][x] == '=')
@@ -610,21 +607,6 @@ void AttackFN()
 
 			// 무기 충돌 범위 받아오기
 			Rect weaponRect = GetWeaponRect();
-			//for (int i = 0; i < numMonster; i++)
-			//{
-			//    // 화면에 보이지 않는 몬스터(이미 죽었거나 다른 스테이지)인 경우 넘어가기
-			//    if (!monsterList[i].alive) continue;
-
-			//    // 몬스터 충돌 범위 받아오기
-			//    Rect monsterRect = GetMonsterRect(monsterList[i]);
-
-			//    // 무기와 몬스터 충돌 체크, 충돌시
-			//    if (IsOverlap(weaponRect, monsterRect))
-			//    {
-			//        // 몬스터 공격
-			//        HitMonster(&monsterList[i], player.HeldWeapon, player.attackStartTime);
-			//    }
-			//}
 		}
 	}
 }
@@ -644,11 +626,11 @@ void moveFN()
 
 	if (g_KeyA)
 	{
-		if (IsMapEnd)
+		if (IsMapEnd) // 맵 끝에 도달했을 때 플레이어 움직임 변경
 		{
 			move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
 		}
-		else if (player.Pos.x < 25)
+		else if (player.Pos.x < 25) // 맵이 움직일 때 플레이어 움직임 0
 		{
 			move = 0;
 		}
@@ -657,11 +639,11 @@ void moveFN()
 	}
 	if (g_KeyD)
 	{
-		if (IsMapEnd)
+		if (IsMapEnd) // 맵 끝에 도달했을 때 플레이어 움직임 변경
 		{
 			move = player.IsJumping ? player.Speed * 1.2f : player.Speed;
 		}
-		else if (player.Pos.x > 25)
+		else if (player.Pos.x > 25) // 맵이 움직일 때 플레이어 움직임 0
 		{
 			move = 0;
 		}
@@ -728,7 +710,6 @@ void ClimbLadder()
 			}
 		}
 	}
-
 
 	IsNearLadder = false;
 }
@@ -856,18 +837,18 @@ void DrawPlayer()
 		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'Q' 키를 눌러 위로 올라가기");
 	}
 
-	if (IsInvincibleTime || player.Health < PrevPlayerHealth)
+	if (IsInvincibleTime || player.Health < PrevPlayerHealth) // 무적시간 + 토끼가 피격 당했을때 색상 E_Gray로
 	{
 		Color = E_Gray;
 	}
-	else
+	else 
 	{
 		Color = E_White;
 	}
 
 	if (player.Health < PrevPlayerHealth)
 	{
-		PrevPlayerHealth = player.Health;
+		PrevPlayerHealth = player.Health; // 플레이어가 피격당했을 때 이전 체력 저장
 	}
 
 	int idx;
@@ -894,15 +875,15 @@ void DrawPlayer()
 	else
 	{
 		int weaponType = player.HeldWeapon ? player.HeldWeapon->attackSpeed : 2;
-		if (weaponType == 3)      idx = dir == 0 ? 4 : 5;
-		else if (weaponType == 2) idx = dir == 0 ? 0 : 1;
-		else                      idx = dir == 0 ? 8 : 9;
+		if (weaponType == 3)      idx = dir == 0 ? 4 : 5; // 단검
+		else if (weaponType == 2) idx = dir == 0 ? 0 : 1; // 장검
+		else                      idx = dir == 0 ? 8 : 9; // 창
 
 		if (player.IsAttacking)
 		{
-			if (weaponType == 3)      idx = dir == 0 ? 6 : 7;
-			else if (weaponType == 2) idx = dir == 0 ? 2 : 3;
-			else                      idx = dir == 0 ? 10 : 11;
+			if (weaponType == 3)      idx = dir == 0 ? 6 : 7; // 단검
+			else if (weaponType == 2) idx = dir == 0 ? 2 : 3; // 장검
+			else                      idx = dir == 0 ? 10 : 11; // 창
 		}
 	}
 
@@ -1012,4 +993,3 @@ void InitPlayer() // 초기화
 	speedBuffs.active = false;
 	slowDebuffs.active = false;
 }
-
