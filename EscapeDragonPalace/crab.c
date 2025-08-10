@@ -8,7 +8,7 @@ Skill g_CrabSkill;	// 꽃게 스킬 구조체 공통 설정
 Crab g_CrabList[STAGE_CNT][CRAB_CNT];	// 꽃게 포인트 배열
 int g_CrabListIdx[STAGE_CNT] = { 0, };
 DWORD lastBleedTick = 0; // 출혈 데미지 체크용 타이머
-int bleedCount = 0;      // 출혈 데미지 횟수
+int bleedCount = 0;      // 출혈 데미지 횟수(3)
 
 
 
@@ -157,8 +157,8 @@ void CheckAttacking()
 }
 
 
-//꽃게 > 플레이어 공격
 
+//꽃게 > 플레이어 충돌 체크(체크만 하는 용도)
 void CrabHitPlayer() {
 	if (player.isBleeding == true) return; // 이미 출혈 상태면 충돌 체크 안 함
 
@@ -182,8 +182,8 @@ void CrabHitPlayer() {
 	}
 }
 
-void BleedPlayer() {
-	if (!player.isBleeding) return;
+void BleedPlayer() {//출혈
+	if (!player.isBleeding) return; // 출혈 상태가 아니면 아무것도 안 함
 
 	DWORD now = GetTickCount();
 
