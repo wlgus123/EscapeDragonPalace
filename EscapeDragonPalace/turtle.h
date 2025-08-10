@@ -106,8 +106,9 @@ void SetTurtleDescentFrameMs(unsigned int ms); // 점프 내려갈 때 프레임(ms) 설정
 void SetTurtlePeakHoldMs(unsigned int ms); // 평타 시 공중에서 멈추는 시간 설정
 
 void InitTurtle(unsigned int now); // 자라 초기화
-void UpdateTurtle(unsigned int now); // 자라 업데이트
+void UpdateTurtle(unsigned long now); // 자라 업데이트
 void DrawTurtle(void); // 자라 그리기
 void TurtleHitP(int posX, int posY); // 자라가 플레이어를 공격했는지 확인
 int GetTurtleHp(); // 자라 체력 가져오기
 int ResetTurtleHp(); // 자라 체력 초기화
+void PlayerHitTurtle(); // 플레이어가 자라를 공격했는지 확인
