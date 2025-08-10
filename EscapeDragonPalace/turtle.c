@@ -671,7 +671,7 @@ void DrawTurtle(void) {
 		(g_Turtle.pos.x < 5 || g_Turtle.pos.x + TURTLE_WIDTH > 75)) return;
 
 
-	int x = g_Turtle.pos.x;
+	int posX = g_Turtle.pos.x;
 	if (g_State == TURTLE_STATE_PREPARE_RUSH) {
 		const char* m = "자라가 돌진을 준비중입니다!";
 		int l = strlen(m);
@@ -679,12 +679,26 @@ void DrawTurtle(void) {
 	}
 
 	int idx = (g_Turtle.dir == E_Right ? E_Right : E_Left);
-	int lines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
+	int height = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
 
 	// 피격 상태이고 무적시간(1초) 이내면 빨간색
 	_SetColor(g_Turtle.isDamaged ? E_Red : E_White);
 
-	for (int r = 0; r < lines; ++r) _DrawText(x, g_Turtle.pos.y + r, turtleGraphic[idx][r]);
+	// 자라 모습 출력
+	for (int y = 0; y < height; ++y) 
+	{
+		int line = strlen(g_TurtleGraphic[g_Turtle.dir][y]);
+		for (int x = 0; x < line; x++)
+		{
+			// 그리려는 문자가 공백일 경우 건너뛰기
+			if (g_TurtleGraphic[g_Turtle.dir][y][x] == ' ' &&
+				(x <= 3 || x >= line - 3)) continue;
+			{
+				_DrawText(posX + x, g_Turtle.pos.y + y, (char[]) { g_TurtleGraphic[idx][y][x], 0 });
+			}
+		}
+
+	}
 
 	TurtleHitP(g_Turtle.pos.x, g_Turtle.pos.y); //여기서 거북이 좌표를 받아옴
 }
@@ -692,8 +706,8 @@ void DrawTurtle(void) {
 // 자라 -> 플레이어 피격
 void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	Rect PlayerPos = GetPlayerRect();
-	Rect MosterPos = { posX + 4, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT + 2 };
-	// -5: 머리부분 충돌 시 피 깎이지 않게 예방
+	Rect MosterPos = { posX + 4, posY, TURTLE_WIDTH - 10, TURTLE_HEIGHT - 1 };
+	// - 1: 자라 돌진 시 토끼 귀가 자라에 닿아 데미지 입지 않도록 처리
 	DWORD now = GetTickCount();
 
 	if ((IsOverlap(PlayerPos, MosterPos)) == false)
