@@ -372,7 +372,7 @@ void UpdateTurtle(unsigned long now) {
 		}
 	}
 
-	// 물방울
+	// 물대포
 	if (g_WaterActive) {
 		if (!g_WaveActive) {
 			// 물방울 시작 예정인지 체크
