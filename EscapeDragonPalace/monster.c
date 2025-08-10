@@ -15,6 +15,14 @@ void InitMonster()
 	InitCrab();			// 꽃게 초기화
 }
 
+// 몬스터 alive false 처리
+void ResetMonster()
+{
+	ResetBigFish();		// 큰 물고기 false처리
+	ResetSmallFish();	// 작은 물고기 false처리
+	ResetCrab();		// 꽃게 false처리
+}
+
 // 몬스터 업데이트
 void UpdateMonster()
 {
