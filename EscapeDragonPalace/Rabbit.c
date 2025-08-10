@@ -848,7 +848,7 @@ void DrawPlayer()
 		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'Q' 키를 눌러 위로 올라가기");
 	}
 
-	if (IsInvincibleTime)
+	if (IsInvincibleTime || player.Health < PrevPlayerHealth)
 	{
 		Color = E_Gray;
 	}
