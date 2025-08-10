@@ -268,9 +268,10 @@ static bool IsPlayerNear(void) {
 
 	// 자라의 머리 화면 X 좌표 계산
 	int turtleScreenX = g_Turtle.pos.x;
-	int headOffset = (g_Turtle.dir != E_Right) ? (TURTLE_WIDTH - E_Left) : E_Right; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
+	int headOffset = (g_Turtle.dir != E_Right) ? E_Left : TURTLE_WIDTH - 3; // dir==0: 오른쪽 바라봄 dir!=0 : 왼쪽 바라봄
 	int headScreenX = turtleScreenX + headOffset;
 
+	if (player.Pos.y < g_Turtle.pos.y) return false;	// Y좌표도 계산
 	if (playerRight < headScreenX - TURTLE_ATTACK_RANGE) return false;
 	if (playerLeft > headScreenX + TURTLE_ATTACK_RANGE) return false;
 	return true;
