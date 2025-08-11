@@ -27,7 +27,9 @@ void InitWeapon(Weapon* weapons) {
 
 // 무기출력
 void DrawWeapon(const Weapon* w, int i, int isSelected) {
-    int baseX = 5 + (i * 28);
+    int baseX = 6 + (i * 28);
+
+    _DrawText(28, 18, "Enter 키를 눌러 무기 선택");
 
     if (isSelected)
         _SetColor(E_Yellow); // 노란색 (현재 선택중인 무기)
