@@ -12,7 +12,7 @@ void InitMonster()
 	now = _GetTickCount();
 	InitBigFish();		// 큰 물고기 초기화
 	InitSmallFish();	// 작은 물고기 초기화
-	InitCrab();			// 꽃게 초기화
+	//InitCrab();			// 꽃게 초기화
 }
 
 // 몬스터 alive false 처리
@@ -20,7 +20,7 @@ void ResetMonster()
 {
 	ResetBigFish();		// 큰 물고기 false처리
 	ResetSmallFish();	// 작은 물고기 false처리
-	ResetCrab();		// 꽃게 false처리
+	//ResetCrab();		// 꽃게 false처리
 }
 
 // 몬스터 업데이트
@@ -28,7 +28,7 @@ void UpdateMonster()
 {
 	UpdateBigFish(now);	// 큰 물고기 업데이트
 	UpdateSmallFish(now);	// 작은 물고기 업데이트
-	UpdateCrab(now);		// 꽃게 업데이트
+	//UpdateCrab(now);		// 꽃게 업데이트
 }
 
 // 몬스터 그리는 함수
@@ -36,13 +36,13 @@ void DrawMonster()
 {
 	DrawBigFish();		// 큰 물고기 그리기
 	DrawSmallFish();	// 작은 물고기 그리기
-	DrawCrab();			// 꽃게 그리기
+	//DrawCrab();			// 꽃게 그리기
 }
 
 // 몬스터 피격 처리 함수
 void MonsterHitPlayer()
 {
-	CrabHitPlayer();
+	//CrabHitPlayer();
 	BleedPlayer();
 	SmallFishHitPlayer();
 	BigFishHitPlayer();
@@ -53,5 +53,5 @@ void MonsterHitPlayer()
 void PlayerHitMonster() {
 	PlayerHitBigFish();
 	PlayerHitSmallFish();
-	PlayerHitCrab();
+	//PlayerHitCrab();
 }
