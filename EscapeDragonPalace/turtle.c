@@ -306,7 +306,7 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 // 자라 업데이트
 void UpdateTurtle(unsigned long now) {
 	if (!g_Turtle.mon.alive) return;
-	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= 1000)
+	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
 		g_Turtle.isDamaged = false;
 
 
