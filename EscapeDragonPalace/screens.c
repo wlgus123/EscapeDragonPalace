@@ -9,6 +9,7 @@ bool GameStart = false;		// 게임 시작 여부
 bool IsGameOver = false;	// 게임 오버 여부
 bool textE = true;			// 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 
+bool ControlScreen = false; // 조작 화면 여부
 
 // 게임오버 화면
 void GameOverScreen() {
@@ -175,4 +176,26 @@ bool GetTextE()
 void SetTextE(int src)
 {
 	textE = src;
+}
+
+bool GetControlScreen()
+{
+	return ControlScreen;
+}
+
+void SetControlScreen(bool src)
+{
+	ControlScreen = src;
+}
+
+void DrawControlsScreen() {
+	while (!ControlScreen) {
+		if (_kbhit()) {
+			ControlScreen = true;
+			_getch();
+		}
+		textE = !textE;
+		_Invalidate();
+		Sleep(500);
+	}
 }
