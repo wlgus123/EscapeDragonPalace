@@ -728,6 +728,7 @@ void ISOnGoal()
 		if (g_StagePlatform[mapStatus][py][x] == '@')// Rabbit이 @에 닿았는지 체크
 		{
 			stageClear = true;
+			IsInvincibleTime = true;
 		}
 	}
 }
@@ -740,7 +741,7 @@ void ClearInputBuffer()
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
 {
-	if (IsInvincibleTime && (GetTickCount() - player.lastHitTime >= INVINCIBLE_TIME)) {
+	if (IsInvincibleTime && !stageClear && (GetTickCount() - player.lastHitTime >= INVINCIBLE_TIME)) {
 		SetInvincibleTime(false);
 	}
 
@@ -766,6 +767,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 
 			SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
 
+			IsInvincibleTime = false; // 무적 시간 초기화
 
 			player.Speed = 1; // 원래대로 감소
 			speedBuffs.active = false;
