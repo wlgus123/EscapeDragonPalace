@@ -106,6 +106,7 @@ void ReturnStartScreen() {
 				SetWeaponChosen(false);	// 무기 선택여부 false로 변경
 				SetMapSetting(false);	// 아이템 세팅 초기화
 				SetIsNearLadder(false); // 사다리 근처 여부 false로 변경
+				SetInvincibleTime(false); // 플레이어 무적 시간 false로 변경
 				SetMapStatus(E_Jail);	// 원래 맵으로 이동
 				SetPlusX(0);			// X 좌표 증가값 0으로 변경
 			}
@@ -134,6 +135,7 @@ void DrawGameClearScreen() {
 				SetMapSetting(false);	// 아이템 세팅 초기화
 				SetMapStatus(E_Jail);	// 원래 맵으로 이동
 				SetIsNearLadder(false); // 사다리 근처 여부 false로 변경
+				SetInvincibleTime(false); // 플레이어 무적 시간 false로 변경
 				SetPlusX(0);			// X 좌표 증가값 0으로 변경
 				ResetTurtleHp();		// 자라 몬스터 체력 초기화	
 			}
