@@ -134,7 +134,7 @@ static void DrawWaterDrops(void) {
 		if (g_Turtle.mon.alive) {
 			int tLeft = g_Turtle.pos.x;
 			int tTop = g_Turtle.pos.y;
-			int tLines = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
+			int tLines = (g_State == E_TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
 			int tRight = tLeft + TURTLE_WIDTH - 1;
 			int tBottom = tTop + tLines - 1;
 			if (dropX >= tLeft && dropX <= tRight && dropY >= tTop && dropY <= tBottom) {
@@ -219,9 +219,9 @@ void InitTurtle(unsigned int now) {
 	g_Turtle.mon.hp = TURTLE_HP;
 	g_Turtle.attack = 2;
 	g_Turtle.mon.alive = true;
-	g_Turtle.isDamaged = false;
+	g_Turtle.mon.isDamaged = false;
 	g_Turtle.mon.lastHitTime = now;
-	g_State = TURTLE_STATE_IDLE;
+	g_State = E_TURTLE_STATE_IDLE;
 	g_NextRushTime = now + randRange(10000, 15000);
 	g_PrepStartTime = g_NextRushTime - 2000;
 	g_ShowPrep = false;
@@ -306,8 +306,8 @@ static int ComputeJumpYForPhase(int phase, int baseY) {
 // 자라 업데이트
 void UpdateTurtle(unsigned long now) {
 	if (!g_Turtle.mon.alive) return;
-	if (g_Turtle.isDamaged && now - g_Turtle.mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
-		g_Turtle.isDamaged = false;
+	if (g_Turtle.mon.isDamaged && now - g_Turtle.mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
+		g_Turtle.mon.isDamaged = false;
 
 
 	// 돌진 시작하는 경우 평타/웨이브 충돌 방지용
@@ -318,7 +318,7 @@ void UpdateTurtle(unsigned long now) {
 	bool skillLocked = (now < g_SkillLockUntil) || g_WaveDropsBlocking;
 
 	// 평상시 자라일 때
-	if (g_State == TURTLE_STATE_IDLE) {
+	if (g_State == E_TURTLE_STATE_IDLE) {
 		// 평타
 		if (!g_ExclaimActive && !g_JumpActive) {
 			// 평타 시작 조건:
@@ -378,7 +378,7 @@ void UpdateTurtle(unsigned long now) {
 			// 물방울 시작 예정인지 체크
 			if (now >= g_NextWaveStartTime) {
 				// 돌진 준비/돌진 상태에서는 시작 금지
-				if (g_State != TURTLE_STATE_PREPARE_RUSH && g_State != TURTLE_STATE_RUSHING && !skillLocked) {
+				if (g_State != E_TURTLE_STATE_PREPARE_RUSH && g_State != E_TURTLE_STATE_RUSHING && !skillLocked) {
 					// 시작
 					g_WaveActive = true;
 					g_WaveEndTime = now + randRange(WATER_WAVE_DURATION_MIN_MS, WATER_WAVE_DURATION_MAX_MS);
@@ -397,7 +397,7 @@ void UpdateTurtle(unsigned long now) {
 				// 2초 전 경고 체크
 				if (!g_WaveWarnActive) {
 					// 경고를 켤 때는 돌진 관련 상태가 아니고 스킬락도 아니어야 함
-					if (g_State != TURTLE_STATE_PREPARE_RUSH && g_State != TURTLE_STATE_RUSHING && !skillLocked
+					if (g_State != E_TURTLE_STATE_PREPARE_RUSH && g_State != E_TURTLE_STATE_RUSHING && !skillLocked
 						&& g_NextWaveStartTime > now && (g_NextWaveStartTime - now) <= 2000) {
 						g_WaveWarnActive = true;
 						g_WaveWarnStart = now;
@@ -406,7 +406,7 @@ void UpdateTurtle(unsigned long now) {
 				}
 				else {
 					// 만약 자라가 돌진 관련 상태가 되거나 스킬락이면 경고 취소
-					if (g_State == TURTLE_STATE_PREPARE_RUSH || g_State == TURTLE_STATE_RUSHING || skillLocked) {
+					if (g_State == E_TURTLE_STATE_PREPARE_RUSH || g_State == E_TURTLE_STATE_RUSHING || skillLocked) {
 						g_WaveWarnActive = false;
 						g_WaveWarnDelayUntil = 0;
 					}
@@ -490,11 +490,11 @@ void UpdateTurtle(unsigned long now) {
 			}
 		}
 
-		g_State = TURTLE_STATE_ATTACK; // 평타 상태로 변경
+		g_State = E_TURTLE_STATE_ATTACK; // 평타 상태로 변경
 	}
 
 	// 평타 쾅 했을 때
-	if (g_State == TURTLE_STATE_ATTACK && !g_JumpActive) {
+	if (g_State == E_TURTLE_STATE_ATTACK && !g_JumpActive) {
 		// 플레이어랑 평타 범위 충돌 체크 후 데미지 변경
 		int centerWorld = (g_Turtle.dir == E_Right) ? 0 : g_AttackCenterLeft - g_AttackHalf;
 		Rect attackArea = { centerWorld, g_Turtle.pos.y, g_AttackHalf + TURTLE_WIDTH, TURTLE_HEIGHT };
@@ -506,12 +506,12 @@ void UpdateTurtle(unsigned long now) {
 			player.lastHitTime = now; // 플레이어가 맞은 시간 기록
 		}
 
-		g_State = TURTLE_STATE_IDLE; // 평타 상태에서 다시 평상시로 돌아감
+		g_State = E_TURTLE_STATE_IDLE; // 평타 상태에서 다시 평상시로 돌아감
 	}
 
 	// 돌진
 	switch (g_State) {
-	case TURTLE_STATE_IDLE: // 평상시일 경우
+	case E_TURTLE_STATE_IDLE: // 평상시일 경우
 		// 돌진 준비 시작 조건:
 		// 물방울 비활성
 		// 경고 비활성
@@ -526,12 +526,12 @@ void UpdateTurtle(unsigned long now) {
 			g_WaveWarnActive = false;
 			g_WaveWarnDelayUntil = 0;
 
-			g_State = TURTLE_STATE_PREPARE_RUSH;
+			g_State = E_TURTLE_STATE_PREPARE_RUSH;
 			g_PrepStartTime = now;
 			g_ShowPrep = true;
 		}
 		break;
-	case TURTLE_STATE_PREPARE_RUSH: // 돌진 준비 중일 경우
+	case E_TURTLE_STATE_PREPARE_RUSH: // 돌진 준비 중일 경우
 		if (now - g_PrepStartTime >= 2000) {
 			// 돌진 준비 -> 돌진중 전환 시에도 평타/느낌표/경고 초기화
 			g_ExclaimActive = false;
@@ -541,7 +541,7 @@ void UpdateTurtle(unsigned long now) {
 			g_WaveWarnActive = false;
 			g_WaveWarnDelayUntil = 0;
 
-			g_State = TURTLE_STATE_RUSHING;
+			g_State = E_TURTLE_STATE_RUSHING;
 			g_ShowPrep = false;
 			g_RushCount = 0;
 			g_RushDir = g_InitialDir;
@@ -551,7 +551,7 @@ void UpdateTurtle(unsigned long now) {
 			g_RushEndTime = now + 1000;
 		}
 		break;
-	case TURTLE_STATE_RUSHING: {
+	case E_TURTLE_STATE_RUSHING: {
 		if (g_ShowTarget) {
 			if (now < g_TargetPreviewEnd) {
 				break;
@@ -597,7 +597,7 @@ void UpdateTurtle(unsigned long now) {
 				g_WaveWarnDelayUntil = 0;
 				g_WaveActive = false;
 
-				g_State = TURTLE_STATE_IDLE;
+				g_State = E_TURTLE_STATE_IDLE;
 				g_Turtle.pos.y = TURTLE_IDLE_Y;
 
 				g_InitialDir = -g_InitialDir;
@@ -662,29 +662,29 @@ void DrawTurtle(void) {
 	}
 
 	// 평타 준비 ( ! )
-	if (g_State == TURTLE_STATE_IDLE && g_ExclaimActive && g_ExclaimVisible) {
+	if (g_State == E_TURTLE_STATE_IDLE && g_ExclaimActive && g_ExclaimVisible) {
 		int exX = (g_Turtle.pos.x) + (TURTLE_WIDTH / 2);
 		int exY = g_Turtle.pos.y - 1;
 		_DrawTextColor(exX, exY, "!", E_BrightWhite);
 	}
 
 	// 돌진 중에 자라가 화면 밖으로 완전히 나가면 그리지 않음
-	if (g_State == TURTLE_STATE_RUSHING &&
+	if (g_State == E_TURTLE_STATE_RUSHING &&
 		(g_Turtle.pos.x < 5 || g_Turtle.pos.x + TURTLE_WIDTH > 75)) return;
 
 
 	int posX = g_Turtle.pos.x;
-	if (g_State == TURTLE_STATE_PREPARE_RUSH) {
+	if (g_State == E_TURTLE_STATE_PREPARE_RUSH) {
 		const char* m = "자라가 돌진을 준비중입니다!";
 		int l = strlen(m);
 		_DrawText(SCREEN_WIDTH / 2 - l / 2, 5, m);
 	}
 
 	int idx = (g_Turtle.dir == E_Right ? E_Right : E_Left);
-	int height = (g_State == TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
+	int height = (g_State == E_TURTLE_STATE_RUSHING ? TURTLE_HEIGHT - 1 : TURTLE_HEIGHT);
 
 	// 피격 상태이고 무적시간(1초) 이내면 빨간색
-	_SetColor(g_Turtle.isDamaged ? E_Red : E_White);
+	_SetColor(g_Turtle.mon.isDamaged ? E_Red : E_White);
 
 	// 자라 모습 출력
 	for (int y = 0; y < height; ++y) 
@@ -734,7 +734,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	}
 
 	// 자라가 돌진 중일 때
-	if (g_State == TURTLE_STATE_RUSHING)
+	if (g_State == E_TURTLE_STATE_RUSHING)
 	{
 		// 4칸 닳음
 		player.Health -= 4; // 플레이어 체력 감소
@@ -745,7 +745,7 @@ void TurtleHitP(int posX, int posY) { //닿으면 1씩 닳음
 	}
 
 	// 자라가 물방울 떨어뜨릴 때
-	if (g_State == TURTLE_STATE_IDLE && g_WaterActive)
+	if (g_State == E_TURTLE_STATE_IDLE && g_WaterActive)
 	{
 		// 플레이어가 물방울을 맞았을 경우
 		if (AnyWaterDropsActive() && g_HitWaveDrops) {
@@ -770,13 +770,13 @@ void PlayerHitTurtle()
 
 	if (!player.IsAttacking) return;
 
-	if (g_Turtle.isDamaged) return; // 몬스터가 무적 상태일 경우 넘어가기
+	if (g_Turtle.mon.isDamaged) return; // 몬스터가 무적 상태일 경우 넘어가기
 
 	if (!(IsOverlap(PlayerWeaponPos, MosterPos))) return;
 
 	if (now - g_Turtle.mon.lastHitTime < MONSTER_INVINCIBLE_TIME) return;
  	g_Turtle.mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
-	g_Turtle.isDamaged = true; // 무적 상태로 변경
+	g_Turtle.mon.isDamaged = true; // 무적 상태로 변경
 	g_Turtle.mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 	if (g_Turtle.mon.hp <= 0) {
