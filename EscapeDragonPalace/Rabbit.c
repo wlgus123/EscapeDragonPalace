@@ -310,30 +310,29 @@ void UpdateBuffs()
 // 버프, 디버프 아이템 잔여 시간 출력
 void DrawBuffNDebuff() {
 	char buf[32];
-	if (speedBuffs.active) {
-		if (slowDebuffs.active) {
+	DWORD now = GetTickCount();
+	if (speedBuffs.active && now < speedBuffs.endTime) {
+		if (slowDebuffs.active && now < slowDebuffs.endTime) {
 			_DrawText(59, 2, "속도 버프: ");
-			snprintf(buf, sizeof(buf), "%.1fs", (float)(speedBuffs.endTime - GetTickCount()) / 1000); // ms → 초 변환
+			snprintf(buf, sizeof(buf), "%.1fs", (float)(speedBuffs.endTime - now) / 1000); // ms → 초 변환
 			_DrawText(71, 2, buf);
 			_DrawText(59, 3, "속도 디버프: ");
-			snprintf(buf, sizeof(buf), "%.1fs", (float)(slowDebuffs.endTime - GetTickCount()) / 1000);
+			snprintf(buf, sizeof(buf), "%.1fs", (float)(slowDebuffs.endTime - now) / 1000);
 			_DrawText(73, 3, buf);
 		}
 		else {
 			_DrawText(59, 2, "속도 버프: ");
-			snprintf(buf, sizeof(buf), "%.1fs", (float)(speedBuffs.endTime - GetTickCount()) / 1000); // ms → 초 변환
+			snprintf(buf, sizeof(buf), "%.1fs", (float)(speedBuffs.endTime - now) / 1000); // ms → 초 변환
 			_DrawText(71, 2, buf);
 		}
 	}
 	else {
-		if (slowDebuffs.active) {
+		if (slowDebuffs.active && now < slowDebuffs.endTime) {
 			_DrawText(59, 2, "속도 디버프: ");
-			snprintf(buf, sizeof(buf), "%.1fs", (float)(slowDebuffs.endTime - GetTickCount()) / 1000);
+			snprintf(buf, sizeof(buf), "%.1fs", (float)(slowDebuffs.endTime - now) / 1000);
 			_DrawText(73, 2, buf);
 		}
 	}
-
-
 }
 
 // 토끼 애니메이션 관련 변수 초기화
