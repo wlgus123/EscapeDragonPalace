@@ -31,14 +31,14 @@ void Draw() // 화면 그리기
 
 		for (int y = 0; y < 21; y++)
 		{
-			_DrawText(19, 2 + y, Controls[y]);
+			_DrawText(12, 2 + y, Controls[y]);
 		}
 
 		if (GetTextE())
 			_SetColor(E_White); // 문구 색 변경
 		else
 			_SetColor(E_Gray); // 문구 색 변경
-		_DrawText(26, 22, "아무 키나 눌러 넘어가기");
+		_DrawText(28, 22, "아무 키나 눌러 넘어가기");
 	}
 	// 게임 시작 후
 	else {
