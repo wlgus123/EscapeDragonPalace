@@ -17,12 +17,6 @@ void UpdateBigFish(unsigned long now)
 		// 몬스터가 죽었을 경우 넘어가기
 		if (!tempBigFish[idx].mon.alive) continue;
 
-		// 무적시간 지나면 피격 상태 해제
-		if (tempBigFish[idx].mon.isDamaged && now - tempBigFish[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
-		{
-			tempBigFish[idx].mon.isDamaged = false;
-		}
-
 		// 몬스터 이동
 		tempBigFish[idx].pos.x += (tempBigFish[idx].dir == E_Right) ? g_BigFishMon.speed : -g_BigFishMon.speed;
 
@@ -41,10 +35,16 @@ void UpdateBigFish(unsigned long now)
 // 큰 물고기 그리기
 void DrawBigFish()
 {
+
 	// 현재 맵 데이터 임시로 불러오기
 	BigFish* tempBigFish = g_BigFishList[GetMapStatus()];
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
+		// 무적시간 지나면 피격 상태 해제
+		if (tempBigFish[idx].mon.isDamaged && GetTickCount() - tempBigFish[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
+		{
+			tempBigFish[idx].mon.isDamaged = false;
+		}
 
 		// 몬스터가 죽었을 경우 넘어가기
 		if (!tempBigFish[idx].mon.alive) continue;
@@ -75,18 +75,17 @@ void DrawBigFish()
 //물고기 > 플레이어 공격하는 함수
 void BigFishHitPlayer()
 {
-	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
+	BigFish* bigFishList = g_BigFishList[GetMapStatus()];
 	DWORD now = GetTickCount(); //피격 시간 측정을 위한 현재 시간 가져오기
 	Rect PlayerPos = GetPlayerRect(); //플레이어 위치
 
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
-		BigFish* tempFish = &bigFishList[idx];
-		int posX = tempFish->pos.x - GetPlusX(); //물고기 x좌표
-		int posY = tempFish->pos.y; //물고기 y좌표
+		int posX = bigFishList[idx].pos.x - GetPlusX(); //물고기 x좌표
+		int posY = bigFishList[idx].pos.y; //물고기 y좌표
 		Rect MosterPos = { posX, posY, 13, 3 };
 
-		if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
+		if (!bigFishList[idx].mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
 
 		if (!(IsOverlap(PlayerPos, MosterPos)))	//충돌하지 않을 경우 넘기기
 			continue;
@@ -97,7 +96,7 @@ void BigFishHitPlayer()
 		}
 
 		SetInvincibleTime(true);	// 플레이어 무적 시간 설정
-		player.Health -= tempFish->attack; // 플레이어 체력 2 감소
+		player.Health -= bigFishList[idx].attack; // 플레이어 체력 2 감소
 		player.lastHitTime = now; // 마지막 피격 시간 갱신
 
 
@@ -107,33 +106,32 @@ void BigFishHitPlayer()
 // 플레이어 > 큰 물고기 공격하는 함수
 void PlayerHitBigFish()
 {
-	BigFish* bigFishList = &g_BigFishList[GetMapStatus()];
+	BigFish* bigFishList = g_BigFishList[GetMapStatus()];
 	DWORD now = GetTickCount();
 	Rect PlayerWeaponPos = GetWeaponRect();
 
 	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
-		BigFish* tempFish = &g_BigFishList[GetMapStatus()][idx];
-		int posX = tempFish->pos.x - GetPlusX();// 물고기 x좌표
-		int posY = tempFish->pos.y;// 물고기 y좌표
+		int posX = bigFishList[idx].pos.x - GetPlusX();// 물고기 x좌표
+		int posY = bigFishList[idx].pos.y;// 물고기 y좌표
 		Rect MosterPos = { posX, posY, 13, 3 };
 
 		if (!player.IsAttacking) continue;// 플레이어가 공격 중이 아닐 경우 넘어가기
 
-		//if (!tempFish->mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
+		if (!bigFishList[idx].mon.alive) continue; // 몬스터가 죽었을 경우 넘어가기
 
-		//if (tempFish->mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
+		if (bigFishList[idx].mon.isDamaged) continue; // 몬스터가 무적 상태일 경우 넘어가기
 
 		if (!(IsOverlap(PlayerWeaponPos, MosterPos))) continue;//충돌이 없을시 넘기기
 
-		if (now - tempFish->mon.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
-		tempFish->mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
-		tempFish->mon.isDamaged = true; // 무적 상태로 변경
-		tempFish->mon.lastHitTime = now; // 마지막 피격 시간 갱신
+		if (now - bigFishList[idx].mon.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
+		bigFishList[idx].mon.hp -= player.HeldWeapon->attack; // 물고기 체력 감소
+		bigFishList[idx].mon.isDamaged = true; // 무적 상태로 변경
+		bigFishList[idx].mon.lastHitTime = now; // 마지막 피격 시간 갱신
 
 
-		if (tempFish->mon.hp <= 0) {//죽으면 처리 안함
-			tempFish->mon.alive = false;
+		if (bigFishList[idx].mon.hp <= 0) {//죽으면 처리 안함
+			bigFishList[idx].mon.alive = false;
 		}
 	}
 }
