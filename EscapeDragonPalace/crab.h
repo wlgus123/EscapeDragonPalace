@@ -19,9 +19,9 @@ const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     }, // 기본
 
     {
-        "(|)  (|)",
-         " \\o_o/ ",
-         "=(___)= "
+        "(|)   (|)",
+         "  \\o_o/ ",
+         " =(___)= "
     } // 공격
 };
 
