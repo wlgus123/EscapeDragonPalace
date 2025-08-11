@@ -9,6 +9,7 @@ bool GameStart = false;		// 게임 시작 여부
 bool IsGameOver = false;	// 게임 오버 여부
 bool textE = true;			// 문구 이펙트 효과 (흰색, 회색으로 깜빡거림)
 
+bool ControlScreen = false; // 조작 화면 여부
 
 // 게임오버 화면
 void GameOverScreen() {
@@ -72,16 +73,6 @@ void GameClearSceen()
 	_DrawText(29, 17, "(_x / \\ /  \\ / \\_/ |");
 	_DrawText(29, 18, " \\__ -----------__/");
 	_DrawText(29, 19, " (___\\_|_|_|_|_/___)");
-}
-
-void DrawControls()
-{
-	_DrawText( 2, 10, " === 조작법 안내 ===");
-	_DrawText(2, 11, "W : 점프");
-	_DrawText(2, 12, "A : 왼쪽 이동");
-	_DrawText(2, 13, "D : 오른쪽 이동");
-	_DrawText(2, 14, "S : 아래로 내려가기(발판 통과)");
-	_DrawText(2, 15, "스페이스바 : 공격");
 }
 
 // 게임 시작 화면 출력 함수
@@ -185,4 +176,26 @@ bool GetTextE()
 void SetTextE(int src)
 {
 	textE = src;
+}
+
+bool GetControlScreen()
+{
+	return ControlScreen;
+}
+
+void SetControlScreen(bool src)
+{
+	ControlScreen = src;
+}
+
+void DrawControlsScreen() {
+	while (!ControlScreen) {
+		if (_kbhit()) {
+			ControlScreen = true;
+			_getch();
+		}
+		textE = !textE;
+		_Invalidate();
+		Sleep(500);
+	}
 }
