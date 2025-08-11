@@ -838,7 +838,11 @@ void DrawPlayer()
 		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'Q' 키를 눌러 위로 올라가기");
 	}
 
-	if (IsInvincibleTime || player.Health < PrevPlayerHealth) // 무적시간 + 토끼가 피격 당했을때 색상 E_Gray로
+	if (!player.isBleeding && (IsInvincibleTime || player.Health < PrevPlayerHealth)) // 무적시간 + 토끼가 피격 당했을때 색상 E_Gray로
+	{
+		Color = E_Gray;
+	}
+	else if (player.isBleeding && player.Health < PrevPlayerHealth) // 꽃게한테 맞았을때는 따로
 	{
 		Color = E_Gray;
 	}

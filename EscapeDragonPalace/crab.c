@@ -176,12 +176,11 @@ void CrabHitPlayer() {
 
 		if (IsOverlap(PlayerPos, MonsterPos)) {
 			// 출혈 시작
-			SetInvincibleTime(true);	// 플레이어 무적 시간 설정
-			player.lastHitTime = GetTickCount(); // 플레이어 마지막 피격 시간 갱신
 			player.isBleeding = true;
 			bleedCount = 0; // 출혈 데미지 카운트 초기화
-			lastBleedTick = GetTickCount(); // 출혈 타이머 초기화
+			lastBleedTick = GetTickCount() - INVINCIBLE_TIME; // 출혈 타이머 초기화
 		}
+
 	}
 }
 
@@ -190,8 +189,10 @@ void BleedPlayer() {//출혈
 
 	DWORD now = GetTickCount();
 
+	SetInvincibleTime(true);	// 플레이어 무적 시간 설정
+	player.lastHitTime = GetTickCount(); // 플레이어 마지막 피격 시간 갱신
 	
-	if (now - lastBleedTick >= 1000) {
+	if (now - lastBleedTick >= INVINCIBLE_TIME) {
 		player.Health -= 1;       // HP 감소
 		bleedCount++;             // 데미지 횟수 증가
 		lastBleedTick = now;      // 타이머 갱신
