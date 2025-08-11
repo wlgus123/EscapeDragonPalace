@@ -25,6 +25,21 @@ void Draw() // 화면 그리기
 			_SetColor(E_Gray); // 문구 색 변경
 		_DrawText(26, 22, "아무 키나 눌러 게임 시작하기");
 	}
+	else if (!GetControlScreen() && GetGameStart())
+	{
+		_SetColor(E_White);
+
+		for (int y = 0; y < 21; y++)
+		{
+			_DrawText(19, 2 + y, Controls[y]);
+		}
+
+		if (GetTextE())
+			_SetColor(E_White); // 문구 색 변경
+		else
+			_SetColor(E_Gray); // 문구 색 변경
+		_DrawText(26, 22, "아무 키나 눌러 넘어가기");
+	}
 	// 게임 시작 후
 	else {
 		// 게임오버했을 때
@@ -61,7 +76,6 @@ void Draw() // 화면 그리기
 		}
 		// 플레이 중일 때
 		else {
-
 			// 무기 선택 안 했을 때
 			if (!GetWeaponChosen())
 			{
@@ -181,7 +195,6 @@ void main()
 	{
 		InitWeapon(weaponList); // 무기 초기화
 		InitPlayer();   // 플레이어 초기화
-		ResetMonster(); // 몬스터 alive false 처리
 		InitMonster();  // 몬스터 초기화
 		ResetItem();    // 아이템 alive false 처리
 		InitItem();     // 아이템 초기화
@@ -192,6 +205,7 @@ void main()
 		SetConsoleTitle("용궁탈출");
 
 		DrawStartScreen();  // 시작화면 작동 함수
+		DrawControlsScreen();
 		SelectWeapon();     // 무기 선택
 		player.HeldWeapon = &weaponList[GetSelectedIndex()];    // 플레이어 무기 세팅
 
