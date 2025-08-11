@@ -61,6 +61,8 @@ void DrawBigFish()
 					// 화면 범위 내에 있을 경우 그리기
 					if (0 <= posX + x && SCREEN_WIDTH > posX + x)
 					{
+						if (g_BigFishGraphic[tempBigFish[idx].dir][y][x] == ' ' &&
+							(x <= 3 || x >= BIGFISH_WIDTH - 3)) continue;
 						_DrawText(posX + x, tempBigFish[idx].pos.y + y,
 							(char[]) {
 							g_BigFishGraphic[tempBigFish[idx].dir][y][x], 0
