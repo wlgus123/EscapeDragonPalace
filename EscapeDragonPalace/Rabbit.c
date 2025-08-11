@@ -763,6 +763,7 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 			system("cls"); // 화면 지우기
 
 			SetPlusX(0); // 플레이어가 목표에 도달했을 때, 맵의 x좌표를 초기화
+			ResetMonster(); // 몬스터 alive false 처리
 			SetMapStatus(GetMapStatus() + 1);   // 맵 스테이터스 1 증가
 
 			SetMapSetting(false);  // 스테이지 아이템 세팅 리셋
