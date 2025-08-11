@@ -136,15 +136,12 @@ void PlayerHitBigFish()
 	}
 }
 
-
-void ResetBigFish() {// 큰 물고기 초기화
-	for (int i = 0; i < STAGE_CNT; i++)
+// 큰 물고기 alive false 처리
+void ResetBigFish() {
+	BigFish* tempBigFish = g_BigFishList[GetMapStatus()];
+	for (int idx = 0; idx < g_BigFishListIdx[GetMapStatus()]; idx++)
 	{
-		BigFish* tempBigFish = g_BigFishList[i];
-		for (int idx = 0; idx < g_BigFishListIdx[i]; idx++)
-		{
-			tempBigFish[idx].mon.alive = false;
-		}
+		tempBigFish[idx].mon.alive = false;
 	}
 }
 
