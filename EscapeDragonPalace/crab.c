@@ -1,4 +1,5 @@
 #include "crab.h"
+#include "Rabbit.h"
 
 // 전역 변수
 Monster g_CrabMon;	// 꽃게 몬스터 구조체 공통 설정
@@ -42,6 +43,74 @@ void DrawCrab()
 // 꽃게 업데이트
 void UpdateCrab(unsigned long now)
 {
+	// 현재 맵 데이터 임시로 불러오기
+	Crab* tempCrab = g_CrabList[GetMapStatus()];
+
+	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
+	{
+		// 만약 살아있지 않으면 넘어가기
+		if (!tempCrab[idx].mon.alive) continue;
+
+		// TODO: 중력 작용 코드 작성
+
+		// 플레이어가 범위에 있는지 확인
+		// 꽃게 앞 뒤 범위 10일 때 인식 (절대값 사용)
+		// 인식 후 20 넘어가면 어그로 풀림
+		// 플레이어, 꽃게 거리 체크 (절대값)
+		int playerMiddlePosX = player.Pos.x + RABBIT_WIDTH - 9;	// 플레이어 X좌표 중간값
+		int crabMiddlePosX = tempCrab[idx].pos.x - CRAB_WIDTH / 2;	// 꽃게 X좌표 중간값
+		int distanceAbs = abs(crabMiddlePosX - GetPlusX() - playerMiddlePosX);
+
+		// 어그로 범위 내에 들어오면
+		if (distanceAbs <= AGGRO_X)
+		{
+			tempCrab[idx].isChase = true;	// 플레이어 추격
+		}
+		
+		// 어그로 범위를 벗어나면
+		if (distanceAbs >= AGGRO_OFF_X)
+		{
+			// 추격 도중 어그로가 풀렸을 경우
+			if(tempCrab[idx].isChase)
+			{
+				tempCrab[idx].dir = !tempCrab[idx].dir;	// 현재 방향 반대로 이동
+			}
+			tempCrab[idx].isChase = false;	// 플레이어 추격 해제
+		}
+
+		// 추격상태일 때 이동
+		if (tempCrab[idx].isChase)
+		{
+			// 꽃게가 플레이어보다 오른쪽에 있을 때
+			if (playerMiddlePosX < crabMiddlePosX - GetPlusX())
+			{
+				tempCrab[idx].dir = E_Left;
+			}
+			// 플레이어보다 왼쪽에 있을 때
+			else if(playerMiddlePosX > crabMiddlePosX - GetPlusX())
+			{
+				tempCrab[idx].dir = E_Right;
+			}
+		}
+		else
+		{
+			// 일반 이동: 정해진 범위 안에서 이동
+			// TODO: 어그로 풀렸을 때 풀린 그 자리에서 움직이는 거 구현해보기
+			if (tempCrab[idx].pos.x <= tempCrab[idx].startPosX)
+			{
+				tempCrab[idx].dir = E_Right;
+			}
+			else if (tempCrab[idx].pos.x + CRAB_WIDTH >= tempCrab[idx].startPosX + tempCrab[idx].moveNum)
+			{
+				tempCrab[idx].dir = E_Left;
+			}
+		}
+
+		// 꽃게 이동
+		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right) 
+			? tempCrab[idx].mon.speed 
+			: -tempCrab[idx].mon.speed;
+	}
 
 }
 
@@ -70,7 +139,7 @@ void InitCrab()
 		.hp = 5,			// 체력
 		.isDamaged = false,	// 피격 상태 (무적 여부)
 		.lastHitTime = 0,	// 마지막 피격 시간
-		.speed = 0.8,		// 이동 속도
+		.speed = 0.5,		// 이동 속도
 	};
 	g_CrabSkill = (Skill)
 	{
@@ -89,6 +158,7 @@ void InitCrab()
 		.pos.y = 21,		// Y 좌표
 		.startPosX = 95,	// 초기 X 좌표
 		.moveNum = 64,		// 이동 범위
+		.dir = E_Right,		// 이동 방향
 		.attackStatus = E_NONE,	// 꽃게 공격 상태
 	};
 
@@ -100,6 +170,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 170,
 		.moveNum = 64,
+		.dir = E_Right,
 		.attackStatus = E_NONE,	// 꽃게 공격 상태
 	};
 
@@ -111,6 +182,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 277,
 		.moveNum = 92,
+		.dir = E_Right,
 		.attackStatus = E_NONE,	// 꽃게 공격 상태
 	};
 
@@ -123,6 +195,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 72,
 		.moveNum = 60,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -134,6 +207,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 170,
 		.moveNum = 61,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -145,6 +219,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 246,
 		.moveNum = 86,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -156,6 +231,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 440,
 		.moveNum = 125,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -168,6 +244,7 @@ void InitCrab()
 		.pos.y = 13,
 		.startPosX = 80,
 		.moveNum = 96,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -179,6 +256,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 187,
 		.moveNum = 75,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -190,6 +268,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 373,
 		.moveNum = 73,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -201,6 +280,7 @@ void InitCrab()
 		.pos.y = 17,
 		.startPosX = 574,
 		.moveNum = 60,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -212,6 +292,7 @@ void InitCrab()
 		.pos.y = 7,
 		.startPosX = 580,
 		.moveNum = 47,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -224,6 +305,7 @@ void InitCrab()
 		.pos.y = 10,
 		.startPosX = 76,
 		.moveNum = 76,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -235,6 +317,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 150,
 		.moveNum = 41,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -246,6 +329,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 404,
 		.moveNum = 50,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -257,6 +341,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 491,
 		.moveNum = 55,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -268,6 +353,7 @@ void InitCrab()
 		.pos.y = 16,
 		.startPosX = 491,
 		.moveNum = 55,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 
@@ -279,6 +365,7 @@ void InitCrab()
 		.pos.y = 21,
 		.startPosX = 610,
 		.moveNum = 62,
+		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
 }
