@@ -66,7 +66,6 @@ typedef struct Turtle
 	MyPoint pos;	// 위치
 	float speed;	// 이동 속도
 	int attack;		// 공격력
-	bool isDamaged;	// 피격 상태 (무적 여부)
 	Direction dir;	// 바라보는 방향
 } Turtle;
 
@@ -78,10 +77,10 @@ typedef struct WaterDrop {
 } WaterDrop;
 
 typedef enum TurtleState {
-	TURTLE_STATE_IDLE,          // 평상시 자라
-	TURTLE_STATE_PREPARE_RUSH,  // 돌진 준비
-	TURTLE_STATE_RUSHING,       // 돌진 중
-	TURTLE_STATE_ATTACK,        // 평타 공격 중
+	E_TURTLE_STATE_IDLE,          // 평상시 자라
+	E_TURTLE_STATE_PREPARE_RUSH,  // 돌진 준비
+	E_TURTLE_STATE_RUSHING,       // 돌진 중
+	E_TURTLE_STATE_ATTACK,        // 평타 공격 중
 } TurtleState;
 
 extern Turtle g_Turtle;

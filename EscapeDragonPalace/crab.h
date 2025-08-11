@@ -46,8 +46,4 @@ void UpdateCrab(unsigned long now);  // 업데이트
 void PlayerHitCrab(); // 플레이어 공격 처리
 void CrabHitPlayer(); // 플레이어 공격 처리
 void BleedPlayer(); // 플레이어 출혈 처리
-void ResetCrab();
-
-//중력 부분
-static bool Crab_IsOnGround(Crab* crab); // 꽃게가 발판 위에 있는지 확인
-static void Crab_ApplyGravity(Crab* crab); // 중력 적용
+void ResetCrab();   // 꽃게 정보 초기화
