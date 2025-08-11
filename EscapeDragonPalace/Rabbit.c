@@ -934,6 +934,7 @@ void DrawHealth() // 플레이어 체력 그리기
 	}
 	else
 	{
+		ResetMonster(); // 몬스터 alive false 처리
 		SetIsGameOver(true);
 	}
 }
