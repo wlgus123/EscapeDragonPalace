@@ -25,6 +25,12 @@ const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     } // 공격
 };
 
+// 꽃게 공격 여부
+typedef enum CrabStatus
+{
+    E_NONE,     // 기본
+    E_ATTACK,   // 공격
+} CrabStatus;
 
 // 꽃게 구조체
 typedef struct Crab
@@ -34,8 +40,8 @@ typedef struct Crab
     MyPoint pos;		// 위치
     float startPosX;	// 시작 x 위치
     int moveNum;		// 이동 범위
-    Direction dir;    // 몬스터 방향
-	bool state;  // 꽃게 상태 (추격 여부)
+    CrabStatus attackStatus; // 몬스터 공격 상태
+	bool state;         // 꽃게 상태 (추격 여부)
 } Crab;
 
 
