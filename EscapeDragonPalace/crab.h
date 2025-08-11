@@ -2,13 +2,17 @@
 #include "monster.h"
 
 // 메크로
-#define CRAB_WIDTH 13   // 꽃게 너비
+#define CRAB_WIDTH 10   // 꽃게 너비
 #define CRAB_HEIGHT 3   // 꽃게 높이
 #define CRAB_HP 5		// 꽃게 체력
 #define CRAB_ATTACK 1   // 꽃게 공격력
 #define CRAB_CNT 17     // 꽃게 배열 수
 #define TILE_SIZE 1 //바닥 크기
 #define CRAB_EYE 15 //꽃게 인식 범위
+
+#define AGGRO_X 20      // 꽃게 어그로 범위 X
+#define AGGRO_Y 8       // 꽃게 어그로 범위 Y (토끼 높이 + 점프 높이)
+#define AGGRO_OFF_X 40  // 꽃게 어그로 풀리는 범위
 
 // 전역 변수
 const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
@@ -39,9 +43,10 @@ typedef struct Crab
     Skill skill;		// 스킬 구조체 중첩
     MyPoint pos;		// 위치
     float startPosX;	// 시작 x 위치
-    int moveNum;		// 이동 범위
     CrabStatus attackStatus; // 몬스터 공격 상태
-	bool state;         // 꽃게 상태 (추격 여부)
+    Direction dir;      // 이동 방향
+    int moveNum;		// 이동 범위
+	bool isChase;       // 꽃게 상태 (추격 여부)
 } Crab;
 
 
