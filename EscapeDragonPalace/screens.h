@@ -6,6 +6,7 @@
 void GameStartScreen();
 void GameOverScreen();
 void GameClearSceen();
+void DrawControls();
 void DrawStartScreen();
 void ReturnStartScreen();
 void DrawGameClearScreen();

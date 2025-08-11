@@ -74,6 +74,16 @@ void GameClearSceen()
 	_DrawText(29, 19, " (___\\_|_|_|_|_/___)");
 }
 
+void DrawControls()
+{
+	_DrawText( 2, 10, " === 조작법 안내 ===");
+	_DrawText(2, 11, "W : 점프");
+	_DrawText(2, 12, "A : 왼쪽 이동");
+	_DrawText(2, 13, "D : 오른쪽 이동");
+	_DrawText(2, 14, "S : 아래로 내려가기(발판 통과)");
+	_DrawText(2, 15, "스페이스바 : 공격");
+}
+
 // 게임 시작 화면 출력 함수
 void DrawStartScreen() {
 	// 게임 시작 전일 때

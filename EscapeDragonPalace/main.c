@@ -181,7 +181,6 @@ void main()
 	{
 		InitWeapon(weaponList); // 무기 초기화
 		InitPlayer();   // 플레이어 초기화
-		ResetMonster(); // 몬스터 alive false 처리
 		InitMonster();  // 몬스터 초기화
 		ResetItem();    // 아이템 alive false 처리
 		InitItem();     // 아이템 초기화
