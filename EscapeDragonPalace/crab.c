@@ -69,9 +69,6 @@ void UpdateCrab(unsigned long now)
 		//만약 사망한 꽃게라면 넘어감
 		if (tempCrab[idx].mon.alive == false) continue;
 
-		// 무적시간 지나면 피격 상태 해제
-		if (tempCrab[idx].mon.isDamaged && now - tempCrab[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
-			tempCrab[idx].mon.isDamaged = false;
 
 
 		// 중력 적용
@@ -114,6 +111,11 @@ void DrawCrab()
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
 		if (!tempCrab[idx].mon.alive) continue;
+
+
+		// 무적시간 지나면 피격 상태 해제
+		if (tempCrab[idx].mon.isDamaged && GetTickCount() - tempCrab[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
+			tempCrab[idx].mon.isDamaged = false;
 
 		// 피격 시 노란색, 평시 빨간색
 		_SetColor(tempCrab[idx].mon.isDamaged ? E_Yellow : E_BrightRed);
@@ -175,6 +177,7 @@ void CrabHitPlayer() {
 		if (IsOverlap(PlayerPos, MonsterPos)) {
 			// 출혈 시작
 			SetInvincibleTime(true);	// 플레이어 무적 시간 설정
+			player.lastHitTime = GetTickCount(); // 플레이어 마지막 피격 시간 갱신
 			player.isBleeding = true;
 			bleedCount = 0; // 출혈 데미지 카운트 초기화
 			lastBleedTick = GetTickCount(); // 출혈 타이머 초기화
@@ -242,11 +245,7 @@ void ResetCrab() {
 		Crab* tempCrab = g_CrabList[i];
 		for (int idx = 0; idx < g_CrabListIdx[i]; idx++)
 		{
-			tempCrab[idx].mon.alive = true;
-			tempCrab[idx].mon.hp = CRAB_HP;
-			tempCrab[idx].mon.isDamaged = false;
-			tempCrab[idx].mon.lastHitTime = 0;
-			tempCrab[idx].mon.speed = 0.8;
+			tempCrab[idx].mon.alive = false;
 		}
 	}
 }
