@@ -176,10 +176,10 @@ void main()
 	// 초기화
 	_BeginWindow();
 	
-	InitWeapon(weaponList); // 무기 초기화
 
 	while (true)
 	{
+		InitWeapon(weaponList); // 무기 초기화
 		InitPlayer();   // 플레이어 초기화
 		ResetMonster(); // 몬스터 alive false 처리
 		InitMonster();  // 몬스터 초기화
