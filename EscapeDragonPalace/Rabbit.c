@@ -311,8 +311,8 @@ void UpdateBuffs()
 void DrawBuffNDebuff() {
 	char buf[32];
 	DWORD now = GetTickCount();
-	if (speedBuffs.active && now >= speedBuffs.endTime) {
-		if (slowDebuffs.active && now >= slowDebuffs.endTime) {
+	if (speedBuffs.active && now < speedBuffs.endTime) {
+		if (slowDebuffs.active && now < slowDebuffs.endTime) {
 			_DrawText(59, 2, "속도 버프: ");
 			snprintf(buf, sizeof(buf), "%.1fs", (float)(speedBuffs.endTime - now) / 1000); // ms → 초 변환
 			_DrawText(71, 2, buf);
@@ -327,7 +327,7 @@ void DrawBuffNDebuff() {
 		}
 	}
 	else {
-		if (slowDebuffs.active && now >= slowDebuffs.endTime) {
+		if (slowDebuffs.active && now < slowDebuffs.endTime) {
 			_DrawText(59, 2, "속도 디버프: ");
 			snprintf(buf, sizeof(buf), "%.1fs", (float)(slowDebuffs.endTime - now) / 1000);
 			_DrawText(73, 2, buf);
