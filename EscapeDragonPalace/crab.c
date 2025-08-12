@@ -125,9 +125,9 @@ void UpdateCrab()
 static bool Crab_IsOnGround(Crab* crab)// 꽃게가 발판 위에 있는지 확인
 {
 	// 중앙 X좌표
-	int tileX = (crab->pos.x + (CRAB_WIDTH / 2)) / TILE_SIZE;
+	int tileX = (crab->pos.x + (CRAB_WIDTH / 2));
 	// 발밑 Y타일 좌표
-	int tileY = (crab->pos.y + CRAB_HEIGHT) / TILE_SIZE;
+	int tileY = (crab->pos.y + CRAB_HEIGHT);
 
 	// 맵 범위 체크
 	if (tileY < 0 || tileY >= MAP_HEIGHT || tileX < 0 || tileX >= MAP_WIDTH)
@@ -136,16 +136,12 @@ static bool Crab_IsOnGround(Crab* crab)// 꽃게가 발판 위에 있는지 확인
 	// 현재 맵 받아오기
 	int mapStatus = GetMapStatus();
 
-	// 스테이지 발판 확인
+	// 스테이지 내에 있을 경우
 	if (mapStatus >= 0 && mapStatus < STAGE_CNT)
 	{
 		if (g_StagePlatform[mapStatus][tileY][tileX] == '=')
 			return true;
 	}
-
-	// 기본 맵 발판 확인
-	if (g_Map[tileY][tileX] == '=')
-		return true;
 
 	return false;
 }
@@ -155,7 +151,7 @@ static void Crab_ApplyGravity(Crab* crab) //중력 적용
 	if (!Crab_IsOnGround(crab))// 꽃게가 발판 위에 있지 않으면 중력 적용
 	{
 		// 발판 없으면 낙하
-		crab->pos.y += 1.0f;
+		++crab->pos.y;
 
 		// 화면 하단 범위 제한
 		if (crab->pos.y > SCREEN_HEIGHT - CRAB_HEIGHT - 1) //-1 안하면 안에 들어감
@@ -164,8 +160,8 @@ static void Crab_ApplyGravity(Crab* crab) //중력 적용
 	else
 	{
 		// 발판 위에 고정
-		int tileY = (crab->pos.y + CRAB_HEIGHT) / TILE_SIZE;
-		crab->pos.y = (tileY * TILE_SIZE) - CRAB_HEIGHT;
+		int tileY = (crab->pos.y + CRAB_HEIGHT);
+		crab->pos.y = tileY - CRAB_HEIGHT;
 	}
 }
 
