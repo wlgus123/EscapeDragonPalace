@@ -7,7 +7,7 @@ BigFish g_BigFishList[STAGE_CNT][BIGFISH_CNT];	// 큰 물고기 포인트 배열
 int g_BigFishListIdx[STAGE_CNT] = { 0, };
 
 // 큰 물고기 업데이트
-void UpdateBigFish(unsigned long now)
+void UpdateBigFish()
 {
 	// 현재 맵의 몬스터 데이터 불러오기
 	BigFish* tempBigFish = g_BigFishList[GetMapStatus()];
