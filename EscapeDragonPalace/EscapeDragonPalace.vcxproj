@@ -144,6 +144,7 @@
     <ClCompile Include="mtg.c" />
     <ClCompile Include="Rabbit.c" />
     <ClCompile Include="screens.c" />
+    <ClCompile Include="Story.c" />
     <ClCompile Include="turtle.c" />
     <ClCompile Include="weapon.c" />
   </ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="mtg.h" />
     <ClInclude Include="Rabbit.h" />
     <ClInclude Include="screens.h" />
+    <ClInclude Include="Story.h" />
     <ClInclude Include="turtle.h" />
     <ClInclude Include="weapon.h" />
   </ItemGroup>

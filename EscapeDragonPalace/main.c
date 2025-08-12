@@ -8,6 +8,7 @@
 #include "turtle.h"
 #include "fish_big.h"
 #include "fish_small.h"
+#include "Story.h"
 
 // ===========================================================
 
@@ -25,7 +26,12 @@ void Draw() // 화면 그리기
 			_SetColor(E_Gray); // 문구 색 변경
 		_DrawText(26, 22, "아무 키나 눌러 게임 시작하기");
 	}
-	else if (!GetControlScreen() && GetGameStart())
+	else if (!GetStartStory() && GetGameStart())
+	{
+		system("cls");          // 화면 지우기
+		PlayStartStory(); // 게임 시작 스토리 출력
+	}
+	else if (!GetControlScreen() && GetStartStory())
 	{
 		_SetColor(E_White);
 
