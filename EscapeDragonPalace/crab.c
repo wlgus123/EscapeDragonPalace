@@ -180,7 +180,7 @@ void CrabHitPlayer()
 	}
 }
 
-// 꽃게 정보 초기화
+// 꽃게 정보 초기화 
 void ResetCrab() 
 {
 	Crab* tempCrab = g_CrabList[GetMapStatus()];
