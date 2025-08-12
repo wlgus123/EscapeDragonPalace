@@ -212,6 +212,11 @@ void main()
 		// 게임 로직
 		while (true)
 		{
+			if (!GetGameStart())
+			{
+				_getch(); // 키보드 버퍼 지우기
+			}
+
 			GetInput();
 			ItemFrameDelay();   // 아이템 모션 효과
 			Input();            // 키 입력

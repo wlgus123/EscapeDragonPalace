@@ -206,8 +206,6 @@ void PlayerHitCrab()
 // 꽃게 -> 플레이어 공격 처리
 void CrabHitPlayer()
 {
-	if (player.isBleeding) return;	//출혈 상태면 데미지 X
-
 	unsigned int now = _GetTickCount();
 
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)

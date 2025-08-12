@@ -118,6 +118,8 @@ bool IsNearLadder = false; // 플레이어가 사다리 근처에 있는지 여부
 
 bool IsInvincibleTime = false; // 플레이어 무적 시간 여부
 
+bool CheckGround; // 플레이어가 발판 위에 있는지 여부
+
 // --------------------------------------------------
 
 bool SetIsNearLadder(bool src)
@@ -429,46 +431,46 @@ void GetInput() // GetAsyncKeyState로 다중 키 입력 감지
 
 }
 
-// Rabbit가 현재 발판 위에 있는지 확인 (g_StagePlatform 또는 g_Map에 '='가 있으면 true)
-bool CheckGround()
-{
-	int FpxL = (int)(player.Pos.x + 8) + GetPlusX();
-	int FpxR = (int)(player.Pos.x + 12) + GetPlusX();
-	int MpxL = (int)(player.Pos.x + 8);
-	int MpxR = (int)(player.Pos.x + 12);
-	int py = (int)(player.Pos.y + RabbitY);
-
-	// x좌표 경계 보정
-	if (FpxL < 0) FpxL = 0;
-	if (FpxR >= MAP_WIDTH) FpxR = MAP_WIDTH - 1;
-	if (MpxL < 0) MpxL = 0;
-	if (MpxR >= MAP_WIDTH) MpxR = MAP_WIDTH - 1;
-
-	for (int x = FpxL; x <= FpxR; x++)
-	{
-		int mapStatus = GetMapStatus();
-
-		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
-			return false;
-
-		if (g_StagePlatform[mapStatus][py][x] == '=')
-			return true;
-	}
-	for (int x = MpxL; x <= MpxR; x++)
-	{
-		if (py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
-			return false;
-
-		if (g_Map[py][x] == '=')
-			return true;
-	}
-	return false;
-}
+//// Rabbit가 현재 발판 위에 있는지 확인 (g_StagePlatform 또는 g_Map에 '='가 있으면 true)
+//bool CheckGround()
+//{
+//	int FpxL = (int)(player.Pos.x + 8) + GetPlusX();
+//	int FpxR = (int)(player.Pos.x + 12) + GetPlusX();
+//	int MpxL = (int)(player.Pos.x + 8);
+//	int MpxR = (int)(player.Pos.x + 12);
+//	int py = (int)(player.Pos.y + RabbitY);
+//
+//	// x좌표 경계 보정
+//	if (FpxL < 0) FpxL = 0;
+//	if (FpxR >= MAP_WIDTH) FpxR = MAP_WIDTH - 1;
+//	if (MpxL < 0) MpxL = 0;
+//	if (MpxR >= MAP_WIDTH) MpxR = MAP_WIDTH - 1;
+//
+//	for (int x = FpxL; x <= FpxR; x++)
+//	{
+//		int mapStatus = GetMapStatus();
+//
+//		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
+//			return false;
+//
+//		if (g_StagePlatform[mapStatus][py][x] == '=')
+//			return true;
+//	}
+//	for (int x = MpxL; x <= MpxR; x++)
+//	{
+//		if (py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
+//			return false;
+//
+//		if (g_Map[py][x] == '=')
+//			return true;
+//	}
+//	return false;
+//}
 
 // 중력 적용 함수: 발 아래가 발판이 아니면 아래로 떨어짐
 void ApplyGravity()
 {
-	if (!CheckGround())
+	if (!CheckGround)
 	{
 		if (player.Pos.y > SCREEN_HEIGHT - RabbitY)
 			player.Pos.y = SCREEN_HEIGHT - RabbitY;
@@ -497,28 +499,35 @@ int GetGroundY()
 	{
 		int mapStatus = GetMapStatus();
 
-		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
-			return false;
+		if (mapStatus < 0 || mapStatus >= 5 || py < 0 || py >= 25) // 화면 밖으로 나가면 반환
+			return -1;
 
 		if (g_StagePlatform[mapStatus][py][x] == '=')
+		{
+			CheckGround = true;
 			return (py - 1);
+		}
 	}
 	for (int x = MpxL; x <= MpxR; x++)
 	{
-		if (py < 0 || py >= 25) // 화면 밖으로 나가면 false 반환
-			return false;
+		if (py < 0 || py >= 25) // 화면 밖으로 나가면 반환
+			return -1;
 
 		if (g_Map[py][x] == '=')
+		{
+			CheckGround = true;
 			return (py - 1);
+		}
 	}
 
+	CheckGround = false;
 	return -1;
 }
 
 void JumpFN()
 {
 	// 점프 시작
-	if (!player.IsJumping && g_KeyW && CheckGround())
+	if (!player.IsJumping && g_KeyW && CheckGround)
 	{
 		player.IsJumping = true;
 		player.VelY = JUMP_POWER;
@@ -531,7 +540,7 @@ void JumpFN()
 			player.VelY = MAX_FALL_SPEED;
 
 		// 점프 중 아래에 발판이 생기면 멈춤
-		if (player.VelY >= 0 && CheckGround())
+		if (player.VelY >= 0 && CheckGround)
 		{
 			int groundY = GetGroundY();
 			if (groundY != -1)
@@ -552,7 +561,9 @@ void JumpFN()
 		{
 			player.Pos.y += step;
 
-			if (player.VelY >= 0 && CheckGround())
+			GetGroundY();
+
+			if (player.VelY >= 0 && CheckGround)
 			{
 				int groundY = GetGroundY();
 				if (groundY != -1)
@@ -583,6 +594,28 @@ void JumpFN()
 
 void AttackFN()
 {
+	// 무기
+	player.HeldWeapon = &weaponList[GetSelectedIndex()];
+
+	// 무기 속도에 따라 공격 지속 시간 설정
+	int speed = player.HeldWeapon->attackSpeed;
+
+	switch (speed)
+	{
+	case 3:
+		player.AttackFrameMax = 10;
+		player.attackDuration = 100;
+		break; // 단검
+	case 2:
+		player.AttackFrameMax = 15;
+		player.attackDuration = 300;
+		break; // 장검
+	case 1:
+		player.AttackFrameMax = 20;
+		player.attackDuration = 500;
+		break; // 창
+	}
+
 	// 공격 시작: 마우스 클릭했을 때 공격 중이 아니면
 	if (g_KeySpace && !player.IsAttacking)
 	{
@@ -664,9 +697,9 @@ void moveFN()
 
 		player.Pos.y++;
 
-		CheckGround();
+		GetGroundY();
 
-		if (!player.IsJumping && !CheckGround())
+		if (!player.IsJumping && !CheckGround)
 		{
 			ApplyGravity();
 		}
@@ -696,7 +729,7 @@ void ClimbLadder()
 			{
 				IsNearLadder = true; // 사다리 근처에 있으면 true
 
-				if (!player.IsJumping && CheckGround())
+				if (!player.IsJumping && CheckGround)
 				{
 					if (GetAsyncKeyState('Q') & 0x8000)
 					{// 사다리 근처에서 Q키를 누르면 사다리 올라가기
@@ -736,7 +769,7 @@ void ISOnGoal()
 // 키보드 버퍼 비우기 함수
 void ClearInputBuffer()
 {
-	g_Key = NULL;
+	while (_kbhit()) _getch();
 }
 
 void UpdatePlayer() // 플레이어 이동 키 입력 처리 
@@ -773,7 +806,6 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 			player.Speed = 1; // 원래대로 감소
 			speedBuffs.active = false;
 			slowDebuffs.active = false;
-			player.isBleeding = false; // 플레이어가 피격당했는지 여부 초기화	
 
 			player.Pos.x = RabbitXPos; // 플레이어 x위치 초기화
 			player.Pos.y = RabbitYPos; // 플레이어 y위치 초기화
@@ -781,9 +813,9 @@ void UpdatePlayer() // 플레이어 이동 키 입력 처리
 
 	}
 
-	CheckGround(); // 플레이어가 땅에 있는지 체크
+	GetGroundY(); // 플레이어가 땅에 있는지 체크
 
-	if (!player.IsJumping && !CheckGround())
+	if (!player.IsJumping && !CheckGround)
 	{
 		ApplyGravity();
 	}
@@ -839,11 +871,7 @@ void DrawPlayer()
 		_DrawText(player.Pos.x - 3, player.Pos.y - 3, "'Q' 키를 눌러 위로 올라가기");
 	}
 
-	if (!player.isBleeding && (IsInvincibleTime || player.Health < PrevPlayerHealth)) // 무적시간 + 토끼가 피격 당했을때 색상 E_Gray로
-	{
-		Color = E_Gray;
-	}
-	else if (player.isBleeding && player.Health < PrevPlayerHealth) // 꽃게한테 맞았을때는 따로
+	if (IsInvincibleTime) // 무적시간 색상 E_Gray로
 	{
 		Color = E_Gray;
 	}
@@ -957,8 +985,6 @@ void InitPlayer() // 초기화
 	player.AttackFrame = 0;
 	player.attackStartTime = 0;
 
-	player.isBleeding = false; // 플레이어가 피격당했는지 여부 초기화
-
 	// 무기
 	player.HeldWeapon = &weaponList[GetSelectedIndex()];
 
@@ -999,4 +1025,6 @@ void InitPlayer() // 초기화
 
 	speedBuffs.active = false;
 	slowDebuffs.active = false;
+
+	CheckGround = false;
 }
