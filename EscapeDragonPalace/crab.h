@@ -7,12 +7,14 @@
 #define CRAB_HP 5		// 꽃게 체력
 #define CRAB_ATTACK 1   // 꽃게 공격력
 #define CRAB_CNT 17     // 꽃게 배열 수
-#define TILE_SIZE 1     //바닥 크기
-#define CRAB_EYE 15     //꽃게 인식 범위
+#define TILE_SIZE 1     // 바닥 크기
+#define CRAB_EYE 15     // 꽃게 인식 범위
+#define CRAB_SPEED  0.5 // 꽃게 속도
 
 #define AGGRO_X 20      // 꽃게 어그로 범위 X
 #define AGGRO_Y 6       // 꽃게 어그로 범위 Y (토끼 높이 + 점프 높이)
 #define AGGRO_OFF_X 38  // 꽃게 어그로 풀리는 범위
+#define AGGRO_SPEED 0.8 // 꽃게 어그로 걸렸을 때 변하는 속도
 
 #define CRAB_SKILL_COOLTIME 4000  // 꽃게 스킬 쿨타임
 

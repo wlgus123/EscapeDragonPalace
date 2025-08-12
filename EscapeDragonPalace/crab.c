@@ -70,6 +70,7 @@ void UpdateCrab()
 		if (distanceAbsX <= AGGRO_X && distanceAbsY <= AGGRO_Y)
 		{
 			tempCrab[idx].isChase = true;	// 플레이어 추격
+			tempCrab[idx].mon.speed = AGGRO_SPEED;	// 속도 올리기
 		}
 		
 		// 어그로 범위를 벗어나면
@@ -79,6 +80,7 @@ void UpdateCrab()
 			if(tempCrab[idx].isChase)
 			{
 				tempCrab[idx].dir = !tempCrab[idx].dir;	// 현재 방향 반대로 이동
+				tempCrab[idx].mon.speed = CRAB_SPEED;	// 원래 속도대로 변경
 			}
 			tempCrab[idx].isChase = false;	// 플레이어 추격 해제
 		}
@@ -227,11 +229,11 @@ void InitCrab()
 	// 꽃게 공통된 속성 설정
 	g_CrabMon = (Monster)
 	{
-		.alive = true,		// 생존 여부
-		.hp = 5,			// 체력
-		.isDamaged = false,	// 피격 상태 (무적 여부)
-		.lastHitTime = 0,	// 마지막 피격 시간
-		.speed = 0.8,		// 이동 속도
+		.alive = true,			// 생존 여부
+		.hp = 5,				// 체력
+		.isDamaged = false,		// 피격 상태 (무적 여부)
+		.lastHitTime = 0,		// 마지막 피격 시간
+		.speed = CRAB_SPEED,	// 이동 속도
 	};
 	g_CrabSkill = (Skill)
 	{
