@@ -22,7 +22,7 @@ void DrawCrab()
 
 
 		// 무적시간 지나면 피격 상태 해제
-		if (tempCrab[idx].mon.isDamaged && GetTickCount() - tempCrab[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
+		if (tempCrab[idx].mon.isDamaged && _GetTickCount() - tempCrab[idx].mon.lastHitTime >= MONSTER_INVINCIBLE_TIME)
 			tempCrab[idx].mon.isDamaged = false;
 
 		// 피격 시 노란색, 평시 빨간색
@@ -123,8 +123,39 @@ void UpdateCrab()
 // 플레이어 -> 꽃게 공격 처리
 void PlayerHitCrab()
 {
-	Crab* crabList = g_CrabList[GetMapStatus()];
+	Crab* tempCrab = g_CrabList[GetMapStatus()];	// 꽃게 임시 정보 가져오기
+	unsigned long now = _GetTickCount();	// 현재 시간 가져오기
+	Rect weaponPos = GetWeaponRect();	// 무기 위치 정보 가져오기
 
+	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
+	{
+		// 몬스터 위치 정보
+		int posX = tempCrab[idx].pos.x - GetPlusX();
+		int posY = tempCrab[idx].pos.y;
+		Rect monsterPos = { posX, posY, CRAB_WIDTH, CRAB_HEIGHT };
+
+		if (!player.IsAttacking // 플레이어가 공격 중이 아닐 경우
+			|| !tempCrab[idx].mon.alive	// 몬스터가 죽었을 경우
+			|| tempCrab[idx].mon.isDamaged) continue;	// 몬스터가 무적 상태일 경우 넘어가기
+
+		// 충돌 시 꽃게 데미지 처리
+		if (IsOverlap(weaponPos, monsterPos))
+		{
+			// 꽃게 무적 시간이 안 지났을 경우 넘어가기
+			if (now - tempCrab[idx].mon.lastHitTime < MONSTER_INVINCIBLE_TIME) continue;
+
+			tempCrab[idx].mon.hp -= player.HeldWeapon->attack;	// 꽃게 체력 감소
+			tempCrab[idx].mon.isDamaged = true;		// 무적 상태 변경
+			tempCrab[idx].mon.lastHitTime = now;	// 마지막 피격당한 시간 갱신
+
+		}
+
+		// 꽃게 체력이 0 이하일 때
+		if (tempCrab[idx].mon.hp <= 0)
+		{
+			tempCrab[idx].mon.alive = false;	// 사망 처리
+		}
+	}
 }
 
 // 꽃게 -> 플레이어 공격 처리
@@ -158,7 +189,7 @@ void CrabHitPlayer()
 		if (tempCrab[idx].skill.isAttack)
 		{
 			SetInvincibleTime(true);	// 플레이어 무적 설정
-			player.lastHitTime = GetTickCount();	// 플레이어 마지막 피격 시간 갱신
+			player.lastHitTime = _GetTickCount();	// 플레이어 마지막 피격 시간 갱신
 
 			// 플레이어가 무적이 아닐 경우 피격당했을 떄
 			if (now - lastBleedTick >= INVINCIBLE_TIME)
