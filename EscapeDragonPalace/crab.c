@@ -67,13 +67,12 @@ void UpdateCrab()
 		int distanceAbsX = abs(crabMiddlePosX - GetPlusX() - playerMiddlePosX);
 		int distanceAbsY = abs(tempCrab[idx].pos.y - player.Pos.y);
 
-		// TODO: 나중에 주석 풀기
 		// 어그로 범위 내에 들어오면
-		//if (distanceAbsX <= AGGRO_X && distanceAbsY <= AGGRO_Y)
-		//{
-		//	tempCrab[idx].isChase = true;	// 플레이어 추격
-		//	tempCrab[idx].mon.speed = AGGRO_SPEED;	// 속도 올리기
-		//}
+		if (distanceAbsX <= AGGRO_X && distanceAbsY <= AGGRO_Y)
+		{
+			tempCrab[idx].isChase = true;	// 플레이어 추격
+			tempCrab[idx].mon.speed = AGGRO_SPEED;	// 속도 올리기
+		}
 
 		// 어그로 범위를 벗어나면
 		if (distanceAbsX > AGGRO_OFF_X || (distanceAbsY > AGGRO_Y && !player.IsJumping))
@@ -211,54 +210,54 @@ void PlayerHitCrab()
 // 꽃게 -> 플레이어 공격 처리
 void CrabHitPlayer()
 {
-	//if (player.isBleeding) return;	//출혈 상태면 데미지 X
+	if (player.isBleeding) return;	//출혈 상태면 데미지 X
 
-	//unsigned int now = _GetTickCount();
+	unsigned int now = _GetTickCount();
 
-	//for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
-	//{
-	//	Crab* tempCrab = g_CrabList[GetMapStatus()];
-	//	// 꽃게 위치값
-	//	int posX = tempCrab[idx].pos.x - GetPlusX();
-	//	int posY = tempCrab[idx].pos.y;
-	//	Rect PlayerPos = GetPlayerRect();
-	//	Rect CrabPos = { posX + 3, posY, CRAB_WIDTH, CRAB_HEIGHT };
+	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
+	{
+		Crab* tempCrab = g_CrabList[GetMapStatus()];
+		// 꽃게 위치값
+		int posX = tempCrab[idx].pos.x - GetPlusX();
+		int posY = tempCrab[idx].pos.y;
+		Rect PlayerPos = GetPlayerRect();
+		Rect CrabPos = { posX + 3, posY, CRAB_WIDTH, CRAB_HEIGHT };
 
-	//	// 꽃게가 살아있지 않으면 넘어가기
-	//	if (!tempCrab[idx].mon.alive) continue;
+		// 꽃게가 살아있지 않으면 넘어가기
+		if (!tempCrab[idx].mon.alive) continue;
 
-	//	// 꽃게와 충돌되었을 때, 출혈상태가 아닐 때
-	//	// 각 꽃게 스킬 쿨타임이 지났을 때 스킬 사용
-	//	if (IsOverlap(CrabPos, PlayerPos)
-	//		&& now - tempCrab[idx].skill.coolTime >= tempCrab[idx].skill.coolTime)
-	//	{
-	//		tempCrab[idx].skill.isAttack = true;
-	//	}
+		// 꽃게와 충돌되었을 때, 출혈상태가 아닐 때
+		// 각 꽃게 스킬 쿨타임이 지났을 때 스킬 사용
+		if (IsOverlap(CrabPos, PlayerPos)
+			&& now - tempCrab[idx].skill.coolTime >= tempCrab[idx].skill.coolTime)
+		{
+			tempCrab[idx].skill.isAttack = true;
+		}
 
-	//	// 꽃게가 공격 상태면 플레이어 출혈 처리
-	//	if (tempCrab[idx].skill.isAttack)
-	//	{
-	//		SetInvincibleTime(true);	// 플레이어 무적 설정
-	//		player.lastHitTime = _GetTickCount();	// 플레이어 마지막 피격 시간 갱신
+		// 꽃게가 공격 상태면 플레이어 출혈 처리
+		if (tempCrab[idx].skill.isAttack)
+		{
+			SetInvincibleTime(true);	// 플레이어 무적 설정
+			player.lastHitTime = _GetTickCount();	// 플레이어 마지막 피격 시간 갱신
 
-	//		// 플레이어가 무적이 아닐 경우 피격당했을 떄
-	//		if (now - lastBleedTick >= INVINCIBLE_TIME)
-	//		{
-	//			--player.Health;		// 플레이어 HP 감소 (반 칸)
-	//			++bleedCnt;				// 출혈 횟수 증가
-	//			lastBleedTick = now;	// 마지막 출혈 시간 갱신
+			// 플레이어가 무적이 아닐 경우 피격당했을 떄
+			if (now - lastBleedTick >= INVINCIBLE_TIME)
+			{
+				--player.Health;		// 플레이어 HP 감소 (반 칸)
+				++bleedCnt;				// 출혈 횟수 증가
+				lastBleedTick = now;	// 마지막 출혈 시간 갱신
 
-	//			// 출혈 횟수가 3번을 넘어갔을 경우
-	//			if (bleedCnt >= tempCrab[idx].skill.attackCnt)
-	//			{
-	//				SetInvincibleTime(false);	// 플레이어 무적 해제
-	//				tempCrab[idx].skill.isAttack = false;	// 꽃게 공격 상태 해제
-	//				tempCrab[idx].skill.coolTime = CRAB_SKILL_COOLTIME;	// 꽃게 쿨타임 초기화
-	//				bleedCnt = 0;	// 출혈 횟수 초기화
-	//			}
-	//		}
-	//	}
-	//}
+				// 출혈 횟수가 3번을 넘어갔을 경우
+				if (bleedCnt >= tempCrab[idx].skill.attackCnt)
+				{
+					SetInvincibleTime(false);	// 플레이어 무적 해제
+					tempCrab[idx].skill.isAttack = false;	// 꽃게 공격 상태 해제
+					tempCrab[idx].skill.coolTime = CRAB_SKILL_COOLTIME;	// 꽃게 쿨타임 초기화
+					bleedCnt = 0;	// 출혈 횟수 초기화
+				}
+			}
+		}
+	}
 }
 
 // 꽃게 정보 초기화 
