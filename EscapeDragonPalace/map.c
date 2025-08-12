@@ -2,8 +2,8 @@
 #include "Rabbit.h"
 
 bool MapSetting = false;	// 아이템 세팅여부 변수
-MapStatus g_MapStatus = E_Jail; // 현재 맵 정보
-float g_Plus_X = 0.f; // X좌표 이동 증가값
+MapStatus g_MapStatus = E_Sea1; // 현재 맵 정보
+float g_Plus_X = 550.f; // X좌표 이동 증가값
 
 // 맵 아이템, 몬스터 세팅 여부 가져오기
 bool GetMapSetting()
