@@ -61,3 +61,4 @@ void UpdateCrab();  // 업데이트
 void PlayerHitCrab(); // 플레이어 공격 처리
 void CrabHitPlayer(); // 플레이어 공격 처리
 void ResetCrab();   // 꽃게 정보 초기화
+static void Crab_ApplyGravity(Crab* crab);  // 중력 적용

@@ -19,6 +19,7 @@
     <Text Include="..\..\Map\Map_Jail.txt" />
     <Text Include="..\..\Map\Map_Sea1.txt" />
     <Text Include="..\..\Map\Map_Sea2.txt" />
+    <Text Include="story.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="crab.c">

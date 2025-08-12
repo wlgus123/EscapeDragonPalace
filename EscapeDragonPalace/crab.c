@@ -54,7 +54,8 @@ void UpdateCrab()
 		// 만약 살아있지 않으면 넘어가기
 		if (!tempCrab[idx].mon.alive) continue;
 
-		// TODO: 중력 작용 코드 작성
+		// 중력 적용
+		Crab_ApplyGravity(&tempCrab[idx]);
 
 		// 플레이어가 범위에 있는지 확인
 		// 꽃게 앞 뒤 범위 10일 때 인식 (절대값 사용)
@@ -66,18 +67,19 @@ void UpdateCrab()
 		int distanceAbsX = abs(crabMiddlePosX - GetPlusX() - playerMiddlePosX);
 		int distanceAbsY = abs(tempCrab[idx].pos.y - player.Pos.y);
 
+		// TODO: 나중에 주석 풀기
 		// 어그로 범위 내에 들어오면
-		if (distanceAbsX <= AGGRO_X && distanceAbsY <= AGGRO_Y)
-		{
-			tempCrab[idx].isChase = true;	// 플레이어 추격
-			tempCrab[idx].mon.speed = AGGRO_SPEED;	// 속도 올리기
-		}
-		
+		//if (distanceAbsX <= AGGRO_X && distanceAbsY <= AGGRO_Y)
+		//{
+		//	tempCrab[idx].isChase = true;	// 플레이어 추격
+		//	tempCrab[idx].mon.speed = AGGRO_SPEED;	// 속도 올리기
+		//}
+
 		// 어그로 범위를 벗어나면
 		if (distanceAbsX > AGGRO_OFF_X || (distanceAbsY > AGGRO_Y && !player.IsJumping))
 		{
 			// 추격 도중 어그로가 풀렸을 경우
-			if(tempCrab[idx].isChase)
+			if (tempCrab[idx].isChase)
 			{
 				tempCrab[idx].dir = !tempCrab[idx].dir;	// 현재 방향 반대로 이동
 				tempCrab[idx].mon.speed = CRAB_SPEED;	// 원래 속도대로 변경
@@ -94,11 +96,11 @@ void UpdateCrab()
 				tempCrab[idx].dir = E_Left;
 			}
 			// 플레이어보다 왼쪽에 있을 때
-			else if(playerMiddlePosX - 5 > crabMiddlePosX - GetPlusX())
+			else if (playerMiddlePosX - 5 > crabMiddlePosX - GetPlusX())
 			{
 				tempCrab[idx].dir = E_Right;
 			}
-			// -> ±5: 방향을 인식하는 범위 늘리기
+			// -> ±5: 방향을 인식하는 범위
 		}
 		else
 		{
@@ -115,11 +117,57 @@ void UpdateCrab()
 		}
 
 		// 꽃게 이동
-		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right) 
-			? tempCrab[idx].mon.speed 
+		tempCrab[idx].pos.x += (tempCrab[idx].dir == E_Right)
+			? tempCrab[idx].mon.speed
 			: -tempCrab[idx].mon.speed;
 	}
+}
 
+static bool Crab_IsOnGround(Crab* crab)// 꽃게가 발판 위에 있는지 확인
+{
+	// 중앙 X좌표
+	int tileX = (crab->pos.x + (CRAB_WIDTH / 2)) / TILE_SIZE;
+	// 발밑 Y타일 좌표
+	int tileY = (crab->pos.y + CRAB_HEIGHT) / TILE_SIZE;
+
+	// 맵 범위 체크
+	if (tileY < 0 || tileY >= MAP_HEIGHT || tileX < 0 || tileX >= MAP_WIDTH)
+		return false;
+
+	// 현재 맵 받아오기
+	int mapStatus = GetMapStatus();
+
+	// 스테이지 발판 확인
+	if (mapStatus >= 0 && mapStatus < STAGE_CNT)
+	{
+		if (g_StagePlatform[mapStatus][tileY][tileX] == '=')
+			return true;
+	}
+
+	// 기본 맵 발판 확인
+	if (g_Map[tileY][tileX] == '=')
+		return true;
+
+	return false;
+}
+
+static void Crab_ApplyGravity(Crab* crab) //중력 적용
+{
+	if (!Crab_IsOnGround(crab))// 꽃게가 발판 위에 있지 않으면 중력 적용
+	{
+		// 발판 없으면 낙하
+		crab->pos.y += 1.0f;
+
+		// 화면 하단 범위 제한
+		if (crab->pos.y > SCREEN_HEIGHT - CRAB_HEIGHT - 1) //-1 안하면 안에 들어감
+			crab->pos.y = SCREEN_HEIGHT - CRAB_HEIGHT - 1;
+	}
+	else
+	{
+		// 발판 위에 고정
+		int tileY = (crab->pos.y + CRAB_HEIGHT) / TILE_SIZE;
+		crab->pos.y = (tileY * TILE_SIZE) - CRAB_HEIGHT;
+	}
 }
 
 // 플레이어 -> 꽃게 공격 처리
@@ -163,58 +211,58 @@ void PlayerHitCrab()
 // 꽃게 -> 플레이어 공격 처리
 void CrabHitPlayer()
 {
-	if (player.isBleeding) return;	//출혈 상태면 데미지 X
+	//if (player.isBleeding) return;	//출혈 상태면 데미지 X
 
-	unsigned int now = _GetTickCount();
+	//unsigned int now = _GetTickCount();
 
-	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
-	{
-		Crab* tempCrab = g_CrabList[GetMapStatus()];
-		// 꽃게 위치값
-		int posX = tempCrab[idx].pos.x - GetPlusX();
-		int posY = tempCrab[idx].pos.y;
-		Rect PlayerPos = GetPlayerRect();
-		Rect CrabPos = { posX + 3, posY, 1, CRAB_WIDTH };
+	//for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
+	//{
+	//	Crab* tempCrab = g_CrabList[GetMapStatus()];
+	//	// 꽃게 위치값
+	//	int posX = tempCrab[idx].pos.x - GetPlusX();
+	//	int posY = tempCrab[idx].pos.y;
+	//	Rect PlayerPos = GetPlayerRect();
+	//	Rect CrabPos = { posX + 3, posY, CRAB_WIDTH, CRAB_HEIGHT };
 
-		// 꽃게가 살아있지 않으면 넘어가기
-		if (!tempCrab[idx].mon.alive) continue;
+	//	// 꽃게가 살아있지 않으면 넘어가기
+	//	if (!tempCrab[idx].mon.alive) continue;
 
-		// 꽃게와 충돌되었을 때, 출혈상태가 아닐 때
-		// 각 꽃게 스킬 쿨타임이 지났을 때 스킬 사용
-		if (IsOverlap(CrabPos, PlayerPos) 
-			&& now - tempCrab[idx].skill.coolTime >= tempCrab[idx].skill.coolTime)
-		{
-			tempCrab[idx].skill.isAttack = true;
-		}
+	//	// 꽃게와 충돌되었을 때, 출혈상태가 아닐 때
+	//	// 각 꽃게 스킬 쿨타임이 지났을 때 스킬 사용
+	//	if (IsOverlap(CrabPos, PlayerPos)
+	//		&& now - tempCrab[idx].skill.coolTime >= tempCrab[idx].skill.coolTime)
+	//	{
+	//		tempCrab[idx].skill.isAttack = true;
+	//	}
 
-		// 꽃게가 공격 상태면 플레이어 출혈 처리
-		if (tempCrab[idx].skill.isAttack)
-		{
-			SetInvincibleTime(true);	// 플레이어 무적 설정
-			player.lastHitTime = _GetTickCount();	// 플레이어 마지막 피격 시간 갱신
+	//	// 꽃게가 공격 상태면 플레이어 출혈 처리
+	//	if (tempCrab[idx].skill.isAttack)
+	//	{
+	//		SetInvincibleTime(true);	// 플레이어 무적 설정
+	//		player.lastHitTime = _GetTickCount();	// 플레이어 마지막 피격 시간 갱신
 
-			// 플레이어가 무적이 아닐 경우 피격당했을 떄
-			if (now - lastBleedTick >= INVINCIBLE_TIME)
-			{
-				--player.Health;		// 플레이어 HP 감소 (반 칸)
-				++bleedCnt;				// 출혈 횟수 증가
-				lastBleedTick = now;	// 마지막 출혈 시간 갱신
+	//		// 플레이어가 무적이 아닐 경우 피격당했을 떄
+	//		if (now - lastBleedTick >= INVINCIBLE_TIME)
+	//		{
+	//			--player.Health;		// 플레이어 HP 감소 (반 칸)
+	//			++bleedCnt;				// 출혈 횟수 증가
+	//			lastBleedTick = now;	// 마지막 출혈 시간 갱신
 
-				// 출혈 횟수가 3번을 넘어갔을 경우
-				if (bleedCnt >= tempCrab[idx].skill.attackCnt)
-				{
-					SetInvincibleTime(false);	// 플레이어 무적 해제
-					tempCrab[idx].skill.isAttack = false;	// 꽃게 공격 상태 해제
-					tempCrab[idx].skill.coolTime = CRAB_SKILL_COOLTIME;	// 꽃게 쿨타임 초기화
-					bleedCnt = 0;	// 출혈 횟수 초기화
-				}
-			}
-		}
-	}
+	//			// 출혈 횟수가 3번을 넘어갔을 경우
+	//			if (bleedCnt >= tempCrab[idx].skill.attackCnt)
+	//			{
+	//				SetInvincibleTime(false);	// 플레이어 무적 해제
+	//				tempCrab[idx].skill.isAttack = false;	// 꽃게 공격 상태 해제
+	//				tempCrab[idx].skill.coolTime = CRAB_SKILL_COOLTIME;	// 꽃게 쿨타임 초기화
+	//				bleedCnt = 0;	// 출혈 횟수 초기화
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 // 꽃게 정보 초기화 
-void ResetCrab() 
+void ResetCrab()
 {
 	Crab* tempCrab = g_CrabList[GetMapStatus()];
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
@@ -336,8 +384,8 @@ void InitCrab()
 		.skill = g_CrabSkill,
 		.pos.x = 80,
 		.pos.y = 13,
-		.startPosX = 80,
-		.moveNum = 96,
+		.startPosX = 83,
+		.moveNum = 90,
 		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
@@ -373,7 +421,7 @@ void InitCrab()
 		.pos.x = 574,
 		.pos.y = 17,
 		.startPosX = 574,
-		.moveNum = 60,
+		.moveNum = 56,
 		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
@@ -385,7 +433,7 @@ void InitCrab()
 		.pos.x = 580,
 		.pos.y = 7,
 		.startPosX = 580,
-		.moveNum = 47,
+		.moveNum = 44,
 		.dir = E_Right,
 		.attackStatus = E_NONE,
 	};
