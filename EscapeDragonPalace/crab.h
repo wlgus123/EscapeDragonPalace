@@ -7,7 +7,6 @@
 #define CRAB_HP 5		// 꽃게 체력
 #define CRAB_ATTACK 1   // 꽃게 공격력
 #define CRAB_CNT 17     // 꽃게 배열 수
-#define TILE_SIZE 1     // 바닥 크기
 #define CRAB_EYE 15     // 꽃게 인식 범위
 #define CRAB_SPEED  0.5 // 꽃게 속도
 
