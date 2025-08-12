@@ -14,6 +14,8 @@
 #define AGGRO_Y 6       // 꽃게 어그로 범위 Y (토끼 높이 + 점프 높이)
 #define AGGRO_OFF_X 38  // 꽃게 어그로 풀리는 범위
 
+#define CRAB_SKILL_COOLTIME 4000  // 꽃게 스킬 쿨타임
+
 // 전역 변수
 const static char g_CrabGraphic[2][CRAB_HEIGHT][CRAB_WIDTH] = {
     {
@@ -56,5 +58,4 @@ void DrawCrab();    // 그리기
 void UpdateCrab();  // 업데이트
 void PlayerHitCrab(); // 플레이어 공격 처리
 void CrabHitPlayer(); // 플레이어 공격 처리
-void BleedingPlayer(); // 플레이어 출혈 처리
 void ResetCrab();   // 꽃게 정보 초기화

@@ -123,6 +123,7 @@ void UpdateCrab()
 // 플레이어 -> 꽃게 공격 처리
 void PlayerHitCrab()
 {
+	Crab* crabList = g_CrabList[GetMapStatus()];
 
 }
 
@@ -135,7 +136,8 @@ void CrabHitPlayer()
 
 	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
 	{
-		Crab* tempCrab = &g_CrabList[GetMapStatus()][idx];
+		Crab* tempCrab = g_CrabList[GetMapStatus()];
+		// 꽃게 위치값
 		int posX = tempCrab[idx].pos.x - GetPlusX();
 		int posY = tempCrab[idx].pos.y;
 		Rect PlayerPos = GetPlayerRect();
@@ -144,8 +146,10 @@ void CrabHitPlayer()
 		// 꽃게가 살아있지 않으면 넘어가기
 		if (!tempCrab[idx].mon.alive) continue;
 
-		// 꽃게와 충돌되었을 때, 출혈상태가 아닐 때 스킬 사용 및 출혈 상태로 전환
-		if (IsOverlap(CrabPos, PlayerPos))
+		// 꽃게와 충돌되었을 때, 출혈상태가 아닐 때
+		// 각 꽃게 스킬 쿨타임이 지났을 때 스킬 사용
+		if (IsOverlap(CrabPos, PlayerPos) 
+			&& now - tempCrab[idx].skill.coolTime >= tempCrab[idx].skill.coolTime)
 		{
 			tempCrab[idx].skill.isAttack = true;
 		}
@@ -168,6 +172,7 @@ void CrabHitPlayer()
 				{
 					SetInvincibleTime(false);	// 플레이어 무적 해제
 					tempCrab[idx].skill.isAttack = false;	// 꽃게 공격 상태 해제
+					tempCrab[idx].skill.coolTime = CRAB_SKILL_COOLTIME;	// 꽃게 쿨타임 초기화
 					bleedCnt = 0;	// 출혈 횟수 초기화
 				}
 			}
@@ -175,12 +180,15 @@ void CrabHitPlayer()
 	}
 }
 
-// 플레이어 출혈 처리
-void BleedingPlayer() 
+// 꽃게 정보 초기화
+void ResetCrab() 
 {
+	Crab* tempCrab = g_CrabList[GetMapStatus()];
+	for (int idx = 0; idx < g_CrabListIdx[GetMapStatus()]; idx++)
+	{
+		tempCrab[idx].mon.alive = false;
+	}
 }
-
-void ResetCrab() {}   // 꽃게 정보 초기화
 
 // 꽃게 초기화
 void InitCrab()
@@ -198,8 +206,8 @@ void InitCrab()
 	{
 		.isAttack = false,	// 스킬 사용 여부
 		.attack = 1,		// 공격력 (반 칸)
-		.attackCnt = 3,	// 스킬 횟수
-		.coolTime = 4000,	// 쿨타임 (4초)
+		.attackCnt = 3,		// 스킬 횟수
+		.coolTime = CRAB_SKILL_COOLTIME,	// 스킬 쿨타임
 	};
 
 	// 감옥
