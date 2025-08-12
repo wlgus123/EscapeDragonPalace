@@ -7,7 +7,7 @@ SmallFish g_SmallFishList[STAGE_CNT][SMALLFISH_CNT];	// 작은 물고기 포인트 배열
 int g_SmallFishListIdx[STAGE_CNT] = { 0, };
 
 // 작은 물고기 업데이트
-void UpdateSmallFish(unsigned long now)
+void UpdateSmallFish()
 {
 	// 현재 맵의 몬스터 데이터 불러오기
 	SmallFish* tempSmallFish = g_SmallFishList[GetMapStatus()];
