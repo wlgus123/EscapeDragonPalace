@@ -1,11 +1,11 @@
-[시연영상 (2).zip](https://github.com/user-attachments/files/22059164/2.zip)# ✨ 게임 이름
+# ✨ 게임 이름
 용궁탈출
 # 🐰 게임 소개
 - 간을 뺏으려는 자라로부터 도망치기 위해 토끼가 용궁을 탈출하는 게임입니다.
 - 2D 플랫폼 게임을 C언어 콘솔로 구현해보았습니다.
 # 🕐 개발 기간
 2025.07.01(화) ~ 2025.08.11(월)
-# 🎮 시연영상
-
+# 🎮 시연영상 
+[Demonstration.zip](https://github.com/user-attachments/files/22385624/Demonstration.zip)
 # 💻 게임 설명
 - 맵: 감옥, 용궁, 바다1, 바다2, 육지(보스) 총 5개의 맵으로 구성되어있습니다.
